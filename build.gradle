@@ -36,17 +36,14 @@ dependencies {
     compile 'org.springframework:spring-webmvc:' +springVersion
 	compile 'javax.servlet:jstl:' + jstlVersion
     compile 'org.springframework:spring-test:' + springVersion
-    //exclude the build in hamcrest
     testCompile('junit:junit:' + junitVersion) {
         exclude group: 'org.hamcrest'
     }
     testCompile 'org.hamcrest:hamcrest-library:' + hamcrestVersion
-	//include in compile only, exclude in the war
     providedCompile 'javax.servlet:javax.servlet-api:' + servletApiVersion
 	
 }
 
-//Gretty
 buildscript {
   repositories {
     jcenter()
@@ -59,7 +56,7 @@ buildscript {
 
 gretty {
   httpPort = 8181
-  contextPath = 'touragency'
+  contextPath = '/'
   servletContainer = 'jetty9'
 }
 
