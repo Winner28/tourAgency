@@ -1,21 +1,92 @@
-group 'com.epam.lab'
-version '0.1'
-
 apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'eclipse-wtp'
+//apply plugin: 'jetty' //too old, Jetty6, use gretty
+apply plugin: 'org.akhikhl.gretty'
+apply plugin: 'idea'
+apply plugin: 'jacoco' //code coverage
 
-sourceCompatibility = 1.8
+def springVersion = "4.2.4.RELEASE"
+def jdkVersion = 1.8
+def junitVersion = "4.12"
+def logbackVersion = "1.1.3"
+def jclOverSlf4jVersion = "1.7.14"
+def jstlVersion = "1.2"
+def hamcrestVersion = "1.3"
+def servletApiVersion = "3.1"
+
+sourceCompatibility = jdkVersion
+targetCompatibility = jdkVersion
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
-dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-
-    compile 'org.springframework:spring-context:5.0.2.RELEASE'
-    compile 'org.springframework:spring-core:3.2.8.RELEASE'
-    compile 'org.springframework:spring-web:5.0.2.RELEASE'
-    compile 'org.springframework:spring-webmvc:5.0.2.RELEASE'
-    compile 'org.apache.tomcat:tomcat-catalina:8.5.11'
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.10'
 }
 
+configurations.all {
+    exclude group: "commons-logging", module: "commons-logging"
+}
+
+dependencies {
+
+    compile 'org.slf4j:jcl-over-slf4j:' + jclOverSlf4jVersion
+	compile 'ch.qos.logback:logback-classic:' + logbackVersion
+    compile 'org.springframework:spring-webmvc:' +springVersion
+	compile 'javax.servlet:jstl:' + jstlVersion
+    compile 'org.springframework:spring-test:' + springVersion
+    //exclude the build in hamcrest
+    testCompile('junit:junit:' + junitVersion) {
+        exclude group: 'org.hamcrest'
+    }
+    testCompile 'org.hamcrest:hamcrest-library:' + hamcrestVersion
+	//include in compile only, exclude in the war
+    providedCompile 'javax.servlet:javax.servlet-api:' + servletApiVersion
+	
+}
+
+//Gretty
+buildscript {
+  repositories {
+    jcenter()
+  }
+
+  dependencies {
+    classpath 'org.akhikhl.gretty:gretty:+'
+  }
+}
+
+gretty {
+  httpPort = 8181
+  contextPath = 'spring4'
+  servletContainer = 'jetty9'
+}
+
+//For Eclipse IDE only
+eclipse {
+
+  wtp {
+    component {
+      
+      //define context path, default to project folder name
+      contextPath = 'spring4'
+      
+    }
+    
+  }
+}
+
+jacoco {
+    toolVersion = "0.7.5+"
+    reportsDir = file("$buildDir/reports/jacoco")
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+}
