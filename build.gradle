@@ -59,7 +59,7 @@ buildscript {
 
 gretty {
   httpPort = 8181
-  contextPath = 'spring4'
+  contextPath = 'touragency'
   servletContainer = 'jetty9'
 }
 
