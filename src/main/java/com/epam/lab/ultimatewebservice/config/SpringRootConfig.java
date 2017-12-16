@@ -7,6 +7,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.sql.DataSource;
@@ -18,6 +19,7 @@ import java.sql.SQLException;
 public class SpringRootConfig {
 
     @Bean
+    @Scope(value = "prototype")
     public DataSource getDataSource() {
         ApplicationContext context = new ClassPathXmlApplicationContext("application-context.xml");
         return (DataSource) context.getBean("dataSource");
