@@ -1,12 +1,9 @@
 package com.epam.lab.ultimatewebservice.db.connpool;
 
-import ch.qos.logback.classic.Level;
-import com.sun.javafx.util.Logging;
+
 import lombok.experimental.Delegate;
-import org.apache.commons.logging.Log;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -21,13 +18,9 @@ public class ConnectionPool {
     @Autowired
     private static DataSource dataSource;
 
-    private static String driverName;
-    private static String url;
-    private static String user;
-    private static String pswd;
-    private static int poolSize;
+    private static int poolSize = 8;
 
-    private ConnectionPool() { }
+    private ConnectionPool() {}
 
     private void initPoolData() {
         errorLog = LoggerFactory.getLogger("CP.errorLogger");
