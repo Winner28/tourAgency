@@ -2,10 +2,14 @@ package com.epam.lab.ultimatewebservice.db.dao;
 
 import com.epam.lab.ultimatewebservice.db.ConnectionPool;
 import com.epam.lab.ultimatewebservice.entity.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import javax.sql.DataSource;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
-
 
 
 public class UserDAO {
@@ -14,8 +18,16 @@ public class UserDAO {
     private JdbcDAO jdbcDAO;
 
 
-    public UserDAO() {
-        jdbcDAO = ConnectionPool::getConnection;
+    @Autowired
+    public UserDAO(DataSource dataSource) {
+        jdbcDAO = () -> {
+            try {
+                return dataSource.getConnection();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new RuntimeException("no connection!");
+            }
+        };
     }
 
     public Optional<User> getUserById(int id) {
@@ -41,3 +53,4 @@ public class UserDAO {
     }
 
 }
+

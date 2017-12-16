@@ -10,18 +10,18 @@
     <context:property-placeholder location="classpath:util.properties" />
 
 
-    <bean id="dataSource"
+    <bean id="dataSource" name="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="${jdbc.mysql.driverClass}" />
         <property name="url" value="${jdbc.mysql.url}" />
         <property name="username" value="${jdbc.mysql.username}" />
-        <property name="password" value="${jdbc.mysql.password}" />
+        <property name="password" value="${jdbc.mysql.password}678" />
     </bean>
 
 
-    <jdbc:initialize-database data-source="dataSource">
+    <!--<jdbc:initialize-database data-source="dataSource">
         <jdbc:script location="classpath:initScript.sql"/>
-    </jdbc:initialize-database>
+    </jdbc:initialize-database>-->
 
 
 
