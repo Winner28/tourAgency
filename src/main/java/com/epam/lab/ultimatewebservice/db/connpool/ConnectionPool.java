@@ -5,7 +5,9 @@ import com.sun.javafx.util.Logging;
 import lombok.experimental.Delegate;
 import org.apache.commons.logging.Log;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -16,6 +18,8 @@ public class ConnectionPool {
     private static BlockingQueue<Connection> givenAwayConQueue;
     private static ConnectionPool connectionPool;
     private static org.slf4j.Logger errorLog;
+    @Autowired
+    private static DataSource dataSource;
 
     private static String driverName;
     private static String url;
@@ -23,32 +27,17 @@ public class ConnectionPool {
     private static String pswd;
     private static int poolSize;
 
-    private ConnectionPool() {
-        DBResourceManager dbResourseManager = DBResourceManager.getInstance();
-        this.driverName = dbResourseManager.getValue(dbResourseManager.getValue(("driver")));
-        this.url = dbResourseManager.getValue(dbResourseManager.getValue(("url")));
-        this.user = dbResourseManager.getValue(dbResourseManager.getValue(("user")));
-        this.pswd = dbResourseManager.getValue(dbResourseManager.getValue(("pswd")));
-        this.poolSize = Integer.parseInt(
-                dbResourseManager.getValue(dbResourseManager.getValue(("poolSize"))));
-    }
+    private ConnectionPool() { }
 
     private void initPoolData() {
         errorLog = LoggerFactory.getLogger("CP.errorLogger");
         givenAwayConQueue = new ArrayBlockingQueue<>(poolSize);
         connectionQueue = new ArrayBlockingQueue<>(poolSize);
         try {
-            Class.forName(driverName);
             for (int i = 0; i < poolSize; i++) {
-                Connection connection = DriverManager.getConnection(
-                        url,
-                        user,
-                        pswd);
-                PooledConnection pooledConnection = new PooledConnection(connection);
+                PooledConnection pooledConnection = new PooledConnection(dataSource.getConnection());
                 connectionQueue.add(pooledConnection);
             }
-        } catch (ClassNotFoundException ex) {
-            throw new RuntimeException("Connection pool exception: db driver not found!");
         } catch (SQLException ex) {
             throw new RuntimeException("Connection pool exception: can't get connection from driver manager!");
         }
