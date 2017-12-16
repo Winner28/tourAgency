@@ -19,7 +19,6 @@ import java.sql.SQLException;
 public class SpringRootConfig {
 
     @Bean
-    @Scope(value = "prototype")
     public DataSource getDataSource() {
         ApplicationContext context = new ClassPathXmlApplicationContext("application-context.xml");
         return (DataSource) context.getBean("dataSource");
