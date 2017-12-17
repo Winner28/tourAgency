@@ -24,7 +24,9 @@ public class ConnectionPool {
 
     private static int poolSize = 8;
 
-    private ConnectionPool() {}
+    private ConnectionPool() {
+        initPoolData();
+    }
 
     private void initPoolData() {
         errorLog = LoggerFactory.getLogger("CP.errorLogger");
