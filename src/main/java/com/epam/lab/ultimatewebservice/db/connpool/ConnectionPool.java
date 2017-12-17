@@ -1,12 +1,9 @@
 package com.epam.lab.ultimatewebservice.db.connpool;
 
 
-import lombok.Data;
 import lombok.experimental.Delegate;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -22,17 +19,15 @@ public class ConnectionPool {
     private static BlockingQueue<Connection> givenAwayConQueue;
     private static ConnectionPool connectionPool;
     private static Logger errorLog;
-
     @Autowired
     private static DataSource dataSource;
 
     private static int poolSize = 8;
 
-
     private ConnectionPool() {
+        initPoolData();
     }
 
-    @PostConstruct
     private void initPoolData() {
         errorLog = LoggerFactory.getLogger("CP.errorLogger");
         givenAwayConQueue = new ArrayBlockingQueue<>(poolSize);
@@ -71,7 +66,7 @@ public class ConnectionPool {
         return connectionPool;
     }
 
-    public Connection getConnection()  {
+    public Connection getConnection() throws InterruptedException {
         Connection connection = null;
         try {
             connection = connectionQueue.take();
