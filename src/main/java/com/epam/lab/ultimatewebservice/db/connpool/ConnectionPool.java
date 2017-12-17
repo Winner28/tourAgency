@@ -66,7 +66,7 @@ public class ConnectionPool {
         return connectionPool;
     }
 
-    public Connection getConnection() throws InterruptedException {
+    public Connection getConnection() {
         Connection connection = null;
         try {
             connection = connectionQueue.take();
