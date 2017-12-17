@@ -40,7 +40,7 @@ public class SpringRootConfig {
 
     @Bean
     public UserDAO userDAO() {
-        return new UserDAO(getConnectionPool());
+        return new UserDAO();
     }
 
     @Bean
