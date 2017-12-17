@@ -5,16 +5,20 @@ import lombok.experimental.Delegate;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import javax.sql.DataSource;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import org.slf4j.Logger;
 
 
 public class ConnectionPool {
     private static BlockingQueue<Connection> connectionQueue;
     private static BlockingQueue<Connection> givenAwayConQueue;
     private static ConnectionPool connectionPool;
-    private static org.slf4j.Logger errorLog;
+    private static Logger errorLog;
     @Autowired
     private static DataSource dataSource;
 
@@ -57,12 +61,7 @@ public class ConnectionPool {
     }
 
     public static ConnectionPool getInstance() {
-        if (connectionPool != null) {
-            return connectionPool;
-        } else {
-            connectionPool = new ConnectionPool();
-            return connectionPool;
-        }
+        return connectionPool;
     }
 
     public Connection getConnection() throws InterruptedException {
