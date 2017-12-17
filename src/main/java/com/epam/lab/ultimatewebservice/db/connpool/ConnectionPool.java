@@ -24,7 +24,9 @@ public class ConnectionPool {
 
     private static int poolSize = 8;
 
-    private ConnectionPool() {}
+    private ConnectionPool() {
+        initPoolData();
+    }
 
     private void initPoolData() {
         errorLog = LoggerFactory.getLogger("CP.errorLogger");
@@ -70,7 +72,8 @@ public class ConnectionPool {
             connection = connectionQueue.take();
             givenAwayConQueue.add(connection);
         } catch (InterruptedException e) {
-            throw new RuntimeException("Connection pool exception: can't get connection");
+            errorLog.error("Connection pool exception: can't get connection");
+            throw e;
         }
         return connection;
     }
