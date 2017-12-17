@@ -1,35 +1,23 @@
 package com.epam.lab.ultimatewebservice.db.dao;
 
-import lombok.SneakyThrows;
 
 import java.sql.*;
-import java.util.Scanner;
-import java.util.Spliterator;
-import java.util.Spliterators;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
-
 import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
 @SuppressWarnings("unchecked")
 public interface JdbcDAO extends Supplier<Connection> {
-
-
 
     default void withConnection(Consumer<Connection> connectionConsumer) {
         Connection connection = get();
         connectionConsumer.accept(connection);
     }
 
-
     default <T>  T mapConnection(Function<Connection, T> tFunction)  {
         return tFunction.apply(get());
     }
-
 
     default void withStatement(Consumer<Statement> statementConsumer) {
         withConnection(connection -> {
@@ -42,9 +30,7 @@ public interface JdbcDAO extends Supplier<Connection> {
         });
     }
 
-
     default <T> T mapStatement(Function<Statement, T> statementMapper) {
-
         return mapConnection(connection -> {
             try (Statement statement = connection.createStatement()) {
                 return statementMapper.apply(statement);
@@ -56,10 +42,8 @@ public interface JdbcDAO extends Supplier<Connection> {
         });
     }
 
-
     default void withResultSet(Consumer<ResultSet> resultSetConsumer, String SQL) {
         withStatement(statement -> {
-
             ResultSet resultSet = null;
             try {
                 resultSet = statement.executeQuery(SQL);
@@ -67,14 +51,11 @@ public interface JdbcDAO extends Supplier<Connection> {
                 e.printStackTrace();
             }
             resultSetConsumer.accept(resultSet);
-
         });
     }
 
-
     default void withPreparedStatement(Consumer<PreparedStatement> preparedStatementConsumer,
                                        String SQL, Object ... objects) {
-
         withConnection(connection -> {
             try(PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
                 for (int i = 0; i < objects.length;) {
@@ -87,8 +68,6 @@ public interface JdbcDAO extends Supplier<Connection> {
             }
         });
     }
-
-
 
     default <T> T mapPreparedStatement(Function<PreparedStatement, T> preparedStatementTFunction,
                                        String SQL, Object... objects) {
@@ -111,11 +90,9 @@ public interface JdbcDAO extends Supplier<Connection> {
 
     }
 
-
     default <T> T mapPreparedStatementFlagged(Function<PreparedStatement, T> preparedStatementMapper,
                                               String sql,
                                               Object [] params) {
-
         return mapConnection(connection -> {
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql, RETURN_GENERATED_KEYS)) {
 

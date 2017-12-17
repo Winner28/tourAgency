@@ -7,7 +7,7 @@
 
     <context:annotation-config/>
 
-    <context:property-placeholder location="classpath:util.properties" />
+   <!-- <context:property-placeholder location="classpath:util.properties" />
 
 
     <bean id="dataSource" name="dataSource"
@@ -17,7 +17,7 @@
         <property name="username" value="${jdbc.mysql.username}" />
         <property name="password" value="${jdbc.mysql.password}678" />
     </bean>
-
+-->
 
     <!--<jdbc:initialize-database data-source="dataSource">
         <jdbc:script location="classpath:initScript.sql"/>
