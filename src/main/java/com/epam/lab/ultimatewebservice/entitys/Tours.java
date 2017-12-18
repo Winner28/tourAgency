@@ -1,0 +1,1 @@
+package com.epam.lab.ultimatewebservice.entitys;import lombok.Data;import lombok.experimental.Accessors;@Data@Accessors(chain = true)public class Tours {    private int id;    private int type_id;    private boolean hot;    private double price;    private int duration;    private int agent_id;    private boolean active;    private int tour_types_id;}

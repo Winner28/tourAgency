@@ -1,4 +1,4 @@
-package com.epam.lab.ultimatewebservice.entity;
+package com.epam.lab.ultimatewebservice.entitys;
 
 
 import lombok.Data;
