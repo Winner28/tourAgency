@@ -46,7 +46,7 @@ public class UserDAO {
             }catch (SQLException e){
                 e.printStackTrace();
             }
-        }, ADD_USER, User.getFirstName(), User.getLastname(), User.getEmail(), User.getPassword_hash());
+        }, ADD_USER, user.getFirstname(), user.getLastname(), user.getEmail(), user.getPassword_hash());
     }
 
     public void updateUser(){
@@ -89,7 +89,7 @@ public class UserDAO {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if(resultSet.next()){
                     return new User()
-                            .setId(resultSet.getString("id"))
+                            .setId(resultSet.getInt("id"))
                             .setFirstname(resultSet.getString("firstname"))
                             .setLastname(resultSet.getString("lastname"))
                             .setEmail(resultSet.getString(email))
