@@ -12,17 +12,17 @@ import java.util.Optional;
 public class UserDAO {
 
     private final String ADD_USER =
-            "INSERT INTO users(first_name, last_name, email, password_hash) VALUES(?,?,?,?)";
-    private final String DELETE_USER_BYID =
-            "DELETE FROM users WHERE id=?";
+            "INSERT INTO Users(first_name, last_name, email, password_hash) VALUES(?,?,?,?)";
+    private final String DELETE_USER_BY_ID =
+            "DELETE FROM Users WHERE id=?";
     private final String GET_ALL_USERS =
-            "SELECT (first_name, last_name, email, password_hash) FROM users";
-    private final String GET_USER_BYID =
+            "SELECT (first_name, last_name, email, password_hash) FROM Users";
+    private final String GET_USER_BY_ID =
             "SELECT (first_name, last_name, email, password_hash) FROM users WHERE id=?";
     private final String GET_USER_BY_EMAIL =
-            "SELECT (first_name, last_name, email, password_hash) FROM users WHERE email=?";
-    private final String UPDATE_USER =
-            "UPDATE users SET first_name=?, last_name=?, email=?, password_hash=? WHERE id=?";
+            "SELECT (first_name, last_name, email, password_hash) FROM Users WHERE email=?";
+    private final String UPDATE_USER_BY_ID =
+            "UPDATE Users SET first_name=?, last_name=?, email=?, password_hash=? WHERE id=?";
 
     private JdbcDAO jdbcDAO;
 
@@ -40,21 +40,47 @@ public class UserDAO {
 
 
 
-    public void addUser(User user){
-        jdbcDAO.withPreparedStatement(preparedStatement -> {
+    public Optional<User> addUser(User user){
+       return Optional.ofNullable(jdbcDAO.mapPreparedStatement(preparedStatement -> {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
-
+                if (resultSet.next()) {
+                    user.setId(resultSet.getInt("id"));
+                }
+                user.setId(resultSet.getInt("id"));
+                return user;
             }catch (SQLException e){
                 e.printStackTrace();
+                return null;
             }
-        }, ADD_USER, user.getFirstname(), user.getLastname(), user.getEmail(), user.getPassword_hash());
+        }, ADD_USER, user.getFirstname(), user.getLastname(), user.getEmail(), user.getPassword_hash()));
     }
 
-    public void updateUser(){
-
+    public Optional<User> updateUser(User user){
+        return Optional.ofNullable(jdbcDAO.mapPreparedStatement(preparedStatement -> {
+            if (!getUserById(user.getId()).isPresent()) {
+                return null;
+            }
+                    try {
+                        preparedStatement.executeUpdate();
+                        return user;
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+                }, UPDATE_USER_BY_ID, user.getFirstname(),
+                user.getLastname(), user.getEmail(), user.getPassword_hash(), user.getId()));
     }
 
-    public void deleteUserById(){
+    public boolean deleteUserById(int id){
+        return jdbcDAO.mapPreparedStatement(preparedStatement -> {
+            try {
+                preparedStatement.executeUpdate();
+                return true;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }, DELETE_USER_BY_ID, id);
 
     }
 
@@ -98,7 +124,7 @@ public class UserDAO {
                 return null;
             }
 
-        }, GET_USER_BYID, id));
+        }, GET_USER_BY_ID, id));
     }
 
 
