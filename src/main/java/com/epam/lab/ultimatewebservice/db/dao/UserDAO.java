@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public class UserDAO {
 
-    private final String ADD_USER_SCRIPT =
+    private final String ADD_USER =
             "INSERT INTO users(first_name, last_name, email, password_hash) VALUES(?,?,?,?)";
     private final String DELETE_USER_BYID =
             "DELETE FROM users WHERE id=?";
@@ -39,8 +39,14 @@ public class UserDAO {
 
 
 
-    public void addUser(){
+    public void addUser(User user){
+        jdbcDAO.withPreparedStatement(preparedStatement -> {
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
 
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+        }, ADD_USER, User.getFirstName(), User.getLastname(), User.getEmail(), User.getPassword_hash());
     }
 
     public void updateUser(){
@@ -74,12 +80,27 @@ public class UserDAO {
                 return null;
             }
 
-        }, "SELECT id, firstname, lastname, email, password_hash FROM Users WHERE id=?", id));
+        }, GET_USER_BYID, id));
     }
 
 
     public Optional<User> getUserByEmail(String email){
-        return null;
+        return Optional.ofNullable(jdbcDAO.mapPreparedStatement(preparedStatement -> {
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if(resultSet.next()){
+                    return new User()
+                            .setId(resultSet.getString("id"))
+                            .setFirstname(resultSet.getString("firstname"))
+                            .setLastname(resultSet.getString("lastname"))
+                            .setEmail(resultSet.getString(email))
+                            .setPassword_hash(resultSet.getString("password_hash"));
+                } else
+                    return null;
+            } catch (SQLException e){
+                e.printStackTrace();
+                return null;
+            }
+        }, GET_USER_BY_EMAIL, email));
     }
 
 }
