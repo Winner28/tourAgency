@@ -21,25 +21,26 @@ public class UserController {
     @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
     public ModelAndView getUserById(@PathVariable(value = "id") int id) {
         ModelAndView model = new ModelAndView();
-   /*     User user = userService.getUserById(user_id);
-        model.addObject("user", user);*/
         return model;
     }
 
     @RequestMapping(value = "/users", method = RequestMethod.POST)
-    public ModelAndView createUser( @RequestBody String user) {
+    public ModelAndView createUser(@RequestBody String JSON){
         return null;
     }
 
-
-    @RequestMapping(value = "/users/{id}")
-    public ModelAndView deleteUser() {
+    @RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)
+    public String deleteUser(@PathVariable String id) {
         return null;
     }
 
-    private void validateUser(String id) {
+    @RequestMapping(value = "/users", method = RequestMethod.PUT)
+    public String updateUser(@RequestBody String JSON) {
+        return null;
+    }
+
+    private void validateUser(String JSON) {
         if(false)
             throw new UserNotFoundException("exception");
     }
-
 }
