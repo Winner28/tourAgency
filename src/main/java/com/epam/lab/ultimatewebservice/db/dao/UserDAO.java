@@ -26,7 +26,7 @@ public class UserDAO {
 
 
     private final static String ID = "id";
-    private final static String EMAIL= "email";
+    private final static String EMAIL = "email";
     private final static String FIRSTNAME = "firstname";
     private final static String LASTNAME  = "lastname";
     private final static String PASSWORD  = "password_hash";

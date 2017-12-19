@@ -19,4 +19,10 @@ public class UserService {
         return new User();
     }
 
+    public User createUser(User user) {
+       if (userDAO.addUser(user).isPresent()) {
+           return userDAO.addUser(user).get();
+       }
+       return null;
+    }
 }

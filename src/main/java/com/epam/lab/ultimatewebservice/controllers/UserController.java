@@ -5,6 +5,8 @@ import com.epam.lab.ultimatewebservice.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -25,9 +27,12 @@ public class UserController {
         return model;
     }
 
-    @RequestMapping(value = "/users", method = RequestMethod.POST)
-    public ModelAndView createUser(@RequestBody String params){
-        return null;
+    @RequestMapping(value = "/users", method = RequestMethod.GET)
+    public ModelAndView user() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("addUser");
+        modelAndView.addObject("user", new User());
+        return modelAndView;
     }
 
     @RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)
@@ -40,6 +45,21 @@ public class UserController {
         return null;
     }
 
+    @RequestMapping(value = "/users", method = RequestMethod.POST)
+    public String createUser(@ModelAttribute("user") User user,
+                             ModelMap model) {
+
+        userService.createUser(user);
+
+/*
+
+        model.addAttribute("name", student.getName());
+        model.addAttribute("age", student.getAge());
+        model.addAttribute("id", student.getId());
+*/
+
+        return "result";
+    }
 
 
 }
