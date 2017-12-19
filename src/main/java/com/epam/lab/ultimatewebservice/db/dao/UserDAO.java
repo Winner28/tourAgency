@@ -47,16 +47,13 @@ public class UserDAO {
 
     public Optional<User> addUser(User user) {
         return Optional.ofNullable(jdbcDAO.mapPreparedStatement(preparedStatement -> {
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    user.setId(resultSet.getInt(ID));
-                }
-                user.setId(resultSet.getInt(ID));
-                return user;
-            }catch (SQLException e){
+            try {
+                preparedStatement.executeUpdate();
+            } catch (SQLException e) {
                 e.printStackTrace();
                 return null;
             }
+            return getUserByEmail(user.getEmail()).get();
         }, ADD_USER, user.getFirstName(), user.getLastName(), user.getEmail(), user.getPasswordHash()));
     }
 
@@ -150,7 +147,7 @@ public class UserDAO {
                             .setId(resultSet.getInt(ID))
                             .setFirstName(resultSet.getString(FIRSTNAME))
                             .setLastName(resultSet.getString(LASTNAME))
-                            .setEmail(resultSet.getString(email))
+                            .setEmail(resultSet.getString(EMAIL))
                             .setPasswordHash(resultSet.getString(PASSWORD));
                 }
                 return null;
