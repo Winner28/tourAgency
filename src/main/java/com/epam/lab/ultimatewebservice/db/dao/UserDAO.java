@@ -57,7 +57,6 @@ public class UserDAO {
     }
 
     public Optional<User> updateUser(User user){
-        StringBuilder SQL = new StringBuilder("UPDATE Users SET ");
         Map<String, String> userMap = new LinkedHashMap<>();
         if (!getUserById(user.getId()).isPresent()) {
             return Optional.empty();
@@ -79,6 +78,7 @@ public class UserDAO {
             userMap.put(password, user.getPassword_hash());
             updUser.setPassword_hash(user.getPassword_hash());
         }
+        StringBuilder SQL = new StringBuilder("UPDATE Users SET ");
         for (Iterator<Map.Entry<String, String>> iterator = userMap.entrySet().iterator(); iterator.hasNext();) {
             Map.Entry<String, String> param = iterator.next();
             SQL.append(param.getKey()).append("=?");
