@@ -2,9 +2,6 @@ package com.epam.lab.ultimatewebservice.config;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-import com.epam.lab.ultimatewebservice.config.SpringRootConfig;
-import com.epam.lab.ultimatewebservice.config.SpringWebConfig;
-
 public class MyWebInitializer extends
 		AbstractAnnotationConfigDispatcherServletInitializer {
 
