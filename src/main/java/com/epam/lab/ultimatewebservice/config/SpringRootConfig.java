@@ -33,9 +33,18 @@ public class SpringRootConfig {
         properties.load(getClass().getClassLoader().getResourceAsStream("util.properties"));
         dataSource.setDriverClassName(properties.getProperty("jdbc.mysql.driverClass"));
         dataSource.setUrl(properties.getProperty("jdbc.mysql.url"));
-        dataSource.setUsername(properties.getProperty("jdbc.mysql.root"));
+        dataSource.setUsername(properties.getProperty("jdbc.mysql.username"));
         dataSource.setPassword(properties.getProperty("jdbc.mysql.password"));
         return dataSource;
     }
 
+   /* @Bean
+    public UserDAO getDao() {
+        return new UserDAO(getConnectionPool());
+    }
+
+    @Bean
+    public ConnectionPool getConnectionPool() {
+        return ConnectionPool.getInstance();
+    }*/
 }

@@ -21,11 +21,13 @@ public class UserController {
     @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
     public ModelAndView getUserById(@PathVariable(value = "id") int id) {
         ModelAndView model = new ModelAndView();
+        User user = userService.getUserById(id);
+        System.out.println(user);
         return model;
     }
 
     @RequestMapping(value = "/users", method = RequestMethod.POST)
-    public ModelAndView createUser(@RequestBody String JSON){
+    public ModelAndView createUser(@RequestBody String params){
         return null;
     }
 
@@ -35,12 +37,8 @@ public class UserController {
     }
 
     @RequestMapping(value = "/users", method = RequestMethod.PUT)
-    public String updateUser(@RequestBody String JSON) {
+    public String updateUser(@RequestBody String params) {
         return null;
     }
 
-    private void validateUser(String JSON) {
-        if(false)
-            throw new UserNotFoundException("exception");
-    }
 }

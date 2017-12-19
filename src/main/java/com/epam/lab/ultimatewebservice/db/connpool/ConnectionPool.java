@@ -12,8 +12,10 @@ import java.sql.Statement;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import org.slf4j.Logger;
+import org.springframework.stereotype.Component;
 
 
+@Component
 public class ConnectionPool {
     private static BlockingQueue<Connection> connectionQueue;
     private static BlockingQueue<Connection> givenAwayConQueue;
