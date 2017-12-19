@@ -6,6 +6,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class UserService {
@@ -13,16 +16,26 @@ public class UserService {
     private  UserDAO userDAO;
 
     public User getUserById(int id) {
-        if (userDAO.getUserById(id).isPresent()) {
-            return userDAO.getUserById(id).get();
-        }
-        return new User();
+        return userDAO.getUserById(id).orElse(new User());
     }
 
     public User createUser(User user) {
-       if (userDAO.addUser(user).isPresent()) {
-           return userDAO.addUser(user).get();
-       }
-       return null;
+       return userDAO.addUser(user).orElse(new User());
+    }
+
+    public User updateUser(User user) {
+        return userDAO.updateUser(user).orElse(new User());
+    }
+
+    public User getUserByEmail(String email) {
+        return userDAO.getUserByEmail(email).orElse(new User());
+    }
+
+    public List<User> getUsersList() {
+        return userDAO.getAllUsers();
+    }
+
+    public boolean deleteUserById(int id){
+        return userDAO.deleteUserById(id) > 0;
     }
 }

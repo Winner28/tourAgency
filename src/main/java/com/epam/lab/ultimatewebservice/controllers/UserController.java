@@ -21,7 +21,9 @@ public class UserController {
     public ModelAndView getUserById(@PathVariable(value = "id") int id) {
         ModelAndView model = new ModelAndView();
         User user = userService.getUserById(id);
-        System.out.println(user);
+        if (!checkUser(user)) {
+            throw new RuntimeException("get User by Id exception");
+        }
         model.setViewName("index");
         model.addObject("user", user);
         return model;
@@ -46,20 +48,16 @@ public class UserController {
     }
 
     @RequestMapping(value = "/users", method = RequestMethod.POST)
-    public String createUser(@ModelAttribute("user") User user,
-                             ModelMap model) {
-
-        userService.createUser(user);
-
-/*
-
-        model.addAttribute("name", student.getName());
-        model.addAttribute("age", student.getAge());
-        model.addAttribute("id", student.getId());
-*/
-
-        return "result";
+    public void createUser(@ModelAttribute("user") User user) {
+        if (checkUser(userService.createUser(user))) {
+            throw new RuntimeException("Everything is bad");
+        }
+        //TODO
+        //add everything to a model map and redirect it to view-page
     }
 
+    private boolean checkUser(User user) {
+        return user.getId() != 0;
+    }
 
 }
