@@ -26,6 +26,10 @@ public class ConnectionPool {
 
     private static int poolSize = 8;
 
+    static{
+        connectionPool = new ConnectionPool();
+    }
+
     private ConnectionPool() {
         initPoolData();
     }
