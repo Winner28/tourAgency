@@ -22,7 +22,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 @Configuration
-@ComponentScan({ "com.epam.lab.ultimatewebservice.service" })
+@ComponentScan({ "com.epam.lab.ultimatewebservice" })
 public class SpringRootConfig {
 
     @Bean
@@ -36,16 +36,6 @@ public class SpringRootConfig {
         dataSource.setUsername(properties.getProperty("jdbc.mysql.root"));
         dataSource.setPassword(properties.getProperty("jdbc.mysql.password"));
         return dataSource;
-    }
-
-    @Bean
-    public UserDAO userDAO() {
-        return new UserDAO(getConnectionPool());
-    }
-
-    @Bean
-    public ConnectionPool getConnectionPool() {
-        return ConnectionPool.getInstance();
     }
 
 }
