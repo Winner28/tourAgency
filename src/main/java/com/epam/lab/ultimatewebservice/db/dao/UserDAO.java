@@ -4,10 +4,10 @@ import com.epam.lab.ultimatewebservice.db.connpool.ConnectionPool;
 import com.epam.lab.ultimatewebservice.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
+
 
 @Component
 public class UserDAO {
@@ -60,11 +60,12 @@ public class UserDAO {
     }
 
     public Optional<User> updateUser(User updatedUser) {
-        if (!getUserById(updatedUser.getId()).isPresent()) {
+        Optional<User> optionalUser = getUserById(updatedUser.getId());
+        if (!optionalUser.isPresent()) {
             return Optional.empty();
         }
-        User toUpdate = getUserById(updatedUser.getId()).get();
-        Map<String, String> userMap = neZnauKakNazvat(updatedUser, toUpdate);
+        User toUpdate = optionalUser.get();
+        Map<String, String> userMap = getFieldsToUpdate(updatedUser, toUpdate);
         StringBuilder SQL = new StringBuilder("UPDATE Users SET ");
         for (Iterator<Map.Entry<String, String>> iterator = userMap.entrySet().iterator(); iterator.hasNext();) {
             Map.Entry<String, String> param = iterator.next();
@@ -159,7 +160,7 @@ public class UserDAO {
         }, GET_USER_BY_EMAIL, email));
     }
 
-    private Map<String, String> neZnauKakNazvat(User updatedUser, User toUpdate) {
+    private Map<String, String> getFieldsToUpdate(User updatedUser, User toUpdate) {
         Map<String, String> userMap = new LinkedHashMap<>();
         if (updatedUser.getFirstName() != null &&
                 !toUpdate.getFirstName().equals(updatedUser.getFirstName())) {
