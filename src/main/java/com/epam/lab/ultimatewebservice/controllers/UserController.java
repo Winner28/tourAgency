@@ -1,16 +1,13 @@
 package com.epam.lab.ultimatewebservice.controllers;
 
 import com.epam.lab.ultimatewebservice.entity.User;
-import com.epam.lab.ultimatewebservice.exceptions.UserNotFoundException;
 import com.epam.lab.ultimatewebservice.service.UserService;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.jws.soap.SOAPBinding;
 
 @Controller
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -23,6 +20,8 @@ public class UserController {
         ModelAndView model = new ModelAndView();
         User user = userService.getUserById(id);
         System.out.println(user);
+        model.setViewName("index");
+        model.addObject("user", user);
         return model;
     }
 
@@ -40,5 +39,7 @@ public class UserController {
     public String updateUser(@RequestBody String params) {
         return null;
     }
+
+
 
 }

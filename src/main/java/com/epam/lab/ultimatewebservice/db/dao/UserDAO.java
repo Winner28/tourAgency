@@ -18,11 +18,11 @@ public class UserDAO {
     private final static String DELETE_USER_BY_ID =
             "DELETE FROM Users WHERE id=?";
     private final static String GET_ALL_USERS =
-            "SELECT (firstname, lastname, email, password_hash) FROM Users";
+            "SELECT firstname, lastname, email, password_hash FROM Users";
     private final static String GET_USER_BY_ID =
-            "SELECT (firstname, lastname, email, password_hash) FROM users WHERE id=?";
+            "SELECT firstname, lastname, email, password_hash FROM Users WHERE id=?";
     private final static String GET_USER_BY_EMAIL =
-            "SELECT (firstname, lastname, email, password_hash) FROM Users WHERE email=?";
+            "SELECT firstname, lastname, email, password_hash FROM Users WHERE email=?";
 
 
     private final static String ID = "id";
