@@ -8,8 +8,8 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class User {
     private int id;
-    private String firstname;
-    private String lastname;
+    private String firstName;
+    private String lastName;
     private String email;
-    private String password_hash;
+    private String passwordHash;
 }
