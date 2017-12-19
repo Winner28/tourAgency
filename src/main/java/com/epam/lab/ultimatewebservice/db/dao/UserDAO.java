@@ -90,7 +90,11 @@ public class UserDAO {
         }
         SQL.append(" WHERE id=?");
         jdbcDAO.withPreparedStatement(preparedStatement -> {
-
+            try {
+                preparedStatement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }, SQL.toString(), userMap.values().toArray());
 
         return Optional.of(updUser);
