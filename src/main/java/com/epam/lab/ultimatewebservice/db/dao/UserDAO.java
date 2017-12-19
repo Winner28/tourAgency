@@ -144,7 +144,7 @@ public class UserDAO {
     public Optional<User> getUserByEmail(String email) {
         return Optional.ofNullable(jdbcDAO.mapPreparedStatement(preparedStatement -> {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if(resultSet.next()){
+                if(resultSet.next()) {
                     return new User()
                             .setId(resultSet.getInt(ID))
                             .setFirstName(resultSet.getString(FIRSTNAME))
