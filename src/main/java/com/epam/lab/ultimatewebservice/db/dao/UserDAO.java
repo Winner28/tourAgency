@@ -4,6 +4,7 @@ import com.epam.lab.ultimatewebservice.db.connpool.ConnectionPool;
 import com.epam.lab.ultimatewebservice.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
@@ -17,11 +18,11 @@ public class UserDAO {
     private final static String DELETE_USER_BY_ID =
             "DELETE FROM Users WHERE id=?";
     private final static String GET_ALL_USERS =
-            "SELECT firstname, lastname, email, password_hash FROM Users";
+            "SELECT (firstname, lastname, email, password_hash) FROM Users";
     private final static String GET_USER_BY_ID =
-            "SELECT firstname, lastname, email, password_hash FROM Users WHERE id=?";
+            "SELECT (firstname, lastname, email, password_hash) FROM users WHERE id=?";
     private final static String GET_USER_BY_EMAIL =
-            "SELECT firstname, lastname, email, password_hash FROM Users WHERE email=?";
+            "SELECT (firstname, lastname, email, password_hash) FROM Users WHERE email=?";
 
 
     private final static String ID = "id";
@@ -45,7 +46,7 @@ public class UserDAO {
     }
 
     public Optional<User> addUser(User user) {
-       return Optional.ofNullable(jdbcDAO.mapPreparedStatement(preparedStatement -> {
+        return Optional.ofNullable(jdbcDAO.mapPreparedStatement(preparedStatement -> {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     user.setId(resultSet.getInt(ID));
@@ -106,11 +107,11 @@ public class UserDAO {
             try {
                 while (rs.next()) {
                     userList.add(new User()
-                                .setId(rs.getInt(ID))
-                                .setFirstName(rs.getString(FIRSTNAME))
-                                .setLastName(rs.getString(LASTNAME))
-                                .setEmail(rs.getString(EMAIL))
-                                .setPasswordHash(rs.getString(PASSWORD))
+                            .setId(rs.getInt(ID))
+                            .setFirstName(rs.getString(FIRSTNAME))
+                            .setLastName(rs.getString(LASTNAME))
+                            .setEmail(rs.getString(EMAIL))
+                            .setPasswordHash(rs.getString(PASSWORD))
                     );
                 }
             }catch (SQLException e) {
@@ -123,7 +124,6 @@ public class UserDAO {
 
     public Optional<User> getUserById(int id) {
         return Optional.ofNullable(jdbcDAO.mapPreparedStatement(preparedStatement -> {
-            System.out.println("sout");
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     return new User()
@@ -133,7 +133,7 @@ public class UserDAO {
                             .setEmail(resultSet.getString(EMAIL))
                             .setPasswordHash(resultSet.getString(PASSWORD));
                 }
-                    return null;
+                return null;
             } catch (SQLException e) {
                 e.printStackTrace();
                 return null;
@@ -153,7 +153,7 @@ public class UserDAO {
                             .setEmail(resultSet.getString(email))
                             .setPasswordHash(resultSet.getString(PASSWORD));
                 }
-                    return null;
+                return null;
             } catch (SQLException e){
                 e.printStackTrace();
                 return null;
@@ -179,7 +179,7 @@ public class UserDAO {
             toUpdate.setEmail(updatedUser.getEmail());
         }
         if (updatedUser.getPasswordHash() != null &&
-        !toUpdate.getPasswordHash().equals(updatedUser.getPasswordHash())) {
+                !toUpdate.getPasswordHash().equals(updatedUser.getPasswordHash())) {
             userMap.put(PASSWORD, updatedUser.getPasswordHash());
             toUpdate.setPasswordHash(updatedUser.getPasswordHash());
         }
