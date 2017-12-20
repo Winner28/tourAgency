@@ -3,24 +3,28 @@ package com.epam.lab.ultimatewebservice.db.dao;
 import com.epam.lab.ultimatewebservice.db.connpool.ConnectionPool;
 import com.epam.lab.ultimatewebservice.entity.Order;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+@Component
 public class OrderDAO {
 
     private static final String ADD_ORDER =
-            "INSERT INTO Orders(date, active, tourId, userId) VALUES(?,?,?,?)";
+            "INSERT INTO orders(date, active, tourId, userId) VALUES(?,?,?,?)";
     private static final String GET_ORDER_BY_ID =
-            "SELECT (date, active, tourId, userId) FROM Orders WHERE id=?";
-    private static final String GET_ORDER_BY_TOUR_ID =
-            "SELECT (id, date, active, tourId, userId) FROM Orders WHERE tourId=?";
-    private static final String GET_ORDER_BY_USER_ID =
-            "SELECT (id, date, active, tourId, userId) FROM Orders WHERE userId=?";
+            "SELECT (date, active, tourId, userId) FROM orders WHERE id=?";
+    private static final String GET_ORDERS_BY_TOUR_ID =
+            "SELECT (id, date, active, tourId, userId) FROM orders WHERE tourId=?";
+    private static final String GET_ORDERS_BY_USER_ID =
+            "SELECT (id, date, active, tourId, userId) FROM orders WHERE userId=?";
     private static final String DELETE_ORDER_BY_ID =
-            "DELETE FROM Orders WHERE id=?";
-    private static final String UPDATE_ORDER = "UPDATE Orders SET date=?, active=?, tourId=?, userId=? WHERE id=?";
+            "DELETE FROM orders WHERE id=?";
+    private static final String UPDATE_ORDER = "UPDATE orders SET date=?, active=?, tourId=?, userId=? WHERE id=?";
 
     private static final String ID = "id";
     private static final String DATE = "date";
@@ -75,42 +79,44 @@ public class OrderDAO {
         }, GET_ORDER_BY_ID, id));
     }
 
-    public Optional<Order> getOrderByTourId(int tourId){
-        return Optional.ofNullable(jdbcDAO.mapPreparedStatement(preparedStatement -> {
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    return new Order()
-                            .setId(resultSet.getInt(ID))
-                            .setDate(resultSet.getString(DATE))
-                            .setActive(resultSet.getString(ACTIVE))
-                            .setTourId(tourId)
-                            .setUserId(resultSet.getInt(USER_ID));
+    public List<Order> getOrderByTourId(int tourId){
+        List<Order> orderList = new ArrayList<>();
+        jdbcDAO.withResultSet(rs -> {
+            try {
+                while (rs.next()) {
+                    orderList.add(new Order()
+                            .setId(rs.getInt(ID))
+                            .setDate(rs.getString(DATE))
+                            .setActive(rs.getString(ACTIVE))
+                            .setTourId(rs.getInt(TOUR_ID))
+                            .setUserId(rs.getInt(USER_ID))
+                    );
                 }
-                return null;
-            } catch (SQLException e) {
-                e.printStackTrace();
-                return null;
+            }catch (SQLException e) {
+                throw new RuntimeException("Got an exception");
             }
-        }, GET_ORDER_BY_TOUR_ID, tourId));
+        }, GET_ORDERS_BY_TOUR_ID);
+        return orderList;
     }
 
-    public Optional<Order> getOrderByUserId(int userId){
-        return Optional.ofNullable(jdbcDAO.mapPreparedStatement(preparedStatement -> {
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    return new Order()
-                            .setId(resultSet.getInt(ID))
-                            .setDate(resultSet.getString(DATE))
-                            .setActive(resultSet.getString(ACTIVE))
-                            .setTourId(resultSet.getInt(TOUR_ID))
-                            .setUserId(userId);
+    public List<Order> getOrderByUserId(int userId){
+        List<Order> orderList = new ArrayList<>();
+        jdbcDAO.withResultSet(rs -> {
+            try {
+                while (rs.next()) {
+                    orderList.add(new Order()
+                            .setId(rs.getInt(ID))
+                            .setDate(rs.getString(DATE))
+                            .setActive(rs.getString(ACTIVE))
+                            .setTourId(rs.getInt(TOUR_ID))
+                            .setUserId(rs.getInt(USER_ID))
+                    );
                 }
-                return null;
-            } catch (SQLException e) {
-                e.printStackTrace();
-                return null;
+            }catch (SQLException e) {
+                throw new RuntimeException("Got an exception");
             }
-        }, GET_ORDER_BY_USER_ID, userId));
+        }, GET_ORDERS_BY_USER_ID);
+        return orderList;
     }
 
     public int deleteOrderById(int id){
@@ -125,8 +131,8 @@ public class OrderDAO {
     }
 
     public Optional<Order> updateOrder(Order order){
-        Optional<Order> optionalOrder = getOrderById(order.getId());
-        if (!optionalOrder.isPresent()) {
+        Optional<Order> orderToUpdate = getOrderById(order.getId());
+        if (!orderToUpdate.isPresent()) {
             return Optional.empty();
         }
         return Optional.ofNullable(jdbcDAO.mapPreparedStatement(preparedStatement -> {
