@@ -15,7 +15,7 @@ import java.util.Optional;
 public class TourTypeDAO {
 
     private final static String ADD_TOUR =
-            "INSERT INTO Tour_Types(id, tour_type) VALUES(?,?)";
+            "INSERT INTO Tour_Types (tour_type) VALUES(?)";
     private final static String DELETE_TOUR =
             "DELETE FROM Tour_Types WHERE id=?";
     private final static String GET_ALL_TOURS =
