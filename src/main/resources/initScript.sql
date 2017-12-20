@@ -3,11 +3,11 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 
-CREATE SCHEMA IF NOT EXISTS `Agency` DEFAULT CHARACTER SET utf8 ;
-USE `` ;
+CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 ;
+USE `mydb` ;
 
 
-CREATE TABLE IF NOT EXISTS `Agency`.`users` (
+CREATE TABLE IF NOT EXISTS `mydb`.`users` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `first_name` VARCHAR(45) NOT NULL,
   `last_name` VARCHAR(45) NOT NULL,
@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS `Agency`.`users` (
 ENGINE = InnoDB;
 
 
-CREATE TABLE IF NOT EXISTS `Agency`.`tour_types` (
+CREATE TABLE IF NOT EXISTS `mydb`.`tour_types` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `tour_type` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`),
@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `Agency`.`tour_types` (
 ENGINE = InnoDB;
 
 
-CREATE TABLE IF NOT EXISTS `Agency`.`tours` (
+CREATE TABLE IF NOT EXISTS `mydb`.`tours` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `hot` TINYINT ZEROFILL NOT NULL,
   `price` DOUBLE NULL,
@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS `Agency`.`tours` (
 ENGINE = InnoDB;
 
 
-CREATE TABLE IF NOT EXISTS `Agency`.`orders` (
+CREATE TABLE IF NOT EXISTS `mydb`.`orders` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `date` VARCHAR(45) NOT NULL,
   `active` TINYINT NOT NULL,
@@ -74,7 +74,7 @@ DEFAULT CHARACTER SET = dec8
 COLLATE = dec8_bin;
 
 
-CREATE TABLE IF NOT EXISTS `Agency`.`permission_names` (
+CREATE TABLE IF NOT EXISTS `mydb`.`permission_names` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`),
@@ -82,7 +82,7 @@ CREATE TABLE IF NOT EXISTS `Agency`.`permission_names` (
 ENGINE = InnoDB;
 
 
-CREATE TABLE IF NOT EXISTS `Agency`.`permissions` (
+CREATE TABLE IF NOT EXISTS `mydb`.`permissions` (
   `user_id` INT UNSIGNED NOT NULL,
   `permission_name_id` INT UNSIGNED NOT NULL,
   INDEX `user_id_idx` (`user_id` ASC),
@@ -100,8 +100,21 @@ CREATE TABLE IF NOT EXISTS `Agency`.`permissions` (
     ON UPDATE RESTRICT)
 ENGINE = InnoDB;
 
+USE `mydb` ;
 
 
+CREATE TABLE IF NOT EXISTS `mydb`.`view1` (`id` INT);
+
+-- -----------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `mydb`.`view2` (`id` INT);
+
+
+DROP TABLE IF EXISTS `mydb`.`view1`;
+USE `mydb`;
+
+DROP TABLE IF EXISTS `mydb`.`view2`;
+USE `mydb`;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
