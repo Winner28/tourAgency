@@ -79,7 +79,7 @@ public class OrderDAO {
         }, GET_ORDER_BY_ID, id));
     }
 
-    public List<Order> getOrderByTourId(int tourId){
+    public List<Order> getOrdersByTourId(int tourId){
         List<Order> orderList = new ArrayList<>();
         jdbcDAO.withResultSet(rs -> {
             try {
@@ -99,7 +99,7 @@ public class OrderDAO {
         return orderList;
     }
 
-    public List<Order> getOrderByUserId(int userId){
+    public List<Order> getOrdersByUserId(int userId){
         List<Order> orderList = new ArrayList<>();
         jdbcDAO.withResultSet(rs -> {
             try {
