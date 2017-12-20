@@ -45,7 +45,7 @@ public class PermissionDAO {
         };
     }
 
-    public Optional<Permission> getUserPermission(int id) {
+    public Optional<Permission> getPermissionByUserId(int id) {
        return Optional.ofNullable(jdbcDAO.mapPreparedStatement(preparedStatement -> {
            try(ResultSet resultSet = preparedStatement.executeQuery()) {
                if (resultSet.next()) {
@@ -62,7 +62,7 @@ public class PermissionDAO {
 
     }
 
-    public Optional<Permission> addUserPermission(Permission permission) {
+    public Optional<Permission> addPermission(Permission permission) {
         return Optional.ofNullable(jdbcDAO.mapPreparedStatement(preparedStatement -> {
             try {
                 preparedStatement.executeUpdate();
@@ -74,7 +74,7 @@ public class PermissionDAO {
         }, ADD_USER_PERMISSION, permission.getUserId(), permission.getPermissionNameId()));
     }
 
-    public int deleteUserPermission(int id) {
+    public int deletePermissionByUserId(int id) {
         return jdbcDAO.mapPreparedStatement(preparedStatement -> {
             try {
                 return preparedStatement.executeUpdate();
