@@ -5,6 +5,7 @@ import com.epam.lab.ultimatewebservice.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -19,16 +20,7 @@ public class UserController {
     
     @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
     public ModelAndView getUserById(@PathVariable(value = "id") int id) {
-        ModelAndView model = new ModelAndView();
-        User user = userService.getUserById(id);
-        if (!checkUser(user)) {
-            model.setViewName("getUserError");
-            model.addObject("user", new User().setId(id));
-            return model;
-        }
-        model.setViewName("showUser");
-        model.addObject("user", user);
-        return model;
+        return checkUserAndReturnModel(userService.getUserById(id));
     }
 
     @RequestMapping(value = "/users", method = RequestMethod.GET)
@@ -40,27 +32,41 @@ public class UserController {
     }
 
     @RequestMapping(value = "/users", method = RequestMethod.POST)
-    public void creationOfUser(@ModelAttribute("user") User user, HttpServletRequest request) {
-        if (checkUser(userService.createUser(user))) {
-            throw new RuntimeException("Everything is bad");
+    public String creationOfUser(@ModelAttribute("user") User user, Model model,
+                                 HttpServletRequest request) {
+        User createdUser = userService.createUser(user);
+        String permission = request.getParameter("permission");
+        if (createdUser == null || permission == null) {
+            model.addAttribute("errorMessage", "Error when we try to create user");
+            return "error";
         }
+        userService.addPermission(permission);
+        model.addAttribute("user", createdUser);
+        return "showUser";
     }
 
     @RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)
-    public String deleteUser(@PathVariable String id) {
+    public String deleteUserById(@PathVariable String id) {
         return null;
     }
 
-    @RequestMapping(value = "/users", method = RequestMethod.PUT)
+    /*@RequestMapping(value = "/users", method = RequestMethod.PUT)
     public String updateUser(@RequestBody String params) {
         return null;
+    }*/
+
+    private ModelAndView checkUserAndReturnModel(User user) {
+        ModelAndView model = new ModelAndView();
+        if (user == null) {
+            model.setViewName("error");
+            model.addObject("errorMessage", "User dont exists");
+            return model;
+        }
+        model.setViewName("showUser");
+        model.addObject("user", user);
+        return model;
     }
 
 
-
-    private boolean checkUser(User user) {
-       return user!=null;
-
-    }
 
 }
