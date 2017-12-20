@@ -3,14 +3,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Gradle + Spring MVC</title>
+<title>User Page</title>
 
 <spring:url value="/resources/core/css/hello.css" var="coreCss" />
 <spring:url value="/resources/core/css/bootstrap.min.css" var="bootstrapCss" />
 <link href="${bootstrapCss}" rel="stylesheet" />
 <link href="${coreCss}" rel="stylesheet" />
 </head>
-<h1> ${user.toString()}</h1>
+<h1>User information</h1>
+<br>
+<h3>User id: ${user.id}</h3>
+<h3>User first name: ${user.firstName}</h3>
+<h3>User last  name: ${user.lastName}</h3>
+<h3>User email: ${user.email}</h3>
 
 
 <spring:url value="/resources/core/css/hello.js" var="coreJs" />

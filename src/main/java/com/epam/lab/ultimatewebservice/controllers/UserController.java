@@ -10,6 +10,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+
 
 @Controller
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -22,7 +25,8 @@ public class UserController {
         ModelAndView model = new ModelAndView();
         User user = userService.getUserById(id);
         if (!checkUser(user)) {
-            throw new RuntimeException("get User by Id exception");
+            model.setViewName("error");
+            //TODO
         }
         model.setViewName("index");
         model.addObject("user", user);
@@ -30,11 +34,18 @@ public class UserController {
     }
 
     @RequestMapping(value = "/users", method = RequestMethod.GET)
-    public ModelAndView user() {
+    public ModelAndView createUser() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("addUser");
         modelAndView.addObject("user", new User());
         return modelAndView;
+    }
+
+    @RequestMapping(value = "/users", method = RequestMethod.POST)
+    public void creationUser(@ModelAttribute("user") User user, HttpServletRequest request) {
+        if (checkUser(userService.createUser(user))) {
+            throw new RuntimeException("Everything is bad");
+        }
     }
 
     @RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)
@@ -47,14 +58,7 @@ public class UserController {
         return null;
     }
 
-    @RequestMapping(value = "/users", method = RequestMethod.POST)
-    public void createUser(@ModelAttribute("user") User user) {
-        if (checkUser(userService.createUser(user))) {
-            throw new RuntimeException("Everything is bad");
-        }
-        //TODO
-        //add everything to a model map and redirect it to view-page
-    }
+
 
     private boolean checkUser(User user) {
         return user.getId() != 0;
