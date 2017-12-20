@@ -1,0 +1,1 @@
+package com.epam.lab.ultimatewebservice.entity;import lombok.Data;import lombok.experimental.Accessors;@Data@Accessors(chain = true)public class TourType {    private int id;    private String tourType;}
