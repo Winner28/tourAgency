@@ -27,7 +27,7 @@ public class PermissionDAO {
     private final static String GET_ALL_PERMISSIONS =
             "SELECT userId, permissionNameId FROM Permissions";
     private final static String UPDATE_USER_PERMISSION =
-            "UPDATE Permissions SET permissionNameId WHERE userId=?";
+            "UPDATE Permissions SET permissionNameId=? WHERE userId=?";
 
     private final static String ID = "userId";
     private final static String PERMISSION = "permissionNameId";
@@ -98,7 +98,7 @@ public class PermissionDAO {
         }, DELETE_USER_PERMISSION, id);
     }
 
-    public int updatePermission(int id) {
+    public int updatePermission(Permission permission) {
         return jdbcDAO.mapPreparedStatement(preparedStatement -> {
             try {
                 return preparedStatement.executeUpdate();
@@ -106,7 +106,7 @@ public class PermissionDAO {
                 e.printStackTrace();
             }
             return 0;
-        },UPDATE_USER_PERMISSION, id);
+        },UPDATE_USER_PERMISSION, permission.getPermissionNameId(), permission.getUserId());
     }
 
     public List<Integer> getUsersIdByPermissionNameId(int permissionId) {
