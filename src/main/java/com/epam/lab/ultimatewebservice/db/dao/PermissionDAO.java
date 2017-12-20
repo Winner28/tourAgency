@@ -19,7 +19,9 @@ public class PermissionDAO {
     private final static String DELETE_USER_PERMISSION =
             "DELETE FROM Permissions WHERE userId=?";
     private final static String GET_USER_PERMISSION_BY_ID =
-            "SELECT permissionNameId FROM Permissions WHERE userId=?";
+            "SELECT p.userId, p.permissionNameId, n.id, n.name FROM Permissions p " +
+                    "INNER JOIN PermissionNames n ON p.permissionNameId=n.id " +
+                    "WHERE p.userId=?";
     private final static String GET_ALL_USERS_ID_BY_PERMISSION_NAME_ID =
             "SELECT userId, permissionNameId FROM Permissions WHERE permissionNameId=?";
     private final static String GET_ALL_PERMISSIONS =
@@ -45,8 +47,8 @@ public class PermissionDAO {
         };
     }
 
-    public Optional<Permission> getUserPermission(int id) {
-       return Optional.ofNullable(jdbcDAO.mapPreparedStatement(preparedStatement -> {
+    public String getUserPermission(int id) {
+       /*return Optional.ofNullable(jdbcDAO.mapPreparedStatement(preparedStatement -> {
            try(ResultSet resultSet = preparedStatement.executeQuery()) {
                if (resultSet.next()) {
                    return new Permission()
@@ -58,7 +60,19 @@ public class PermissionDAO {
                return null;
            }
            return null;
-        }, GET_USER_PERMISSION_BY_ID, id));
+        }, GET_USER_PERMISSION_BY_ID, id));*/
+
+       return jdbcDAO.mapPreparedStatement(preparedStatement -> {
+           try(ResultSet rs = preparedStatement.executeQuery()) {
+               if (rs.next()) {
+                   return rs.getString("name");
+               }
+           } catch (SQLException e) {
+               e.printStackTrace();
+           }
+           return null;
+       },GET_USER_PERMISSION_BY_ID, id);
+
     }
 
     public Optional<Permission> addUserPermission(Permission permission) {
