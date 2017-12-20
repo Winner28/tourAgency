@@ -71,29 +71,31 @@ public class TourTypeDAO {
         }, ADD_TOUR, tourType));
     }
 
-    public int deleteTourType(int id) {
+    public boolean deleteTourType(int id) {
         return jdbcDAO.mapPreparedStatement(preparedStatement -> {
             try {
-                return preparedStatement.executeUpdate();
+                preparedStatement.executeUpdate();
+                return true;
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            return 0;
+            return false;
         }, DELETE_TOUR, id);
     }
 
-    public int updateTourType(TourType tourType) {
+    public boolean updateTourType(TourType tourType) {
         return jdbcDAO.mapPreparedStatement(preparedStatement -> {
             try {
-                return preparedStatement.executeUpdate();
+                 preparedStatement.executeUpdate();
+                return true;
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            return 0;
+            return false;
         },UPDATE_TOUR_BY_ID, tourType.getId(), tourType.getTourType());
     }
 
-    public List<TourType> getTourTypesList() {
+    public List<TourType> getAllTours() {
         List<TourType> tourTypeList= new ArrayList<>();
         jdbcDAO.withResultSet(rs -> {
             try {
