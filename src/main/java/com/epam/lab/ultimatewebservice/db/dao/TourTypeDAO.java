@@ -59,16 +59,16 @@ public class TourTypeDAO {
 
     }
 
-    public Optional<TourType> addTourType(TourType tourType) {
+    public Optional<TourType> addTourType(String tourType) {
         return Optional.ofNullable(jdbcDAO.mapPreparedStatement(preparedStatement -> {
             try {
-                preparedStatement.executeUpdate();
-                return tourType;
+                ResultSet rs = preparedStatement.executeQuery();
+                return new TourType().setId(rs.getInt(ID)).setTourType(tourType);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
             return null;
-        }, ADD_TOUR, tourType.getId(), tourType.getTourType()));
+        }, ADD_TOUR, tourType));
     }
 
     public int deleteTourType(int id) {
