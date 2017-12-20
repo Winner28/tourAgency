@@ -16,19 +16,19 @@ public class UserService {
     private  UserDAO userDAO;
 
     public User getUserById(int id) {
-        return userDAO.getUserById(id).orElse(new User());
+        return userDAO.getUserById(id).orElse(null);
     }
 
     public User createUser(User user) {
-       return userDAO.addUser(user).orElse(new User());
+       return userDAO.addUser(user).orElse(null);
     }
 
     public User updateUser(User user) {
-        return userDAO.updateUser(user).orElse(new User());
+        return userDAO.updateUser(user).orElse(null);
     }
 
     public User getUserByEmail(String email) {
-        return userDAO.getUserByEmail(email).orElse(new User());
+        return userDAO.getUserByEmail(email).orElse(null);
     }
 
     public List<User> getUsersList() {

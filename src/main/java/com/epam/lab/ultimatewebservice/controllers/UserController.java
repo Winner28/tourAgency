@@ -5,12 +5,9 @@ import com.epam.lab.ultimatewebservice.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 
 
@@ -25,10 +22,11 @@ public class UserController {
         ModelAndView model = new ModelAndView();
         User user = userService.getUserById(id);
         if (!checkUser(user)) {
-            model.setViewName("error");
-            //TODO
+            model.setViewName("getUserError");
+            model.addObject("user", new User().setId(id));
+            return model;
         }
-        model.setViewName("index");
+        model.setViewName("showUser");
         model.addObject("user", user);
         return model;
     }
@@ -36,13 +34,13 @@ public class UserController {
     @RequestMapping(value = "/users", method = RequestMethod.GET)
     public ModelAndView createUser() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("addUser");
+        modelAndView.setViewName("createUser");
         modelAndView.addObject("user", new User());
         return modelAndView;
     }
 
     @RequestMapping(value = "/users", method = RequestMethod.POST)
-    public void creationUser(@ModelAttribute("user") User user, HttpServletRequest request) {
+    public void creationOfUser(@ModelAttribute("user") User user, HttpServletRequest request) {
         if (checkUser(userService.createUser(user))) {
             throw new RuntimeException("Everything is bad");
         }
@@ -61,7 +59,8 @@ public class UserController {
 
 
     private boolean checkUser(User user) {
-        return user.getId() != 0;
+       return user!=null;
+
     }
 
 }
