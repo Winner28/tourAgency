@@ -27,8 +27,8 @@ public class AuthorizationController {
         Cookie [] cookies = request.getCookies();
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals(LOGGED_COOKIE)) {
-                String id = SessionManager.checkIfUserLogined(cookie);
-                if (id == null) {
+                int id = SessionManager.checkIfUserLogined(cookie);
+                if (id == 0) {
                     return "authorization/login";
                 }
                 return "redirect:/home";
@@ -53,7 +53,7 @@ public class AuthorizationController {
         }
         Cookie userCookie = new Cookie(LOGGED_COOKIE, generateHash(user));
         response.addCookie(userCookie);
-        SessionManager.createNewSession(userCookie, String.valueOf(user.getId()));
+        SessionManager.createNewSession(userCookie, user.getId());
         return "redirect:/home";
     }
 
@@ -62,11 +62,10 @@ public class AuthorizationController {
         Cookie [] cookies = request.getCookies();
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals(LOGGED_COOKIE)) {
-                String value = SessionManager.checkIfUserLogined(cookie);
-                if (value == null) {
+                int id = SessionManager.checkIfUserLogined(cookie);
+                if (id == 0) {
                     return "redirect:/login";
                 }
-                int id = Integer.valueOf(value);
                 User user = authorizationService.getUserById(id);
                 if (user == null) {
                     model.addAttribute("errorMessage", "Smth goes wrong");
