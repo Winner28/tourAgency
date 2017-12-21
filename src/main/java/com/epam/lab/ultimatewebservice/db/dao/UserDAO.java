@@ -15,21 +15,21 @@ import java.util.*;
 public class UserDAO {
 
     private final static String ADD_USER =
-            "INSERT INTO Users(firstname, lastname, email, password_hash) VALUES(?,?,?,?)";
+            "INSERT INTO users (first_name, last_name, email, password_hash) VALUES(?,?,?,?)";
     private final static String DELETE_USER_BY_ID =
-            "DELETE FROM Users WHERE id=?";
+            "DELETE FROM users WHERE id=?";
     private final static String GET_ALL_USERS =
-            "SELECT id,firstname, lastname, email, password_hash FROM Users";
+            "SELECT id,first_name, last_name, email, password_hash FROM users";
     private final static String GET_USER_BY_ID =
-            "SELECT id,firstname, lastname, email, password_hash FROM users WHERE id=?";
+            "SELECT id,first_name, last_name, email, password_hash FROM users WHERE id=?";
     private final static String GET_USER_BY_EMAIL =
-            "SELECT id,firstname, lastname, email, password_hash FROM Users WHERE email=?";
+            "SELECT id,first_name, last_name, email, password_hash FROM users WHERE email=?";
 
 
     private final static String ID = "id";
     private final static String EMAIL= "email";
-    private final static String FIRSTNAME = "firstname";
-    private final static String LASTNAME  = "lastname";
+    private final static String FIRSTNAME = "first_name";
+    private final static String LASTNAME  = "last_name";
     private final static String PASSWORD  = "password_hash";
 
     private JdbcDAO jdbcDAO;
@@ -48,13 +48,19 @@ public class UserDAO {
 
     public Optional<User> addUser(User user) {
         return Optional.ofNullable(jdbcDAO.mapPreparedStatementFlagged(preparedStatement -> {
+            try {
+                preparedStatement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return null;
+            }
             try (ResultSet rs = preparedStatement.getGeneratedKeys()) {
                 return !rs.next() ? null : new User()
-                        .setId(rs.getInt(ID))
-                        .setFirstName(FIRSTNAME)
-                        .setLastName(LASTNAME)
-                        .setEmail(EMAIL)
-                        .setPasswordHash(PASSWORD);
+                        .setId(rs.getInt(1))
+                        .setFirstName(user.getFirstName())
+                        .setLastName(user.getLastName())
+                        .setEmail(user.getEmail())
+                        .setPasswordHash(user.getPasswordHash());
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -65,11 +71,15 @@ public class UserDAO {
     public Optional<User> updateUser(User updatedUser) {
         Optional<User> optionalUser = getUserById(updatedUser.getId());
         if (!optionalUser.isPresent()) {
+
             return Optional.empty();
         }
         User toUpdate = optionalUser.get();
         Map<String, String> userMap = getFieldsToUpdate(updatedUser, toUpdate);
-        StringBuilder SQL = new StringBuilder("UPDATE Users SET ");
+        if (userMap.size() == 0) {
+            return Optional.ofNullable(toUpdate);
+        }
+        StringBuilder SQL = new StringBuilder("UPDATE users SET ");
         for (Iterator<Map.Entry<String, String>> iterator = userMap.entrySet().iterator(); iterator.hasNext();) {
             Map.Entry<String, String> param = iterator.next();
             SQL.append(param.getKey()).append("=?");
@@ -80,24 +90,28 @@ public class UserDAO {
             }
         }
         SQL.append(" WHERE id=?");
-        jdbcDAO.withPreparedStatement(preparedStatement -> {
+        System.out.println("AND SQL STRING: " + SQL);
+        userMap.put("id", String.valueOf(updatedUser.getId()));
+        return jdbcDAO.mapPreparedStatement(preparedStatement -> {
             try {
                 preparedStatement.executeUpdate();
+                return Optional.of(toUpdate);
             } catch (SQLException e) {
                 e.printStackTrace();
+                return null;
             }
         }, SQL.toString(), userMap.values().toArray());
 
-        return Optional.of(toUpdate);
     }
 
-    public int deleteUserById(int id) {
+    public boolean deleteUserById(int id) {
         return jdbcDAO.mapPreparedStatement(preparedStatement -> {
             try {
-                return preparedStatement.executeUpdate();
+                preparedStatement.executeUpdate();
+                return true;
             } catch (SQLException e) {
                 e.printStackTrace();
-                return 0;
+                return false;
             }
         }, DELETE_USER_BY_ID, id);
 
@@ -166,26 +180,29 @@ public class UserDAO {
     private Map<String, String> getFieldsToUpdate(User updatedUser, User toUpdate) {
         Map<String, String> userMap = new LinkedHashMap<>();
         if (updatedUser.getFirstName() != null &&
-                !toUpdate.getFirstName().equals(updatedUser.getFirstName())) {
+                !toUpdate.getFirstName().equals(updatedUser.getFirstName().trim())
+                && !updatedUser.getFirstName().isEmpty()) {
             userMap.put(FIRSTNAME, updatedUser.getFirstName());
             toUpdate.setFirstName(updatedUser.getFirstName());
         }
         if (updatedUser.getLastName() != null &&
-                !toUpdate.getLastName().equals(updatedUser.getFirstName())) {
+                !toUpdate.getLastName().equals(updatedUser.getLastName().trim())
+                && !updatedUser.getLastName().isEmpty()) {
             userMap.put(LASTNAME, updatedUser.getLastName());
             toUpdate.setLastName(updatedUser.getLastName());
         }
         if (updatedUser.getEmail() != null &&
-                !toUpdate.getEmail().equals(updatedUser.getEmail())) {
+                !toUpdate.getEmail().equals(updatedUser.getEmail().trim())
+                && !updatedUser.getEmail().isEmpty()) {
             userMap.put(EMAIL, updatedUser.getEmail());
             toUpdate.setEmail(updatedUser.getEmail());
         }
         if (updatedUser.getPasswordHash() != null &&
-                !toUpdate.getPasswordHash().equals(updatedUser.getPasswordHash())) {
+                !toUpdate.getPasswordHash().equals(updatedUser.getPasswordHash().trim())
+                && !updatedUser.getPasswordHash().isEmpty()) {
             userMap.put(PASSWORD, updatedUser.getPasswordHash());
             toUpdate.setPasswordHash(updatedUser.getPasswordHash());
         }
-
         return userMap;
     }
 
