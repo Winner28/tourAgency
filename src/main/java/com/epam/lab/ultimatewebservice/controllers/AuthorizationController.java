@@ -9,18 +9,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.security.MessageDigest;
 
 @Controller
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class AuthorizationController {
 
-    private final AuthorizationService service;
+    private final AuthorizationService authorizationService;
     private static final String LOGGED_COOKIE = "userLoggedIn";
 
 
@@ -48,7 +46,7 @@ public class AuthorizationController {
             model.addAttribute("error", "Fields can`t be empty");
             return "authorization/login";
         }
-        User user = service.login(email, password);
+        User user = authorizationService.login(email, password);
         if (user == null) {
             model.addAttribute("error", "Your username or password is invalid.");
             return "authorization/login";
@@ -69,7 +67,7 @@ public class AuthorizationController {
                     return "redirect:/login";
                 }
                 int id = Integer.valueOf(value);
-                User user = service.getUserById(id);
+                User user = authorizationService.getUserById(id);
                 if (user == null) {
                     model.addAttribute("errorMessage", "Smth goes wrong");
                 }
