@@ -6,7 +6,7 @@
 
 <body>
 <h2>Create User</h2>
-<form:form method = "POST" action = "/users" modelAttribute="user">
+<form:form method = "POST" action = "/users/create" modelAttribute="user">
     <table>
         <tr>
             <td><form:label path = "firstName">First Name</form:label></td>

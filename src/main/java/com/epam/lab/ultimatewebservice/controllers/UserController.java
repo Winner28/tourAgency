@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 
 @Controller
@@ -101,6 +102,20 @@ public class UserController {
         model.addAttribute("message", "User successfully Updated!");
         model.addAttribute("user", updatedUser);
         return "user/showUser";
+    }
+
+    @RequestMapping(value = "/users/all", method = RequestMethod.GET)
+    public ModelAndView getAllUsers() {
+        ModelAndView modelAndView = new ModelAndView();
+        List<User> usersList = userService.getUsersList();
+        if (usersList == null) {
+            modelAndView.setViewName("user/error");
+            modelAndView.addObject("errorMessage", "We got null");
+            return modelAndView;
+        }
+        modelAndView.setViewName("user/showAllUsers");
+        modelAndView.addObject("userList", usersList);
+        return modelAndView;
     }
 
     private ModelAndView checkUserAndReturnModel(User user) {
