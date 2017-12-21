@@ -12,22 +12,19 @@ import java.util.Optional;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class AuthorizationService {
 
-    private UserDAO userDAO;
+    private final UserService userService;
 
-    public boolean login(String email, String password) {
-        Optional<User> optionalUser = userDAO.getUserByEmail(email);
-        if (!optionalUser.isPresent()) {
-            return false;
+    public User login(String email, String password) {
+        User user = userService.getUserByEmail(email);
+        if (user == null || (!user.getEmail().equals(email.trim())
+                && user.getPasswordHash().equals(password.trim()))) {
+            return null;
         }
-        User user = optionalUser.get();
-        return user.getEmail().equals(email.trim()) && user.getPasswordHash().equals(password.trim());
+        return user;
     }
 
-    public boolean logout() {
-        return false;
+    public User getUserById(int id) {
+        return userService.getUserById(id);
     }
 
-    public User getUserByEmail(String email) {
-        return userDAO.getUserByEmail(email).orElse(null);
-    }
 }

@@ -25,4 +25,8 @@ public class SessionManager {
         }
         return null;
     }
+
+    public static void userLogOut(Cookie cookie) {
+        SESSIONS.remove(cookie.getValue());
+    }
 }
