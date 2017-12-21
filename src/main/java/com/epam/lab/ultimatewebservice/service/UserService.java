@@ -1,6 +1,7 @@
 package com.epam.lab.ultimatewebservice.service;
 
 import com.epam.lab.ultimatewebservice.db.dao.UserDAO;
+import com.epam.lab.ultimatewebservice.entity.Permission;
 import com.epam.lab.ultimatewebservice.entity.User;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import java.util.Optional;
 public class UserService {
 
     private  UserDAO userDAO;
+    private PermissionService permissionService;
 
     public User getUserById(int id) {
         return userDAO.getUserById(id).orElse(null);
@@ -39,9 +41,23 @@ public class UserService {
         return userDAO.deleteUserById(id);
     }
 
-    public void addPermission(String permission) {
+    public boolean createPermission(Permission permission) {
+        return permissionService.createPermission(permission)!=null;
     }
 
-    public void updateUserPermission(int id, String permission) {
+    public boolean updatePermission(Permission permission) {
+       return permissionService.updatePermission(permission) != null;
+    }
+
+    public boolean deletePermission(int userId){
+        return permissionService.deletePermissionByUserId(userId);
+    }
+
+    public int getPermission(int userId) {
+        Permission permission = permissionService.getPermissionByUserId(userId);
+        if (permission == null) {
+            return 0;
+        }
+        return permission.getPermissionNameId();
     }
 }

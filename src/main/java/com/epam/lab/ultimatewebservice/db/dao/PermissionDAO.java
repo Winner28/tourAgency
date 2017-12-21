@@ -15,9 +15,9 @@ import java.util.Optional;
 public class PermissionDAO {
 
     private final static String ADD_USER_PERMISSION =
-            "INSERT INTO Permissions(user_id, permission_name_id) VALUES(?,?)";
+            "INSERT INTO permissions(user_id, permission_name_id) VALUES(?,?)";
     private final static String DELETE_USER_PERMISSION =
-            "DELETE FROM Permissions WHERE user_id=?";
+            "DELETE FROM permissions WHERE user_id=?";
     private final static String GET_USER_PERMISSION_BY_ID =
             "SELECT user_id, permission_name_id FROM permissions WHERE user_id=?";
     private final static String GET_ALL_USERS_ID_BY_PERMISSION_NAME_ID =
@@ -69,8 +69,9 @@ public class PermissionDAO {
                 return permission;
             } catch (SQLException e) {
                 e.printStackTrace();
+                return null;
             }
-            return null;
+
         }, ADD_USER_PERMISSION, permission.getUserId(), permission.getPermissionNameId()));
     }
 
@@ -80,8 +81,8 @@ public class PermissionDAO {
                 return preparedStatement.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();
+                return 0;
             }
-            return 0;
         }, DELETE_USER_PERMISSION, id);
     }
 
@@ -92,8 +93,9 @@ public class PermissionDAO {
                 return permission;
             } catch (SQLException e) {
                 e.printStackTrace();
+                return null;
             }
-            return null;
+
         },UPDATE_USER_PERMISSION, permission.getPermissionNameId(), permission.getUserId()));
     }
 

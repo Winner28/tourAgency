@@ -11,6 +11,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class PermissionService {
+
     private PermissionDAO permissionDAO;
 
     public Permission getPermissionByUserId(int userId){
