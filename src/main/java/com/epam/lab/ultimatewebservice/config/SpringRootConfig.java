@@ -27,13 +27,4 @@ public class SpringRootConfig {
         return dataSource;
     }
 
-   /* @Bean
-    public UserDAO getDao() {
-        return new UserDAO(getConnectionPool());
-    }
-
-    @Bean
-    public ConnectionPool getConnectionPool() {
-        return ConnectionPool.getInstance();
-    }*/
 }
