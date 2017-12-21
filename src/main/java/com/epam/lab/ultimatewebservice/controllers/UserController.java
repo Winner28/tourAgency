@@ -201,7 +201,9 @@ public class UserController {
         Cookie []cookies = request.getCookies();
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals(LOGGED_COOKIE)) {
-                int id = Integer.parseInt(SessionManager.checkIfUserLogined(cookie));
+                int id = SessionManager.getUserIdByCookie(cookie);
+                if (id == 0)
+                    return false;
                 int permission_id = userService.getPermission(id);
                 return permission_id == 1;
             }
