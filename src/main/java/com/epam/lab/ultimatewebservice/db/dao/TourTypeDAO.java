@@ -60,10 +60,11 @@ public class TourTypeDAO {
     }
 
     public Optional<TourType> addTourType(String tourType) {
-        return Optional.ofNullable(jdbcDAO.mapPreparedStatement(preparedStatement -> {
-            try {
-                ResultSet rs = preparedStatement.executeQuery();
-                return new TourType().setId(rs.getInt(ID)).setTourType(tourType);
+        return Optional.ofNullable(jdbcDAO.mapPreparedStatementFlagged(preparedStatement -> {
+            try (ResultSet rs = preparedStatement.getGeneratedKeys()){
+                return !rs.next() ? null : new TourType()
+                                    .setId(rs.getInt(ID))
+                                    .setTourType(TOUR_TYPE);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -92,7 +93,7 @@ public class TourTypeDAO {
                 e.printStackTrace();
             }
             return false;
-        },UPDATE_TOUR_BY_ID, tourType.getId(), tourType.getTourType());
+        },UPDATE_TOUR_BY_ID, tourType.getTourType(), tourType.getId());
     }
 
     public List<TourType> getAllTours() {
