@@ -94,8 +94,8 @@ public class AuthorizationController {
         return !email.isEmpty() && !password.isEmpty();
     }
 
-    @SneakyThrows
-    public String generateHash(User user) {
+
+    private String generateHash(User user) {
         return user.toString();
     }
 }
