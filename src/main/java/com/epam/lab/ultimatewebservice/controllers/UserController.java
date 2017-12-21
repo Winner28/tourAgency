@@ -14,22 +14,23 @@ import java.util.List;
 
 
 @Controller
+@RequestMapping("/users")
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class UserController {
 
     private final UserService userService;
     
-    @RequestMapping(value = "/users/id/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/id/{id}", method = RequestMethod.GET)
     public ModelAndView getUserById(@PathVariable(value = "id") int id) {
         return checkUserAndReturnModel(userService.getUserById(id));
     }
 
-    @RequestMapping(value = "/users/email/{email}", method = RequestMethod.GET)
+    @RequestMapping(value = "/email/{email}", method = RequestMethod.GET)
     public ModelAndView getUserByEmail(@PathVariable(value = "email") String email) {
         return checkUserAndReturnModel(userService.getUserByEmail(email));
     }
 
-    @RequestMapping(value = "/users/create", method = RequestMethod.GET)
+    @RequestMapping(value = "/create", method = RequestMethod.GET)
     public ModelAndView createUserPage() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("user/createUser");
@@ -37,7 +38,7 @@ public class UserController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/users/create", method = RequestMethod.POST)
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String creationOfUser(@ModelAttribute("user") User user, Model model,
                                  HttpServletRequest request) {
         User createdUser = userService.createUser(user);
@@ -53,7 +54,7 @@ public class UserController {
         return "user/showUser";
     }
 
-    @RequestMapping(value = "/users/delete/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
     public ModelAndView deleteUserById(@PathVariable String id) {
         User userToDelete = userService.getUserById(Integer.parseInt(id));
         if (userToDelete == null) {
@@ -72,7 +73,7 @@ public class UserController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/users/update/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
     public ModelAndView updateUserPage(@PathVariable String id) {
         ModelAndView modelAndView = new ModelAndView();
         User user = userService.getUserById(Integer.parseInt(id));
@@ -86,7 +87,7 @@ public class UserController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/users/update", method = RequestMethod.POST)
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String updateUser(@ModelAttribute User user, Model model,
                              HttpServletRequest request) {
         user.setId(Integer.parseInt(request.getParameter("id")));
@@ -104,7 +105,7 @@ public class UserController {
         return "user/showUser";
     }
 
-    @RequestMapping(value = "/users/all", method = RequestMethod.GET)
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
     public ModelAndView getAllUsers() {
         ModelAndView modelAndView = new ModelAndView();
         List<User> usersList = userService.getUsersList();
