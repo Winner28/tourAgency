@@ -85,15 +85,16 @@ public class PermissionDAO {
         }, DELETE_USER_PERMISSION, id);
     }
 
-    public int updatePermission(Permission permission) {
-        return jdbcDAO.mapPreparedStatement(preparedStatement -> {
+    public Optional<Permission> updatePermission(Permission permission) {
+        return Optional.ofNullable(jdbcDAO.mapPreparedStatement(preparedStatement -> {
             try {
-                return preparedStatement.executeUpdate();
+                preparedStatement.executeUpdate();
+                return permission;
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            return 0;
-        },UPDATE_USER_PERMISSION, permission.getPermissionNameId(), permission.getUserId());
+            return null;
+        },UPDATE_USER_PERMISSION, permission.getPermissionNameId(), permission.getUserId()));
     }
 
     public List<Integer> getUsersIdByPermissionNameId(int permissionId) {

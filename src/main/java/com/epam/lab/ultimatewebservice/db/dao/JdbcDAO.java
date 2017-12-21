@@ -93,7 +93,7 @@ public interface JdbcDAO extends Supplier<Connection> {
 
     default <T> T mapPreparedStatementFlagged(Function<PreparedStatement, T> preparedStatementMapper,
                                               String sql,
-                                              Object [] params) {
+                                              Object ... params) {
         return mapConnection(connection -> {
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql, RETURN_GENERATED_KEYS)) {
 
