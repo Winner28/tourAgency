@@ -19,7 +19,7 @@ public class SessionManager {
         }
     }
 
-    public static int checkIfUserLogined(Cookie cookie) {
+    public static int getUserIdByCookie(Cookie cookie) {
         if (cookie.getName().equals(COOKIE_NAME) && SESSIONS.get(cookie.getValue()) != null) {
                 return SESSIONS.get(cookie.getValue());
         }

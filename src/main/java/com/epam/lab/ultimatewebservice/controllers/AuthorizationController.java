@@ -3,7 +3,6 @@ package com.epam.lab.ultimatewebservice.controllers;
 import com.epam.lab.ultimatewebservice.entity.User;
 import com.epam.lab.ultimatewebservice.service.AuthorizationService;
 import lombok.AllArgsConstructor;
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,7 +26,7 @@ public class AuthorizationController {
         Cookie [] cookies = request.getCookies();
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals(LOGGED_COOKIE)) {
-                int id = SessionManager.checkIfUserLogined(cookie);
+                int id = SessionManager.getUserIdByCookie(cookie);
                 if (id == 0) {
                     return "authorization/login";
                 }
@@ -62,7 +61,7 @@ public class AuthorizationController {
         Cookie [] cookies = request.getCookies();
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals(LOGGED_COOKIE)) {
-                int id = SessionManager.checkIfUserLogined(cookie);
+                int id = SessionManager.getUserIdByCookie(cookie);
                 if (id == 0) {
                     return "redirect:/login";
                 }
