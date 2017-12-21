@@ -22,7 +22,7 @@ public class PermissionService {
     }
 
     public Permission updatePermission(Permission permission){
-        return null;//permissionDAO.updatePermission(permission).orElse(new Permission());
+        return permissionDAO.updatePermission(permission).orElse(new Permission());
     }
 
     public boolean deletePermissionByUserId(int userId){
