@@ -15,20 +15,20 @@ import java.util.Optional;
 public class PermissionDAO {
 
     private final static String ADD_USER_PERMISSION =
-            "INSERT INTO Permissions(userId, permissionNameId) VALUES(?,?)";
+            "INSERT INTO Permissions(user_id, permission_name_id) VALUES(?,?)";
     private final static String DELETE_USER_PERMISSION =
-            "DELETE FROM Permissions WHERE userId=?";
+            "DELETE FROM Permissions WHERE user_id=?";
     private final static String GET_USER_PERMISSION_BY_ID =
-            "SELECT userId, permissionNameId FROM Permissions WHERE userId=?";
+            "SELECT user_id, permission_name_id FROM permissions WHERE user_id=?";
     private final static String GET_ALL_USERS_ID_BY_PERMISSION_NAME_ID =
-            "SELECT userId, permissionNameId FROM Permissions WHERE permissionNameId=?";
+            "SELECT user_id, permission_name_id FROM permissions WHERE permission_name_id=?";
     private final static String GET_ALL_PERMISSIONS =
-            "SELECT userId, permissionNameId FROM Permissions";
+            "SELECT user_id, permission_name_id FROM permissions";
     private final static String UPDATE_USER_PERMISSION =
-            "UPDATE Permissions SET permissionNameId=? WHERE userId=?";
+            "UPDATE permissions SET permission_name_id=? WHERE user_id=?";
 
-    private final static String ID = "userId";
-    private final static String PERMISSION = "permissionNameId";
+    private final static String ID = "user_id";
+    private final static String PERMISSION = "permission_name_id";
 
 
     private JdbcDAO jdbcDAO;
