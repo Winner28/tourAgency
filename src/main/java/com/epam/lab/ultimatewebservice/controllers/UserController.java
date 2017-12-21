@@ -19,15 +19,11 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
-    
-    @RequestMapping(value = "/id/{id}", method = RequestMethod.GET)
-    public ModelAndView getUserById(@PathVariable(value = "id") int id) {
-        return checkUserAndReturnModel(userService.getUserById(id));
-    }
 
-    @RequestMapping(value = "/email/{email}", method = RequestMethod.GET)
-    public ModelAndView getUserByEmail(@PathVariable(value = "email") String email) {
-        return checkUserAndReturnModel(userService.getUserByEmail(email));
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public ModelAndView getUserById(@PathVariable(value = "id") int id) {
+        System.out.println("TEST");
+        return checkUserAndReturnModel(userService.getUserById(id));
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
