@@ -6,7 +6,7 @@
 
 <body>
 <h2>Create Tour</h2>
-<form:form method = "POST" action = "/tour/create" modelAttribute="tour">
+<form:form method = "POST" action = "/tours/create" modelAttribute="tour">
     <table>
         <tr>
             <td><form:label path = "duration">Duration</form:label></td>

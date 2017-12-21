@@ -21,6 +21,7 @@ import java.util.List;
 @RequestMapping("/tours")
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class TourController {
+
     private final TourService tourService;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)

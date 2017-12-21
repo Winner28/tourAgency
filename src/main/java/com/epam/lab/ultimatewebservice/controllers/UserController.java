@@ -22,7 +22,6 @@ public class UserController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ModelAndView getUserById(@PathVariable(value = "id") int id) {
-        System.out.println("TEST");
         return checkUserAndReturnModel(userService.getUserById(id));
     }
 
