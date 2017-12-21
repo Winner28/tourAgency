@@ -3,14 +3,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Gradle + Spring MVC</title>
+    <title>Error</title>
 
-<spring:url value="/resources/core/css/hello.css" var="coreCss" />
-<spring:url value="/resources/core/css/bootstrap.min.css" var="bootstrapCss" />
-<link href="${bootstrapCss}" rel="stylesheet" />
-<link href="${coreCss}" rel="stylesheet" />
+    <spring:url value="/resources/core/css/hello.css" var="coreCss" />
+    <spring:url value="/resources/core/css/bootstrap.min.css" var="bootstrapCss" />
+    <link href="${bootstrapCss}" rel="stylesheet" />
+    <link href="${coreCss}" rel="stylesheet" />
 </head>
-<h1> Tour Page</h1>
+<h1>ERROR</h1>
+<br>
+
+<h1>${errorMessage.toUpperCase()}</h1>
 
 
 <spring:url value="/resources/core/css/hello.js" var="coreJs" />
