@@ -15,11 +15,11 @@ public class OrderDAO {
     private static final String ADD_ORDER =
             "INSERT INTO orders(date, active, tourId, userId) VALUES(?,?,?,?)";
     private static final String GET_ORDER_BY_ID =
-            "SELECT (date, active, tourId, userId) FROM orders WHERE id=?";
+            "SELECT date, active, tourId, userId FROM orders WHERE id=?";
     private static final String GET_ORDERS_BY_TOUR_ID =
-            "SELECT (id, date, active, tourId, userId) FROM orders WHERE tourId=?";
+            "SELECT id, date, active, tourId, userId FROM orders WHERE tourId=?";
     private static final String GET_ORDERS_BY_USER_ID =
-            "SELECT (id, date, active, tourId, userId) FROM orders WHERE userId=?";
+            "SELECT id, date, active, tourId, userId FROM orders WHERE userId=?";
     private static final String DELETE_ORDER_BY_ID =
             "DELETE FROM orders WHERE id=?";
     private static final String UPDATE_ORDER = "UPDATE orders SET date=?, active=?, tourId=?, userId=? WHERE id=?";
