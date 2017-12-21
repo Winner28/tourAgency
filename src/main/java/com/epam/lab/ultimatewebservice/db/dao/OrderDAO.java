@@ -7,9 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Component
 public class OrderDAO {
@@ -48,15 +46,25 @@ public class OrderDAO {
 
     public Optional<Order> addOrder(Order order){
         return Optional.ofNullable(
-                jdbcDAO.mapPreparedStatement(preparedStatement -> {
+                jdbcDAO.mapPreparedStatementFlagged(preparedStatement -> {
                     try {
                         preparedStatement.executeUpdate();
-                        return order;
                     } catch (SQLException e) {
                         e.printStackTrace();
                         return null;
                     }
-                }, ADD_ORDER, order.getDate(), order.getActive(), order.getTourId(), order.getUserId())
+                    try (ResultSet rs = preparedStatement.getGeneratedKeys()) {
+                        return !rs.next() ? null : new Order()
+                                .setId(rs.getInt(1))
+                                .setDate(order.getDate())
+                                .setActive(order.isActive())
+                                .setTourId(order.getTourId())
+                                .setUserId(order.getUserId());
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                }, ADD_ORDER, order.getDate(), order.isActive(), order.getTourId(), order.getUserId())
         );
     }
 
@@ -67,7 +75,7 @@ public class OrderDAO {
                     return new Order()
                             .setId(id)
                             .setDate(resultSet.getString(DATE))
-                            .setActive(resultSet.getString(ACTIVE))
+                            .setActive(resultSet.getBoolean(ACTIVE))
                             .setTourId(resultSet.getInt(TOUR_ID))
                             .setUserId(resultSet.getInt(USER_ID));
                 }
@@ -87,7 +95,7 @@ public class OrderDAO {
                     orderList.add(new Order()
                             .setId(rs.getInt(ID))
                             .setDate(rs.getString(DATE))
-                            .setActive(rs.getString(ACTIVE))
+                            .setActive(rs.getBoolean(ACTIVE))
                             .setTourId(rs.getInt(TOUR_ID))
                             .setUserId(rs.getInt(USER_ID))
                     );
@@ -107,7 +115,7 @@ public class OrderDAO {
                     orderList.add(new Order()
                             .setId(rs.getInt(ID))
                             .setDate(rs.getString(DATE))
-                            .setActive(rs.getString(ACTIVE))
+                            .setActive(rs.getBoolean(ACTIVE))
                             .setTourId(rs.getInt(TOUR_ID))
                             .setUserId(rs.getInt(USER_ID))
                     );
@@ -130,28 +138,60 @@ public class OrderDAO {
         }, DELETE_ORDER_BY_ID, id);
     }
 
-    public Optional<Order> updateOrder(Order order){
-        Optional<Order> orderToUpdate = getOrderById(order.getId());
+    public Optional<Order> updateOrder(Order newValue){
+        Optional<Order> orderToUpdate = getOrderById(newValue.getId());
         if (!orderToUpdate.isPresent()) {
             return Optional.empty();
         }
-        return Optional.ofNullable(jdbcDAO.mapPreparedStatement(preparedStatement -> {
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    return new Order()
-                            .setId(resultSet.getInt(ID))
-                            .setDate(resultSet.getString(DATE))
-                            .setActive(resultSet.getString(ACTIVE))
-                            .setTourId(resultSet.getInt(TOUR_ID))
-                            .setUserId(resultSet.getInt(USER_ID));
-                }
-                return null;
+        Order oldValue = orderToUpdate.get();
+        Map<String, String> toUpdate = getFieldsToUpdate(newValue, oldValue);
+        if(toUpdate.size() == 0){
+            return Optional.ofNullable(oldValue);
+        }
+        StringBuilder SQLRequest = new StringBuilder("UPDATE orders SET ");
+        for (Iterator<Map.Entry<String, String>> iterator = toUpdate.entrySet().iterator(); iterator.hasNext();) {
+            Map.Entry<String, String> param = iterator.next();
+            SQLRequest.append(param.getKey()).append("=?");
+            if (iterator.hasNext()) {
+                SQLRequest.append(", ");
+            } else {
+                SQLRequest.append(" ");
+            }
+        }
+        SQLRequest.append(" WHERE id=?");
+        toUpdate.put(ID, String.valueOf(newValue.getId()));
+        return jdbcDAO.mapPreparedStatement(preparedStatement -> {
+            try {
+                preparedStatement.executeUpdate();
+                return Optional.of(oldValue);
             } catch (SQLException e) {
                 e.printStackTrace();
                 return null;
             }
-        }, UPDATE_ORDER, order.getDate(), order.getActive(), order.getTourId(), order.getUserId(), order.getId()));
+        }, SQLRequest.toString(), toUpdate.values().toArray());
+    }
 
+    private Map<String, String> getFieldsToUpdate(Order newValue, Order oldValue){
+        Map<String, String> toUpdate = new LinkedHashMap<>();
+        if (newValue.getDate() != null &&
+                !oldValue.getDate().equals(newValue.getDate().trim())
+                && !newValue.getDate().isEmpty()) {
+            toUpdate.put(DATE, newValue.getDate());
+            oldValue.setDate(newValue.getDate());
+        }
+        if (oldValue.isActive() != newValue.isActive()) {
+            toUpdate.put(ACTIVE, String.valueOf(newValue.isActive()));
+            oldValue.setActive(newValue.isActive());
+        }
+        if (oldValue.getTourId() != newValue.getTourId()) {
+            toUpdate.put(TOUR_ID, String.valueOf(newValue.getTourId()));
+            oldValue.setTourId(newValue.getTourId());
+        }
+        if (oldValue.getUserId() != newValue.getUserId()) {
+            toUpdate.put(USER_ID, String.valueOf(newValue.getUserId()));
+            oldValue.setUserId(newValue.getUserId());
+        }
+        return toUpdate;
     }
 
 }
