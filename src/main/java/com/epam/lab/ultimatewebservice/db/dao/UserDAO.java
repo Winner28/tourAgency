@@ -5,6 +5,7 @@ import com.epam.lab.ultimatewebservice.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.xml.transform.Result;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
@@ -46,14 +47,18 @@ public class UserDAO {
     }
 
     public Optional<User> addUser(User user) {
-        return Optional.ofNullable(jdbcDAO.mapPreparedStatement(preparedStatement -> {
-            try {
-                preparedStatement.executeUpdate();
+        return Optional.ofNullable(jdbcDAO.mapPreparedStatementFlagged(preparedStatement -> {
+            try (ResultSet rs = preparedStatement.getGeneratedKeys()) {
+                return !rs.next() ? null : new User()
+                        .setId(rs.getInt(ID))
+                        .setFirstName(FIRSTNAME)
+                        .setLastName(LASTNAME)
+                        .setEmail(EMAIL)
+                        .setPasswordHash(PASSWORD);
             } catch (SQLException e) {
                 e.printStackTrace();
-                return null;
             }
-            return getUserByEmail(user.getEmail()).get();
+            return null;
         }, ADD_USER, user.getFirstName(), user.getLastName(), user.getEmail(), user.getPasswordHash()));
     }
 
