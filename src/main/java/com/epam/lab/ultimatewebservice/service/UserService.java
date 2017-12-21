@@ -36,9 +36,12 @@ public class UserService {
     }
 
     public boolean deleteUserById(int id){
-        return userDAO.deleteUserById(id) > 0;
+        return userDAO.deleteUserById(id);
     }
 
     public void addPermission(String permission) {
+    }
+
+    public void updateUserPermission(int id, String permission) {
     }
 }

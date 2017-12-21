@@ -10,6 +10,7 @@
 <link href="${bootstrapCss}" rel="stylesheet" />
 <link href="${coreCss}" rel="stylesheet" />
 </head>
+<h1>${message.toUpperCase()}</h1>
 <h1>User information</h1>
 <br>
 <h3>User id: ${user.id}</h3>
