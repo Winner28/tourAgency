@@ -15,13 +15,13 @@ import java.util.Optional;
 public class TourTypeDAO {
 
     private final static String ADD_TOUR =
-            "INSERT INTO Tour_Types (tour_type) VALUES(?)";
+            "INSERT INTO tour_types (tour_type) VALUES(?)";
     private final static String DELETE_TOUR =
-            "DELETE FROM Tour_Types WHERE id=?";
+            "DELETE FROM tour_types WHERE id=?";
     private final static String GET_ALL_TOURS =
-            "SELECT id, tour_type FROM Tour_Types";
+            "SELECT id, tour_type FROM tour_types";
     private final static String GET_TOUR_BY_ID =
-            "SELECT id, tour_type FROM Tour_Types WHERE id=?";
+            "SELECT id, tour_type FROM tour_types WHERE id=?";
     private final static String UPDATE_TOUR_BY_ID =
             "UPDATE Tour_Types SET tour_type=? WHERE id=?";
 
