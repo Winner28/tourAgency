@@ -63,8 +63,8 @@ public class TourDAO {
                         .setTourTypesId(tour.getTourTypesId());
             } catch (SQLException e) {
                 e.printStackTrace();
+                return null;
             }
-            return null;
         }, ADD_TOUR, tour.isHot(), tour.getPrice(), tour.getDuration(), tour.getAgentId(), tour.isActive(), tour.getTourTypesId()));
     }
 

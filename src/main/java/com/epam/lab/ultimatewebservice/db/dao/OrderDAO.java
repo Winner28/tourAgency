@@ -62,8 +62,8 @@ public class OrderDAO {
                                 .setUserId(order.getUserId());
                     } catch (SQLException e) {
                         e.printStackTrace();
+                        return null;
                     }
-                    return null;
                 }, ADD_ORDER, order.getDate(), order.isActive(), order.getTourId(), order.getUserId())
         );
     }
