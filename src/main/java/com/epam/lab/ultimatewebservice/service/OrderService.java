@@ -28,6 +28,10 @@ public class OrderService {
         return orderDAO.getOrdersByUserId(id);
     }
 
+    public List<Order> getOrdersByTourId(int tourId) {
+        return orderDAO.getOrdersByTourId(tourId);
+    }
+
     public Order getOrderById(int id) {
         return orderDAO.getOrderById(id).orElse(null);
     }
