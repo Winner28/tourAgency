@@ -209,7 +209,7 @@ public class UserController {
             }
         }
 
-        return true;
+        return false;
     }
 
     private ModelAndView accessDeniedView() {

@@ -28,4 +28,8 @@ public class OrderService {
         return orderDAO.getOrdersByUserId(id);
     }
 
+    public Order getOrderById(int id) {
+        return orderDAO.getOrderById(id).orElse(null);
+    }
+
 }
