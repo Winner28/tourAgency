@@ -205,11 +205,11 @@ public class UserController {
                 if (id == 0)
                     return false;
                 int permission_id = userService.getPermission(id);
-                return permission_id == 1;
+                return permission_id == 2;
             }
         }
 
-        return true;
+        return false;
     }
 
     private ModelAndView accessDeniedView() {
