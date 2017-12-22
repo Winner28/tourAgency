@@ -28,16 +28,16 @@ CREATE TABLE IF NOT EXISTS `mydb`.`tour_types` (
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
-INSERT INTO `tours` (`id`,`tour_type`) VALUES (1,"sightseeing"),(2,"transfer"),(3,"sightseeing"),(4,"shopping"),(5,"excursion"),(6,"excursion"),(7,"shopping"),(8,"transfer"),(9,"transfer"),(10,"transfer");
-INSERT INTO `tours` (`id`,`tour_type`) VALUES (11,"sightseeing"),(12,"transfer"),(13,"sightseeing"),(14,"excursion"),(15,"shopping"),(16,"shopping"),(17,"sightseeing"),(18,"transfer"),(19,"transfer"),(20,"sightseeing");
-INSERT INTO `tours` (`id`,`tour_type`) VALUES (21,"sightseeing"),(22,"shopping"),(23,"transfer"),(24,"transfer"),(25,"sightseeing"),(26,"sightseeing"),(27,"shopping"),(28,"transfer"),(29,"excursion"),(30,"shopping");
-INSERT INTO `tours` (`id`,`tour_type`) VALUES (31,"shopping"),(32,"sightseeing"),(33,"transfer"),(34,"shopping"),(35,"excursion"),(36,"transfer"),(37,"excursion"),(38,"excursion"),(39,"sightseeing"),(40,"excursion");
-INSERT INTO `tours` (`id`,`tour_type`) VALUES (41,"transfer"),(42,"shopping"),(43,"shopping"),(44,"transfer"),(45,"transfer"),(46,"excursion"),(47,"excursion"),(48,"excursion"),(49,"shopping"),(50,"sightseeing");
-INSERT INTO `tours` (`id`,`tour_type`) VALUES (51,"shopping"),(52,"sightseeing"),(53,"sightseeing"),(54,"excursion"),(55,"sightseeing"),(56,"sightseeing"),(57,"shopping"),(58,"shopping"),(59,"shopping"),(60,"excursion");
-INSERT INTO `tours` (`id`,`tour_type`) VALUES (61,"sightseeing"),(62,"excursion"),(63,"sightseeing"),(64,"shopping"),(65,"shopping"),(66,"shopping"),(67,"shopping"),(68,"shopping"),(69,"sightseeing"),(70,"sightseeing");
-INSERT INTO `tours` (`id`,`tour_type`) VALUES (71,"excursion"),(72,"excursion"),(73,"excursion"),(74,"excursion"),(75,"transfer"),(76,"sightseeing"),(77,"excursion"),(78,"shopping"),(79,"transfer"),(80,"transfer");
-INSERT INTO `tours` (`id`,`tour_type`) VALUES (81,"transfer"),(82,"sightseeing"),(83,"shopping"),(84,"excursion"),(85,"transfer"),(86,"sightseeing"),(87,"sightseeing"),(88,"sightseeing"),(89,"sightseeing"),(90,"excursion");
-INSERT INTO `tours` (`id`,`tour_type`) VALUES (91,"sightseeing"),(92,"transfer"),(93,"shopping"),(94,"shopping"),(95,"sightseeing"),(96,"shopping"),(97,"transfer"),(98,"transfer"),(99,"sightseeing"),(100,"sightseeing");
+INSERT INTO `tour_types` (`id`,`tour_type`) VALUES (1,"sightseeing"),(2,"transfer"),(3,"sightseeing"),(4,"shopping"),(5,"excursion"),(6,"excursion"),(7,"shopping"),(8,"transfer"),(9,"transfer"),(10,"transfer");
+INSERT INTO `tour_types` (`id`,`tour_type`) VALUES (11,"sightseeing"),(12,"transfer"),(13,"sightseeing"),(14,"excursion"),(15,"shopping"),(16,"shopping"),(17,"sightseeing"),(18,"transfer"),(19,"transfer"),(20,"sightseeing");
+INSERT INTO `tour_types` (`id`,`tour_type`) VALUES (21,"sightseeing"),(22,"shopping"),(23,"transfer"),(24,"transfer"),(25,"sightseeing"),(26,"sightseeing"),(27,"shopping"),(28,"transfer"),(29,"excursion"),(30,"shopping");
+INSERT INTO `tour_types` (`id`,`tour_type`) VALUES (31,"shopping"),(32,"sightseeing"),(33,"transfer"),(34,"shopping"),(35,"excursion"),(36,"transfer"),(37,"excursion"),(38,"excursion"),(39,"sightseeing"),(40,"excursion");
+INSERT INTO `tour_types` (`id`,`tour_type`) VALUES (41,"transfer"),(42,"shopping"),(43,"shopping"),(44,"transfer"),(45,"transfer"),(46,"excursion"),(47,"excursion"),(48,"excursion"),(49,"shopping"),(50,"sightseeing");
+INSERT INTO `tour_types` (`id`,`tour_type`) VALUES (51,"shopping"),(52,"sightseeing"),(53,"sightseeing"),(54,"excursion"),(55,"sightseeing"),(56,"sightseeing"),(57,"shopping"),(58,"shopping"),(59,"shopping"),(60,"excursion");
+INSERT INTO `tour_types` (`id`,`tour_type`) VALUES (61,"sightseeing"),(62,"excursion"),(63,"sightseeing"),(64,"shopping"),(65,"shopping"),(66,"shopping"),(67,"shopping"),(68,"shopping"),(69,"sightseeing"),(70,"sightseeing");
+INSERT INTO `tour_types` (`id`,`tour_type`) VALUES (71,"excursion"),(72,"excursion"),(73,"excursion"),(74,"excursion"),(75,"transfer"),(76,"sightseeing"),(77,"excursion"),(78,"shopping"),(79,"transfer"),(80,"transfer");
+INSERT INTO `tour_types` (`id`,`tour_type`) VALUES (81,"transfer"),(82,"sightseeing"),(83,"shopping"),(84,"excursion"),(85,"transfer"),(86,"sightseeing"),(87,"sightseeing"),(88,"sightseeing"),(89,"sightseeing"),(90,"excursion");
+INSERT INTO `tour_types` (`id`,`tour_type`) VALUES (91,"sightseeing"),(92,"transfer"),(93,"shopping"),(94,"shopping"),(95,"sightseeing"),(96,"shopping"),(97,"transfer"),(98,"transfer"),(99,"sightseeing"),(100,"sightseeing");
 
 
 -- -----------------------------------------------------
