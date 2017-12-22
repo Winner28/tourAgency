@@ -5,6 +5,7 @@ import com.epam.lab.ultimatewebservice.entity.Tour;
 import com.epam.lab.ultimatewebservice.entity.User;
 import com.epam.lab.ultimatewebservice.service.TourService;
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,12 +25,6 @@ public class TourController {
 
     private final TourService tourService;
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ModelAndView getTourById(@PathVariable(value = "id") int id) {
-        System.out.println("TEST");
-        return checkTourAndReturnModel(tourService.getTourById(id));
-    }
-
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public ModelAndView createTourPage() {
         ModelAndView modelAndView = new ModelAndView();
@@ -39,12 +34,20 @@ public class TourController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String creationOfTour(@ModelAttribute("tour") Tour tour, Model model,
-                                 HttpServletRequest request) {
+    public String tourCreation(@ModelAttribute("tour") Tour tour, Model model,
+                               HttpServletRequest request) {
+        @NonNull
+        int tourTypeId = tour.getTourTypesId();
+        @NonNull
+        int tourAgentId = tour.getAgentId();
+        @NonNull
+        int tourDaration = tour.getDuration();
+        @NonNull
+        double tourPrice = tour.getPrice();
+
+
         Tour createdTour = tourService.createTour(tour);
-        String permission = request.getParameter("permission");
         if (createdTour == null) {
-            System.out.println(createdTour);
             model.addAttribute("errorMessage", "Error when we try to create tour");
             return "tour/error";
         }
@@ -89,7 +92,6 @@ public class TourController {
                              HttpServletRequest request) {
         tour.setId(Integer.parseInt(request.getParameter("id")));
         Tour updatedTour = tourService.updateTour(tour);
-//        String permission = request.getParameter("permission");
         if (updatedTour == null) {
             model.addAttribute("errorMessage", "Error when we try to update tour");
             return "tour/error";

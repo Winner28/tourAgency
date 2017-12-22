@@ -17,8 +17,12 @@
             <td><form:input path = "price" /></td>
         </tr>
         <tr>
-            <td><form:label path = "tourTypesId">Email</form:label></td>
-            <td><form:input path = "tourTypesId" /></td>
+        <td><form:label path = "tourTypesId">Tout Type ID</form:label></td>
+        <td><form:input path = "tourTypesId" /></td>
+    </tr>
+        <tr>
+            <td><form:label path = "agentId">Agent ID</form:label></td>
+            <td><form:input path = "agentId" /></td>
         </tr>
         <tr>
             <td><input type="radio" name="active" value="1"/>Active</td>

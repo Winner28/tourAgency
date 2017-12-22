@@ -15,18 +15,13 @@ public class TourService {
 
     private TourDAO tourDAO;
 
-    public Tour getTourById(int id) { return tourDAO.getTourById(id).orElse(null);
-    }
+    public Tour getTourById(int id) { return tourDAO.getTourById(id).orElse(null);}
 
-    public Tour createTour(Tour tour) { return tourDAO.addTour(tour).orElse(null);
-    }
+    public Tour createTour(Tour tour) { return tourDAO.addTour(tour).orElse(null);}
 
-    public boolean deleteTourById(int id) {return tourDAO.deleteTourById(id);
-    }
+    public boolean deleteTourById(int id) {return tourDAO.deleteTourById(id);}
 
-    public Tour updateTour(Tour tour) { return tourDAO.updateUser(tour).orElse(null);
-    }
+    public Tour updateTour(Tour tour) { return tourDAO.updateUser(tour).orElse(null);}
 
-    public List<Tour> getTourList() { return tourDAO.getAllTours();
-    }
+    public List<Tour> getTourList() { return tourDAO.getAllTours();}
 }
