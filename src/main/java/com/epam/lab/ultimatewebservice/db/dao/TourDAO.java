@@ -104,13 +104,14 @@ public class TourDAO {
 
     }
 
-    public int deleteTourById(int id) {
+    public boolean deleteTourById(int id) {
         return jdbcDAO.mapPreparedStatement(preparedStatement -> {
             try {
-                return preparedStatement.executeUpdate();
+                preparedStatement.executeUpdate();
+                return true;
             } catch (SQLException e) {
                 e.printStackTrace();
-                return 0;
+                return false;
             }
         }, DELETE_TOUR_BY_ID, id);
 
