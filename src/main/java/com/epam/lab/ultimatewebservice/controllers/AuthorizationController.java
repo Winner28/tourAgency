@@ -24,6 +24,9 @@ public class AuthorizationController {
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String loginPage(HttpServletRequest request) {
         Cookie [] cookies = request.getCookies();
+        if (cookies == null) {
+            return "authorization/login";
+        }
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals(LOGGED_COOKIE)) {
                 int id = SessionManager.getUserIdByCookie(cookie);
@@ -59,6 +62,9 @@ public class AuthorizationController {
     @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
     public String userPage(HttpServletRequest request, Model model) {
         Cookie [] cookies = request.getCookies();
+        if(cookies == null){
+            return "redirect:/login";
+        }
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals(LOGGED_COOKIE)) {
                 int id = SessionManager.getUserIdByCookie(cookie);
