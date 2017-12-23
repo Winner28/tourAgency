@@ -25,7 +25,7 @@ public class OrderController {
     private static final String LOGGED_COOKIE = "userLoggedIn";
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ModelAndView getOrderById(@PathVariable(value = "id") int id, HttpServletRequest request) {
+    public ModelAndView getOrderById(@PathVariable int id, HttpServletRequest request) {
         if (!checkAccess(request)) {
             return accessDeniedView();
         }
@@ -55,23 +55,15 @@ public class OrderController {
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String createOrder(@ModelAttribute("order") Order order, Model model,
-                                    HttpServletRequest request){
-        if(order.getUserId() == 0){
-            model.addAttribute("errorMessage", "UserId is not defined!");
-            return "order/error";
-        }
-        if(order.getTourId() == 0){
-            model.addAttribute("errorMessage", "TourId is not defined!");
-            return "order/error";
-        }
-        if(order.getDate() == null){
-            model.addAttribute("errorMessage", "Date is not defined!");
+                              HttpServletRequest request) {
+        if (!checkOrder(order)) {
+            model.addAttribute("errorMessage", "Order has wrong parameters!");
             return "order/error";
         }
 
         Order createdOrder = orderService.addOrder(order);
 
-        if(createdOrder == null){
+        if (createdOrder == null) {
             model.addAttribute("errorMessage", "Error when we try to create order");
             return "order/error";
         }
@@ -81,14 +73,14 @@ public class OrderController {
         return "order/showOrder";
     }
 
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    public ModelAndView deleteOrderById(@PathVariable String id){
-        Order orderToDelete = orderService.getOrderById(Integer.parseInt(id));
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public ModelAndView deleteOrderById(@PathVariable int id) {
+        Order orderToDelete = orderService.getOrderById(id);
         if (orderToDelete == null) {
             return new ModelAndView("order/error", "errorMessage",
                     "Order with such id don't exist");
         }
-        if (!orderService.deleteOrder(Integer.parseInt(id))) {
+        if (!orderService.deleteOrder(id)) {
             return new ModelAndView("order/error", "errorMessage",
                     "Something goes wrong when we trying to delete order");
         }
@@ -101,7 +93,7 @@ public class OrderController {
     }
 
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
-    public ModelAndView updateOrderPage(@PathVariable int id, HttpServletRequest request){
+    public ModelAndView updateOrderPage(@PathVariable int id, HttpServletRequest request) {
         if (!checkAccess(request)) {
             return accessDeniedView();
         }
@@ -119,22 +111,19 @@ public class OrderController {
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String updateOrder(@ModelAttribute("order") Order order, Model model,
-                              HttpServletRequest request){
+                              HttpServletRequest request) {
+        if (!checkOrder(order)) {
+            model.addAttribute("errorMessage", "Order has wrong parameters!");
+            return "order/error";
+        }
         order.setId(Integer.parseInt(request.getParameter("id")));
-        if(order.getUserId() == 0){
-            model.addAttribute("errorMessage", "UserId is not defined!");
-            return "order/error";
-        }
-        if(order.getTourId() == 0){
-            model.addAttribute("errorMessage", "TourId is not defined!");
-            return "order/error";
-        }
-        if(order.getDate() == null){
-            model.addAttribute("errorMessage", "Date is not defined!");
+        Order orderToUpdate = orderService.getOrderById(order.getId());
+        if (orderToUpdate == null) {
+            model.addAttribute("errorMessage", "Order with such id don't exist!");
             return "order/error";
         }
         Order updatedOrder = orderService.updateOrder(order);
-        if(updatedOrder == null){
+        if (updatedOrder == null) {
             model.addAttribute("errorMessage", "Error when we try to update order");
             return "order/error";
         }
@@ -149,7 +138,7 @@ public class OrderController {
             return accessDeniedView();
         }
         ModelAndView modelAndView = new ModelAndView();
-        Cookie[]cookies = request.getCookies();
+        Cookie[] cookies = request.getCookies();
         int id = 0;
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals(LOGGED_COOKIE)) {
@@ -173,12 +162,12 @@ public class OrderController {
     }
 
     private ModelAndView accessDeniedView() {
-        return new ModelAndView("order/error","errorMessage",
+        return new ModelAndView("order/error", "errorMessage",
                 "Bad access. Your request denied");
     }
 
     private boolean checkAccess(HttpServletRequest request) {
-        Cookie[]cookies = request.getCookies();
+        Cookie[] cookies = request.getCookies();
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals(LOGGED_COOKIE)) {
                 int id = SessionManager.getUserIdByCookie(cookie);
@@ -188,6 +177,10 @@ public class OrderController {
             }
         }
         return false;
+    }
+
+    private boolean checkOrder(Order order) {
+        return !(order.getDate().isEmpty()) && !(order.getTourId() == 0) && !(order.getUserId() == 0);
     }
 
 }
