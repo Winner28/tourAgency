@@ -49,12 +49,12 @@ public class UserController {
         String permission = request.getParameter("permission");
         if (!checkValidation(user) || permission == null) {
             model.addAttribute("errorMessage", "Error when we try to create user, some fields are empty");
-            return "user/error";
+            return "errors/error";
         }
         User createdUser = userService.createUser(user);
         if (createdUser == null) {
             model.addAttribute("errorMessage", "Error when we try to create user");
-            return "user/error";
+            return "errors/error";
         }
         userService.createPermission(new Permission().setUserId(createdUser.getId()).
                 setPermissionNameId(Integer.parseInt(permission)));
@@ -67,11 +67,11 @@ public class UserController {
     public ModelAndView deleteUserById(@PathVariable String id) {
         User userToDelete = userService.getUserById(Integer.parseInt(id));
         if (userToDelete == null) {
-            return new ModelAndView("user/error", "errorMessage",
+            return new ModelAndView("errors/error", "errorMessage",
                     "User with such id dont exists");
         }
         if (!userService.deleteUserById(Integer.parseInt(id))) {
-            return new ModelAndView("user/error", "errorMessage",
+            return new ModelAndView("errors/error", "errorMessage",
                     "Smth goes wrong when we trying to delete user");
         }
         ModelAndView modelAndView = new ModelAndView();
@@ -90,7 +90,7 @@ public class UserController {
         ModelAndView modelAndView = new ModelAndView();
         User user = userService.getUserById(Integer.parseInt(id));
         if (user == null) {
-            modelAndView.setViewName("user/error");
+            modelAndView.setViewName("errors/error");
             modelAndView.addObject("errorMessage", "We dont have user with such id");
             return modelAndView;
         }
@@ -104,7 +104,7 @@ public class UserController {
         ModelAndView modelAndView = new ModelAndView();
         String id = request.getParameter("id");
         if (id == null) {
-            modelAndView.setViewName("user/error");
+            modelAndView.setViewName("errors/error");
             modelAndView.addObject("errorMessage", "We dont have user with such id");
             return modelAndView;
         }
@@ -113,7 +113,7 @@ public class UserController {
         }
         User user = userService.getUserById(Integer.parseInt(id));
         if (user == null) {
-            modelAndView.setViewName("user/error");
+            modelAndView.setViewName("errors/error");
             modelAndView.addObject("errorMessage", "We dont have user with such id");
             return modelAndView;
         }
@@ -130,7 +130,7 @@ public class UserController {
         String permission = request.getParameter("permission");
         if (updatedUser == null) {
             model.addAttribute("errorMessage", "Error when we try to update user");
-            return "user/error";
+            return "errors/error";
         }
         if (permission != null) {
             userService.updatePermission(new Permission().setUserId(updatedUser.getId())
@@ -149,7 +149,7 @@ public class UserController {
         ModelAndView modelAndView = new ModelAndView();
         List<User> usersList = userService.getUsersList();
         if (usersList == null) {
-            modelAndView.setViewName("user/error");
+            modelAndView.setViewName("errors/error");
             modelAndView.addObject("errorMessage", "We got null");
             return modelAndView;
         }
@@ -173,17 +173,21 @@ public class UserController {
     public String createPermission(@ModelAttribute Permission permission, Model model) {
         if(!userService.createPermission(permission)) {
             model.addAttribute("errorMessage", "Error when creating permission");
-            return "user/error";
+            return "errors/error";
         }
         model.addAttribute("message", "Successfully created!");
         return "user/info";
     }
 
-    @RequestMapping(value = "/permissions/delete/{user_id}", method = RequestMethod.POST)
-    public String deletePermission(@PathVariable int user_id, Model model) {
-        if (!userService.deletePermission(user_id)) {
+    @RequestMapping(value = "/permissions/delete", method = RequestMethod.POST)
+    public String deletePermission(HttpServletRequest request,Model model) {
+        if (request.getParameter("id") == null) {
+            model.addAttribute("errorMessage", "Id can not be null");
+            return "errors/error";
+        }
+        if (!userService.deletePermission(Integer.parseInt(request.getParameter("id")))) {
             model.addAttribute("errorMessage", "Error when try to delete user Permission");
-            return "user/error";
+            return "errors/error";
         }
         model.addAttribute("message", "Successfully deleted!");
         return "user/info";
@@ -204,7 +208,7 @@ public class UserController {
     public String updatePermissionPage(@ModelAttribute Permission permission, Model model) {
        if(!userService.updatePermission(permission)) {
            model.addAttribute("errorMessage", "Error when try to update user Permission");
-           return "user/error";
+           return "errors/error";
        }
 
         model.addAttribute("message", "Successfully updated!");
@@ -214,7 +218,7 @@ public class UserController {
     private ModelAndView checkUserAndReturnModel(User user) {
         ModelAndView model = new ModelAndView();
         if (user == null) {
-            model.setViewName("user/error");
+            model.setViewName("errors/error");
             model.addObject("errorMessage", "User dont exists");
             return model;
         }
@@ -238,7 +242,7 @@ public class UserController {
     }
 
     private ModelAndView accessDeniedView() {
-        return new ModelAndView("user/error","errorMessage",
+        return new ModelAndView("errors/error","errorMessage",
                 "Bad access. Your request denied");
     }
 

@@ -52,7 +52,7 @@ public class RegistrationController {
         }
         if (!registrationService.registerUser(user)){
             model.addAttribute("erorMessage", "Failed to register user (Server error)");
-            return "user/error";
+            return "errors/error";
         }
         return "redirect:/home";
     }
