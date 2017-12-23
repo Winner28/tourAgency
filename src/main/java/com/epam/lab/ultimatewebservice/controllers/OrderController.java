@@ -75,8 +75,7 @@ public class OrderController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ModelAndView deleteOrderById(@PathVariable int id) {
-        Order orderToDelete = orderService.getOrderById(id);
-        if (orderToDelete == null) {
+        if (!checkOrderExistence(id)) {
             return new ModelAndView("order/error", "errorMessage",
                     "Order with such id don't exist");
         }
@@ -86,9 +85,9 @@ public class OrderController {
         }
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("order/showOrder");
-        modelAndView.addObject("order", orderToDelete);
+        modelAndView.addObject("order", orderService.getOrderById(id));
         modelAndView.addObject("message", "Order with ID = " +
-                orderToDelete.getId() + " successfully deleted!");
+                id + " successfully deleted!");
         return modelAndView;
     }
 
@@ -117,8 +116,7 @@ public class OrderController {
             return "order/error";
         }
         order.setId(Integer.parseInt(request.getParameter("id")));
-        Order orderToUpdate = orderService.getOrderById(order.getId());
-        if (orderToUpdate == null) {
+        if (!checkOrderExistence(order.getId())) {
             model.addAttribute("errorMessage", "Order with such id don't exist!");
             return "order/error";
         }
@@ -181,6 +179,14 @@ public class OrderController {
 
     private boolean checkOrder(Order order) {
         return !(order.getDate().isEmpty()) && !(order.getTourId() == 0) && !(order.getUserId() == 0);
+    }
+
+    private boolean checkOrderExistence(int id){
+        Order existenceOrder = orderService.getOrderById(id);
+        if (existenceOrder == null) {
+            return false;
+        }
+        return true;
     }
 
 }
