@@ -89,8 +89,8 @@ public class OrderDAO {
 
     public List<Order> getOrdersByTourId(int tourId){
         List<Order> orderList = new ArrayList<>();
-        jdbcDAO.withResultSet(rs -> {
-            try {
+        jdbcDAO.withPreparedStatement(preparedStatement -> {
+            try (ResultSet rs = preparedStatement.executeQuery()) {
                 while (rs.next()) {
                     orderList.add(new Order()
                             .setId(rs.getInt(ID))
@@ -101,16 +101,16 @@ public class OrderDAO {
                     );
                 }
             }catch (SQLException e) {
-                throw new RuntimeException("Got an exception");
+                e.printStackTrace();
             }
-        }, GET_ORDERS_BY_TOUR_ID);
+        }, GET_ORDERS_BY_TOUR_ID, tourId);
         return orderList;
     }
 
     public List<Order> getOrdersByUserId(int userId){
         List<Order> orderList = new ArrayList<>();
-        jdbcDAO.withResultSet(rs -> {
-            try {
+        jdbcDAO.withPreparedStatement(preparedStatement -> {
+            try (ResultSet rs = preparedStatement.executeQuery()) {
                 while (rs.next()) {
                     orderList.add(new Order()
                             .setId(rs.getInt(ID))
@@ -121,9 +121,9 @@ public class OrderDAO {
                     );
                 }
             }catch (SQLException e) {
-                throw new RuntimeException("Got an exception");
+                e.printStackTrace();
             }
-        }, GET_ORDERS_BY_USER_ID);
+        }, GET_ORDERS_BY_USER_ID, userId);
         return orderList;
     }
 

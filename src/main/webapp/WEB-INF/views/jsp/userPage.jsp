@@ -71,7 +71,7 @@
 </c:if>
 
 <c:if test="${admin.equals('notAdmin')}">
-<form:form method = "POST" action = "/orders" cssClass="form-signin">
+<form:form method = "GET" action = "/orders/all" cssClass="form-signin">
     <input type="hidden" value="${user.id}">
     <button class="btn btn-lg btn-info btn-block" type="submit">My orders</button>
 </form:form>

@@ -8,6 +8,9 @@
 <h1><b>List of Orders: </b></h1> <br>
 
 <ul>
+    <c:if test="${empty orderList}">
+        <h4>You have no orders!<h4>
+    </c:if>
     <c:forEach var="order" items="${orderList}">
         <h4><li>${order.toString()}</li></h4>
     </c:forEach>
