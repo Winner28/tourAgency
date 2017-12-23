@@ -11,6 +11,7 @@
     <title>Info</title>
 </head>
 <body>
-<h1>${message.toString()}}</h1>
+<BR>>
+<h1 class="text-center" class="alert-success">${message.toString()}</h1>
 </body>
 </html>

@@ -15,15 +15,15 @@ public class PermissionService {
     private PermissionDAO permissionDAO;
 
     public Permission getPermissionByUserId(int userId){
-        return permissionDAO.getPermissionByUserId(userId).orElse(new Permission());
+        return permissionDAO.getPermissionByUserId(userId).orElse(null);
     }
 
     public Permission createPermission(Permission permission){
-        return permissionDAO.addPermission(permission).orElse(new Permission());
+        return permissionDAO.addPermission(permission).orElse(null);
     }
 
     public Permission updatePermission(Permission permission){
-        return permissionDAO.updatePermission(permission).orElse(new Permission());
+        return permissionDAO.updatePermission(permission).orElse(null);
     }
 
     public boolean deletePermissionByUserId(int userId){

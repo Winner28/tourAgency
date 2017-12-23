@@ -27,4 +27,8 @@ public class AuthorizationService {
         return userService.getUserById(id);
     }
 
+    public int getUserPermission(int id) {
+        return userService.getPermission(id);
+    }
+
 }

@@ -10,10 +10,10 @@
     <link href="${bootstrapCss}" rel="stylesheet" />
     <link href="${coreCss}" rel="stylesheet" />
 </head>
-<h1>ERROR</h1>
+
 <br>
 
-<h1>${errorMessage.toUpperCase()}</h1>
+<h1 class="text-center" class="alert-danger">${errorMessage}</h1>
 
 
 <spring:url value="/resources/core/css/hello.js" var="coreJs" />

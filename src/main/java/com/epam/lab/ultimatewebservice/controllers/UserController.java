@@ -99,6 +99,29 @@ public class UserController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/update", method = RequestMethod.GET)
+    public ModelAndView updateUserPage(HttpServletRequest request) {
+        ModelAndView modelAndView = new ModelAndView();
+        String id = request.getParameter("id");
+        if (id == null) {
+            modelAndView.setViewName("user/error");
+            modelAndView.addObject("errorMessage", "We dont have user with such id");
+            return modelAndView;
+        }
+        if (!checkAccess(request)) {
+            return accessDeniedView();
+        }
+        User user = userService.getUserById(Integer.parseInt(id));
+        if (user == null) {
+            modelAndView.setViewName("user/error");
+            modelAndView.addObject("errorMessage", "We dont have user with such id");
+            return modelAndView;
+        }
+        modelAndView.setViewName("user/updateUser");
+        modelAndView.addObject("user", user);
+        return modelAndView;
+    }
+
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String updateUser(@ModelAttribute User user, Model model,
                              HttpServletRequest request) {
@@ -166,14 +189,14 @@ public class UserController {
         return "user/info";
     }
 
-    @RequestMapping(value = "/permissions/update/{user_id}", method = RequestMethod.GET)
-    public ModelAndView updatePermissionPage(@PathVariable int user_id, HttpServletRequest request) {
+    @RequestMapping(value = "/permissions/update", method = RequestMethod.GET)
+    public ModelAndView updatePermissionPage(HttpServletRequest request) {
         if (!checkAccess(request)) {
             return accessDeniedView();
         }
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("user/updatePermission");
-        modelAndView.addObject("permission", new Permission().setUserId(user_id));
+        modelAndView.addObject("permission", new Permission());
         return modelAndView;
     }
 
@@ -208,7 +231,7 @@ public class UserController {
                 if (id == 0)
                     return false;
                 int permission_id = userService.getPermission(id);
-                return permission_id == 2;
+                return permission_id == 1;
             }
         }
         return false;

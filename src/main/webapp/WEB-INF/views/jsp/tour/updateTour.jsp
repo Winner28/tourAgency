@@ -14,9 +14,8 @@
 <h1>Update Tour Information with ID = <b> ${tour.id}</b></h1>
 <br>
 
-<form:form method = "POST" action = "/tour/update" modelAttribute="tour">
+<form:form method = "POST" action = "/tours/update" modelAttribute="tour">
     <input type="hidden" name="id" value="${tour.id}"/>
-    <table>
         <table>
             <tr>
                 <td><form:label path = "duration">Duration</form:label></td>

@@ -15,7 +15,7 @@
 <h1><b>List of Tours: </b></h1> <br>
 
 <ul>
-    <c:forEach var="tous" items="${tourList}">
+    <c:forEach var="tour" items="${tourList}">
        <h4><li>${tour.toString()}</li></h4>
     </c:forEach>
 </ul>

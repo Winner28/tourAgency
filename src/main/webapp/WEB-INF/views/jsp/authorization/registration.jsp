@@ -21,7 +21,7 @@
 <div class="container">
 
     <form:form method="POST" action="${contextPath}/register" class="form-signin" >
-        <h2 class="form-heading">Register</h2>
+        <h2 class="text-center">Registration</h2>
 
         <div class="form-group ${error != null ? 'has-error' : ''}">
             <input name="firstName" type="text" class="form-control" placeholder="First Name"
