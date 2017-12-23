@@ -75,6 +75,10 @@
     <input type="hidden" value="${user.id}">
     <button class="btn btn-lg btn-info btn-block" type="submit">My orders</button>
 </form:form>
+    <form:form method = "GET" action = "/tours/all" cssClass="form-signin">
+        <input type="hidden" value="${user.id}">
+        <button class="btn btn-lg btn-info btn-block" type="submit">Show tours</button>
+    </form:form>
 </c:if>
 <br>
 <form:form method = "POST" action = "/logout" cssClass="form-signin" cssStyle="border-bottom-width: medium">
