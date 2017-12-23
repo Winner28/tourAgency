@@ -45,11 +45,14 @@ public class UserController {
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String createUser(@ModelAttribute("user") User user, Model model,
-                                 HttpServletRequest request) {
-        User createdUser = userService.createUser(user);
+                             HttpServletRequest request) {
         String permission = request.getParameter("permission");
-        if (createdUser == null || permission == null) {
-            System.out.println(createdUser);
+        if (!checkValidation(user) || permission == null) {
+            model.addAttribute("errorMessage", "Error when we try to create user, some fields are empty");
+            return "user/error";
+        }
+        User createdUser = userService.createUser(user);
+        if (createdUser == null) {
             model.addAttribute("errorMessage", "Error when we try to create user");
             return "user/error";
         }
@@ -176,10 +179,10 @@ public class UserController {
 
     @RequestMapping(value = "/permissions/update", method = RequestMethod.POST)
     public String updatePermissionPage(@ModelAttribute Permission permission, Model model) {
-       if(!userService.updatePermission(permission)) {
-           model.addAttribute("errorMessage", "Error when try to update user Permission");
-           return "user/error";
-       }
+        if(!userService.updatePermission(permission)) {
+            model.addAttribute("errorMessage", "Error when try to update user Permission");
+            return "user/error";
+        }
 
         model.addAttribute("message", "Successfully updated!");
         return "user/info";
@@ -205,15 +208,19 @@ public class UserController {
                 if (id == 0)
                     return false;
                 int permission_id = userService.getPermission(id);
-                return permission_id == 1;
+                return permission_id == 2;
             }
         }
-
         return false;
     }
 
     private ModelAndView accessDeniedView() {
         return new ModelAndView("user/error","errorMessage",
                 "Bad access. Your request denied");
+    }
+
+    private boolean checkValidation(User user) {
+        return !user.getFirstName().isEmpty() && !user.getLastName().isEmpty() &&
+                !user.getPasswordHash().isEmpty() && !user.getEmail().isEmpty();
     }
 }
