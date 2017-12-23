@@ -62,7 +62,7 @@ INSERT INTO `users` (`id`,`first_name`,`last_name`,`email`,`password_hash`) VALU
 DROP TABLE IF EXISTS `mydb`.`tours` ;
 
 CREATE TABLE IF NOT EXISTS `mydb`.`tours` (
-  `id` INT UNSIGNED NOT NULL,
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `hot` TINYINT NOT NULL,
   `price` DOUBLE NOT NULL,
   `duration` INT UNSIGNED NOT NULL,
@@ -101,7 +101,7 @@ INSERT INTO `tours` (`id`,`hot`,`price`,`duration`,`agent_id`,`active`,`tour_typ
 DROP TABLE IF EXISTS `mydb`.`orders` ;
 
 CREATE TABLE IF NOT EXISTS `mydb`.`orders` (
-  `id` INT UNSIGNED NOT NULL,
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `date` VARCHAR(45) NOT NULL,
   `active` TINYINT NOT NULL,
   `tour_id` INT UNSIGNED NOT NULL,
@@ -143,14 +143,14 @@ CREATE TABLE IF NOT EXISTS `mydb`.`permission_names` (
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
-INSERT INTO `permission_names` (`id`,`name`) VALUES (1,"agent"),(2,"user"),(3,"admin");
+INSERT INTO `permission_names` (`id`,`name`) VALUES (1,"admin"),(2,"agent"),(3,"user");
 -- -----------------------------------------------------
 -- Table `mydb`.`permissions`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `mydb`.`permissions` ;
 
 CREATE TABLE IF NOT EXISTS `mydb`.`permissions` (
-  `id` INT UNSIGNED NOT NULL,
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` INT UNSIGNED NOT NULL,
   `permission_name_id` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
