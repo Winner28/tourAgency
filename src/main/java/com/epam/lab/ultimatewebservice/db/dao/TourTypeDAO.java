@@ -67,8 +67,8 @@ public class TourTypeDAO {
                                     .setTourType(TOUR_TYPE);
             } catch (SQLException e) {
                 e.printStackTrace();
+                return null;
             }
-            return null;
         }, ADD_TOUR, tourType));
     }
 
@@ -79,8 +79,8 @@ public class TourTypeDAO {
                 return true;
             } catch (SQLException e) {
                 e.printStackTrace();
+                return false;
             }
-            return false;
         }, DELETE_TOUR, id);
     }
 
@@ -91,8 +91,8 @@ public class TourTypeDAO {
                 return true;
             } catch (SQLException e) {
                 e.printStackTrace();
+                return false;
             }
-            return false;
         },UPDATE_TOUR_BY_ID, tourType.getTourType(), tourType.getId());
     }
 

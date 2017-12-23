@@ -63,8 +63,9 @@ public class UserDAO {
                         .setPasswordHash(user.getPasswordHash());
             } catch (SQLException e) {
                 e.printStackTrace();
+                return null;
             }
-            return null;
+
         }, ADD_USER, user.getFirstName(), user.getLastName(), user.getEmail(), user.getPasswordHash()));
     }
 
@@ -132,6 +133,7 @@ public class UserDAO {
                 }
             }catch (SQLException e) {
                 throw new RuntimeException("Got an exception");
+
             }
         }, GET_ALL_USERS);
 
