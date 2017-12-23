@@ -45,7 +45,7 @@ public class UserController {
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String createUser(@ModelAttribute("user") User user, Model model,
-                              HttpServletRequest request) {
+                             HttpServletRequest request) {
         String permission = request.getParameter("permission");
         if (!checkValidation(user) || permission == null) {
             model.addAttribute("errorMessage", "Error when we try to create user, some fields are empty");
@@ -202,10 +202,10 @@ public class UserController {
 
     @RequestMapping(value = "/permissions/update", method = RequestMethod.POST)
     public String updatePermissionPage(@ModelAttribute Permission permission, Model model) {
-       if(!userService.updatePermission(permission)) {
-           model.addAttribute("errorMessage", "Error when try to update user Permission");
-           return "user/error";
-       }
+        if(!userService.updatePermission(permission)) {
+            model.addAttribute("errorMessage", "Error when try to update user Permission");
+            return "user/error";
+        }
 
         model.addAttribute("message", "Successfully updated!");
         return "user/info";
@@ -244,6 +244,6 @@ public class UserController {
 
     private boolean checkValidation(User user) {
         return !user.getFirstName().isEmpty() && !user.getLastName().isEmpty() &&
-                    !user.getPasswordHash().isEmpty() && !user.getEmail().isEmpty();
+                !user.getPasswordHash().isEmpty() && !user.getEmail().isEmpty();
     }
 }
