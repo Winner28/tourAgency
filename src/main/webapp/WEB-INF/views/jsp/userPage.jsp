@@ -70,6 +70,19 @@
 
 </c:if>
 
+<c:if test="${admin.equals('agent')}">
+    <h2 class="text-center glyphicon-text-color">You have entered as tour-agent</h2>
+
+    <form:form method = "GET" action = "/tours/create" cssClass="form-signin">
+        <button class="btn btn-lg btn-success btn-block" type="submit">Create tour</button>
+    </form:form>
+
+    <form:form method = "POST" action = "/tours/delete" cssClass="form-signin">
+        <input type="text" name="id" placeholder="Type an id" class="form-control text-center">
+        <button class="btn btn-lg btn-success btn-block" type="submit">Delete Tour</button>
+    </form:form>
+
+</c:if>
 <c:if test="${admin.equals('notAdmin')}">
 <form:form method = "GET" action = "/orders/all" cssClass="form-signin">
     <input type="hidden" value="${user.id}">

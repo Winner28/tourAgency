@@ -79,7 +79,11 @@ public class AuthorizationController {
                 model.addAttribute("user", user);
                 if (authorizationService.getUserPermission(id) == 1) {
                     model.addAttribute("admin", "admin");
-                } else {
+                }
+                if (authorizationService.getUserPermission(id) == 2) {
+                    model.addAttribute("admin", "agent");
+                }
+                else {
                     model.addAttribute("admin", "notAdmin");
                 }
                 return "userPage";

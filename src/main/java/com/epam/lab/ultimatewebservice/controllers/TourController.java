@@ -16,7 +16,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/tours")
@@ -36,35 +39,36 @@ public class TourController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String tourCreation(@ModelAttribute("tour") Tour tour, Model model,
                                HttpServletRequest request) {
-        @NonNull
-        int tourTypeId = tour.getTourTypesId();
-        @NonNull
-        int tourAgentId = tour.getAgentId();
-        @NonNull
-        int tourDaration = tour.getDuration();
-        @NonNull
-        double tourPrice = tour.getPrice();
-
+        String duration = request.getParameter("duration");
+        System.out.println(duration);
+        String isHot = request.getParameter("hot");
+        String isActive = request.getParameter("active");
+        if (!checkValidation(tour) || isHot == null || isActive == null || Integer.getInteger(duration, null) == null) {
+            model.addAttribute("errorMessage", "Error when we try to create tour, some fields are empty");
+            return "tour/error";
+        }
 
         Tour createdTour = tourService.createTour(tour);
         if (createdTour == null) {
             model.addAttribute("errorMessage", "Error when we try to create tour");
             return "tour/error";
         }
+        model.addAttribute("tour", createdTour);
+        model.addAttribute("message", "User successfully created!");
         return "tour/showTour";
     }
-
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
-    public ModelAndView deleteTourById(@PathVariable int id) {
-        Tour tourToDelete = tourService.getTourById(id);
+    public ModelAndView deleteTourById(@PathVariable String id) {
+        Tour tourToDelete = tourService.getTourById(Integer.parseInt(id));
         if (tourToDelete == null) {
             return new ModelAndView("tour/error", "errorMessage",
                     "Tour with such id doesn't exist");
         }
-        if (!tourService.deleteTourById(id)) {
-            return new ModelAndView("tour/error", "errorMessage",
-                    "Error while deleting tour with such id");
-        }
+            if (!tourService.deleteTourById(Integer.parseInt(id))) {
+                return new ModelAndView("tour/error", "errorMessage",
+                        "Error while deleting tour with such id");
+            }
+
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("tour/showTour");
         modelAndView.addObject("tour", tourToDelete);
@@ -72,6 +76,8 @@ public class TourController {
                 tourToDelete.getId() + " successfully deleted!");
         return modelAndView;
     }
+
+
 
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
     public ModelAndView updateTourPage(@PathVariable int id) {
@@ -126,4 +132,9 @@ public class TourController {
         model.addObject("tour", tour);
         return model;
     }
-}
+    private boolean checkValidation(Tour tour) {
+        return tour.getPrice() != 0  && tour.getDuration() != 0 &&
+                tour.getAgentId() != 0 && tour.getTourTypesId() != 0;
+
+    }
+ }
