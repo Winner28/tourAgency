@@ -48,16 +48,13 @@
         <button class="btn btn-lg btn-success btn-block" type="submit">Delete User</button>
     </form:form>
 
-
     <form:form method = "GET" action = "/users/all" cssClass="form-signin">
         <button class="btn btn-lg btn-success btn-block" type="submit">Show all users</button>
     </form:form>
 
-
     <form:form method = "GET" action = "/users/permissions/create" cssClass="form-signin">
         <button class="btn btn-lg btn-success btn-block" type="submit">Create permission</button>
     </form:form>
-
 
     <form:form method = "GET" action = "/users/permissions/update" cssClass="form-signin">
         <button class="btn btn-lg btn-success btn-block" type="submit">Update permission</button>
@@ -67,16 +64,15 @@
         <input type="text" name="id" placeholder="Type an user id" class="form-control text-center">
         <button class="btn btn-lg btn-success btn-block" type="submit">Get permission</button>
     </form:form>
-
 </c:if>
 
 
 <c:if test="${userType.equals('agent')}">
-    <form:form method = "GET" action = "/orders/all" cssClass="form-signin">
+    <form:form method = "GET" action = "/orders/agentOrders" cssClass="form-signin">
         <input type="hidden" value="${user.id}">
         <button class="btn btn-lg btn-info btn-block" type="submit">All orders</button>
     </form:form>
-    <form:form method = "GET" action = "/tours/all" cssClass="form-signin">
+    <form:form method = "GET" action = "/tours/agentTours" cssClass="form-signin">
         <input type="hidden" value="${user.id}">
         <button class="btn btn-lg btn-info btn-block" type="submit">Show tours</button>
     </form:form>

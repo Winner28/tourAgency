@@ -120,6 +120,24 @@ public class TourController {
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public ModelAndView getAllTours(HttpServletRequest request) {
+
+        List<Tour> tourList;
+        ModelAndView modelAndView = new ModelAndView();
+        tourList = tourService.getTourList();
+            if (tourList == null) {
+                modelAndView.setViewName("errors/error");
+                modelAndView.addObject("errorMessage", "THERE IS NULL");
+                return modelAndView;
+            }
+
+        modelAndView.setViewName("tour/showAllTours");
+        modelAndView.addObject("tourList", tourList);
+
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/agentTours", method = RequestMethod.GET)
+    public ModelAndView getAllAgentTours(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
         int userId = 0;
         for (Cookie cookie : cookies){
@@ -131,13 +149,10 @@ public class TourController {
         List<Tour> tourList = tourService.getToursIdByAgentId(userId);
         ModelAndView modelAndView = new ModelAndView();
 
-        if (tourList.size() == 0){
-            tourList = tourService.getTourList();
-            if (tourList == null) {
-                modelAndView.setViewName("errors/error");
-                modelAndView.addObject("errorMessage", "THERE IS NULL");
-                return modelAndView;
-            }
+        if (tourList.size() == 0) {
+            modelAndView.setViewName("errors/error");
+            modelAndView.addObject("errorMessage", "THERE IS NULL");
+            return modelAndView;
         }
 
         modelAndView.setViewName("tour/showAllTours");
