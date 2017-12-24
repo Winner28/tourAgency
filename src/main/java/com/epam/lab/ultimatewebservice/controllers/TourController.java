@@ -125,7 +125,7 @@ public class TourController {
             model.addAttribute("errorMessage", "Error when we try to update tour");
             return "tour/error";
         }
-        if (!checkValidation(tour) || isActive != null || isHot != null) {
+        if ( isActive == null || isHot == null) {
             model.addAttribute("errorMessage","please fill all fields");
             return "tour/error";
         }

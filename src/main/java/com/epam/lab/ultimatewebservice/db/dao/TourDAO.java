@@ -166,11 +166,11 @@ public class TourDAO {
     private Map<String, String> getFieldsToUpdate(Tour newValue, Tour oldValue) {
         Map<String, String> tourMap = new LinkedHashMap<>();
         if (oldValue.isActive() != newValue.isActive()){
-            tourMap.put(ACTIVE, String.valueOf(newValue.isActive()));
+            tourMap.put(ACTIVE, String.valueOf(booleanInterpretator(newValue.isActive())));
             oldValue.setActive(newValue.isActive());
         }
         if (oldValue.isHot() != newValue.isHot()){
-            tourMap.put(HOT, String.valueOf(newValue.isHot()));
+            tourMap.put(HOT, String.valueOf(booleanInterpretator(newValue.isHot())));
             oldValue.setHot(newValue.isHot());
         }
         if (oldValue.getTourTypesId() != newValue.getTourTypesId()){
@@ -192,5 +192,9 @@ public class TourDAO {
         return tourMap;
     }
 
+    private int booleanInterpretator(boolean value){
+        if (value == true) return 1;
+        else return 0;
+    }
 }
 
