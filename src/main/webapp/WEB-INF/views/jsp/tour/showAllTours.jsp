@@ -37,7 +37,8 @@
                 <td>${tour.duration}</td>
                 <td>${tour.tourTypesId}</td>
                 <td>
-                    <form:form method = "POST" action = "/orders/create" methodParam="${tour.id}" cssClass="form-signin" cssStyle="border-bottom-width: medium">
+                    <form:form method = "POST" action = "/orders/create"  cssClass="form-signin" cssStyle="border-bottom-width: medium">
+                        <input type="hidden" name="tourId" value="${tour.id}">
                         <button class="btn btn-lg btn-primary btn-block" type="submit">Purchase</button>
                     </form:form></td>
             </tr>
