@@ -2,7 +2,6 @@ package com.epam.lab.ultimatewebservice.controllers;
 
 
 import com.epam.lab.ultimatewebservice.entity.Tour;
-import com.epam.lab.ultimatewebservice.entity.User;
 import com.epam.lab.ultimatewebservice.service.TourService;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -49,7 +48,7 @@ public class TourController {
         Tour createdTour = tourService.createTour(tour);
         if (createdTour == null) {
             model.addAttribute("errorMessage", "Error when we try to create tour");
-            return "tour/error";
+            return "errors/error";
         }
         return "tour/showTour";
     }
@@ -58,11 +57,11 @@ public class TourController {
     public ModelAndView deleteTourById(@PathVariable int id) {
         Tour tourToDelete = tourService.getTourById(id);
         if (tourToDelete == null) {
-            return new ModelAndView("tour/error", "errorMessage",
+            return new ModelAndView("errors/error", "errorMessage",
                     "Tour with such id doesn't exist");
         }
         if (!tourService.deleteTourById(id)) {
-            return new ModelAndView("tour/error", "errorMessage",
+            return new ModelAndView("errors/error", "errorMessage",
                     "Error while deleting tour with such id");
         }
         ModelAndView modelAndView = new ModelAndView();
@@ -78,7 +77,7 @@ public class TourController {
         ModelAndView modelAndView = new ModelAndView();
         Tour tour = tourService.getTourById(id);
         if (tour == null) {
-            modelAndView.setViewName("tour/error");
+            modelAndView.setViewName("errors/error");
             modelAndView.addObject("errorMessage", "There is no tour with such id");
             return modelAndView;
         }
@@ -94,7 +93,7 @@ public class TourController {
         Tour updatedTour = tourService.updateTour(tour);
         if (updatedTour == null) {
             model.addAttribute("errorMessage", "Error when we try to update tour");
-            return "tour/error";
+            return "errors/error";
         }
         model.addAttribute("message", "Tour successfully Updated!");
         model.addAttribute("tour", updatedTour);
@@ -106,7 +105,7 @@ public class TourController {
         ModelAndView modelAndView = new ModelAndView();
         List<Tour> tourList = tourService.getTourList();
         if (tourList == null) {
-            modelAndView.setViewName("tour/error");
+            modelAndView.setViewName("errors/error");
             modelAndView.addObject("errorMessage", "THERE IS NULL");
             return modelAndView;
         }
@@ -118,7 +117,7 @@ public class TourController {
     private ModelAndView checkTourAndReturnModel(Tour tour) {
         ModelAndView model = new ModelAndView();
         if (tour == null) {
-            model.setViewName("tour/error");
+            model.setViewName("errors/error");
             model.addObject("errorMessage", "Tour doesn't exist");
             return model;
         }
