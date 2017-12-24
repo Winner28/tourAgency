@@ -33,7 +33,7 @@ public class OrderController {
         Order order = orderService.getOrderById(id);
         ModelAndView model = new ModelAndView();
         if (order == null) {
-            model.setViewName("order/error");
+            model.setViewName("errors/error");
             model.addObject("errorMessage", "Order don't exist");
             return model;
         }
@@ -66,14 +66,14 @@ public class OrderController {
         System.out.println(order);
         if (!checkOrder(order)) {
             model.addAttribute("errorMessage", "Order has wrong parameters!");
-            return "order/error";
+            return "errors/error";
         }
 
         Order createdOrder = orderService.addOrder(order);
 
         if (createdOrder == null) {
             model.addAttribute("errorMessage", "Error when we try to create order");
-            return "order/error";
+            return "errors/error";
         }
 
         model.addAttribute("order", createdOrder);
@@ -84,11 +84,11 @@ public class OrderController {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ModelAndView deleteOrderById(@PathVariable int id) {
         if (!checkOrderExistence(id)) {
-            return new ModelAndView("order/error", "errorMessage",
+            return new ModelAndView("errors/error", "errorMessage",
                     "Order with such id don't exist");
         }
         if (!orderService.deleteOrder(id)) {
-            return new ModelAndView("order/error", "errorMessage",
+            return new ModelAndView("errors/error", "errorMessage",
                     "Something goes wrong when we trying to delete order");
         }
         ModelAndView modelAndView = new ModelAndView();
@@ -107,7 +107,7 @@ public class OrderController {
         ModelAndView modelAndView = new ModelAndView();
         Order order = orderService.getOrderById(id);
         if (order == null) {
-            modelAndView.setViewName("order/error");
+            modelAndView.setViewName("errors/error");
             modelAndView.addObject("errorMessage", "There is no order with such id");
             return modelAndView;
         }
@@ -121,17 +121,17 @@ public class OrderController {
                               HttpServletRequest request) {
         if (!checkOrder(order)) {
             model.addAttribute("errorMessage", "Order has wrong parameters!");
-            return "order/error";
+            return "errors/error";
         }
         order.setId(Integer.parseInt(request.getParameter("id")));
         if (!checkOrderExistence(order.getId())) {
             model.addAttribute("errorMessage", "Order with such id don't exist!");
-            return "order/error";
+            return "errors/error";
         }
         Order updatedOrder = orderService.updateOrder(order);
         if (updatedOrder == null) {
             model.addAttribute("errorMessage", "Error when we try to update order");
-            return "order/error";
+            return "errors/error";
         }
         model.addAttribute("message", "Order successfully updated!");
         model.addAttribute("order", updatedOrder);
@@ -152,13 +152,13 @@ public class OrderController {
             }
         }
         if (id == 0) {
-            modelAndView.setViewName("order/error");
+            modelAndView.setViewName("errors/error");
             modelAndView.addObject("errorMessage", "No such User logged in");
             return modelAndView;
         }
         List<Order> orderList = orderService.getOrdersByUserId(id);
         if (orderList == null) {
-            modelAndView.setViewName("order/error");
+            modelAndView.setViewName("errors/error");
             modelAndView.addObject("errorMessage", "THERE IS NULL");
             return modelAndView;
         }
@@ -168,7 +168,7 @@ public class OrderController {
     }
 
     private ModelAndView accessDeniedView() {
-        return new ModelAndView("order/error", "errorMessage",
+        return new ModelAndView("errors/error", "errorMessage",
                 "Bad access. Your request denied");
     }
 
@@ -177,9 +177,7 @@ public class OrderController {
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals(LOGGED_COOKIE)) {
                 int id = SessionManager.getUserIdByCookie(cookie);
-                if (id == 0)
-                    return false;
-                return true;
+                return id != 0;
             }
         }
         return false;
