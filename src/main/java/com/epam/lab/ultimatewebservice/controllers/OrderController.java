@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -32,7 +33,7 @@ public class OrderController {
         Order order = orderService.getOrderById(id);
         ModelAndView model = new ModelAndView();
         if (order == null) {
-            model.setViewName("order/error");
+            model.setViewName("errors/error");
             model.addObject("errorMessage", "Order don't exist");
             return model;
         }
@@ -56,16 +57,27 @@ public class OrderController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String createOrder(@ModelAttribute("order") Order order, Model model,
                               HttpServletRequest request) {
+        if (!checkAccess(request)) {
+            model.addAttribute("errorMessage", "Bad access. Your request denied!");
+            return "errors/error";
+        }
+
+        int tourId = Integer.parseInt(request.getParameter("tourId"));
+        order.setTourId(tourId);
+        order.setUserId(getUserId(request));
+        order.setDate(new Date().toString());
+        order.setActive(true);
+        System.out.println(order);
         if (!checkOrder(order)) {
             model.addAttribute("errorMessage", "Order has wrong parameters!");
-            return "order/error";
+            return "errors/error";
         }
 
         Order createdOrder = orderService.addOrder(order);
 
         if (createdOrder == null) {
             model.addAttribute("errorMessage", "Error when we try to create order");
-            return "order/error";
+            return "errors/error";
         }
 
         model.addAttribute("order", createdOrder);
@@ -76,11 +88,11 @@ public class OrderController {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ModelAndView deleteOrderById(@PathVariable int id) {
         if (!checkOrderExistence(id)) {
-            return new ModelAndView("order/error", "errorMessage",
+            return new ModelAndView("errors/error", "errorMessage",
                     "Order with such id don't exist");
         }
         if (!orderService.deleteOrder(id)) {
-            return new ModelAndView("order/error", "errorMessage",
+            return new ModelAndView("errors/error", "errorMessage",
                     "Something goes wrong when we trying to delete order");
         }
         ModelAndView modelAndView = new ModelAndView();
@@ -99,7 +111,7 @@ public class OrderController {
         ModelAndView modelAndView = new ModelAndView();
         Order order = orderService.getOrderById(id);
         if (order == null) {
-            modelAndView.setViewName("order/error");
+            modelAndView.setViewName("errors/error");
             modelAndView.addObject("errorMessage", "There is no order with such id");
             return modelAndView;
         }
@@ -111,19 +123,23 @@ public class OrderController {
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String updateOrder(@ModelAttribute("order") Order order, Model model,
                               HttpServletRequest request) {
+        order.setId(Integer.parseInt(request.getParameter("id")));
+        order.setDate(request.getParameter("date"));
+        order.setActive(Boolean.parseBoolean(request.getParameter("active")));
+        order.setTourId(Integer.parseInt(request.getParameter("tourId")));
+        order.setUserId(Integer.parseInt(request.getParameter("userId")));
         if (!checkOrder(order)) {
             model.addAttribute("errorMessage", "Order has wrong parameters!");
-            return "order/error";
+            return "errors/error";
         }
-        order.setId(Integer.parseInt(request.getParameter("id")));
         if (!checkOrderExistence(order.getId())) {
             model.addAttribute("errorMessage", "Order with such id don't exist!");
-            return "order/error";
+            return "errors/error";
         }
         Order updatedOrder = orderService.updateOrder(order);
         if (updatedOrder == null) {
             model.addAttribute("errorMessage", "Error when we try to update order");
-            return "order/error";
+            return "errors/error";
         }
         model.addAttribute("message", "Order successfully updated!");
         model.addAttribute("order", updatedOrder);
@@ -144,23 +160,24 @@ public class OrderController {
             }
         }
         if (id == 0) {
-            modelAndView.setViewName("order/error");
+            modelAndView.setViewName("errors/error");
             modelAndView.addObject("errorMessage", "No such User logged in");
             return modelAndView;
         }
         List<Order> orderList = orderService.getOrdersByUserId(id);
         if (orderList == null) {
-            modelAndView.setViewName("order/error");
+            modelAndView.setViewName("errors/error");
             modelAndView.addObject("errorMessage", "THERE IS NULL");
             return modelAndView;
         }
         modelAndView.setViewName("order/showAllOrders");
         modelAndView.addObject("orderList", orderList);
+        modelAndView.addObject("discount", orderService.getDiscount(id));
         return modelAndView;
     }
 
     private ModelAndView accessDeniedView() {
-        return new ModelAndView("order/error", "errorMessage",
+        return new ModelAndView("errors/error", "errorMessage",
                 "Bad access. Your request denied");
     }
 
@@ -169,16 +186,28 @@ public class OrderController {
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals(LOGGED_COOKIE)) {
                 int id = SessionManager.getUserIdByCookie(cookie);
-                if (id == 0)
-                    return false;
-                return true;
+                return id != 0;
             }
         }
         return false;
     }
 
+    private int getUserId(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals(LOGGED_COOKIE)) {
+                int id = SessionManager.getUserIdByCookie(cookie);
+                return id;
+            }
+        }
+        return 0;
+    }
+
     private boolean checkOrder(Order order) {
-        return !(order.getDate().isEmpty()) && !(order.getTourId() == 0) && !(order.getUserId() == 0);
+        if(order == null)
+            return false;
+        return !(order.getDate().isEmpty()) &&
+                !(order.getTourId() == 0) && !(order.getUserId() == 0);
     }
 
     private boolean checkOrderExistence(int id){

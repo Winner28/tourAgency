@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Service
@@ -24,4 +26,17 @@ public class TourService {
     public Tour updateTour(Tour tour) { return tourDAO.updateTour(tour).orElse(null);}
 
     public List<Tour> getTourList() { return tourDAO.getAllTours();}
+
+    public List<Tour> getToursIdByAgentId(int agentId) {
+        List<Tour> agentTours = tourDAO.getAllTours();
+        Iterator<Tour> allTours= agentTours.iterator();
+
+        while (allTours.hasNext()){
+            if (allTours.next().getAgentId() != agentId){
+                allTours.remove();
+            }
+        }
+
+        return agentTours;
+    }
 }
