@@ -21,7 +21,7 @@ public class TourService {
 
     public boolean deleteTourById(int id) {return tourDAO.deleteTourById(id);}
 
-    public Tour updateTour(Tour tour) { return tourDAO.updateUser(tour).orElse(null);}
+    public Tour updateTour(Tour tour) { return tourDAO.updateTour(tour).orElse(null);}
 
     public List<Tour> getTourList() { return tourDAO.getAllTours();}
 }

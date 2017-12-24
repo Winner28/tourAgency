@@ -68,18 +68,18 @@ public class TourDAO {
         }, ADD_TOUR, tour.isHot(), tour.getPrice(), tour.getDuration(), tour.getAgentId(), tour.isActive(), tour.getTourTypesId()));
     }
 
-    public Optional<Tour> updateUser(Tour updatedTour) {
-        Optional<Tour> optionalTour = getTourById(updatedTour.getId());
-        if (!optionalTour.isPresent()) {
 
+    public Optional<Tour> updateTour(Tour newTour) {
+        Optional<Tour> optionalTour = getTourById(newTour.getId());
+        if (!optionalTour.isPresent()) {
             return Optional.empty();
         }
-        Tour toUpdate = optionalTour.get();
-        Map<String, String> tourMap = getFieldsToUpdate(updatedTour, toUpdate);
+        Tour oldTour = optionalTour.get();
+        Map<String, String> tourMap = getFieldsToUpdate(newTour, oldTour);
         if (tourMap.size() == 0) {
-            return Optional.ofNullable(toUpdate);
+            return Optional.ofNullable(oldTour);
         }
-        StringBuilder SQL = new StringBuilder("UPDATE users SET ");
+        StringBuilder SQL = new StringBuilder("UPDATE tours SET ");
         for (Iterator<Map.Entry<String, String>> iterator = tourMap.entrySet().iterator(); iterator.hasNext();) {
             Map.Entry<String, String> param = iterator.next();
             SQL.append(param.getKey()).append("=?");
@@ -90,18 +90,17 @@ public class TourDAO {
             }
         }
         SQL.append(" WHERE id=?");
-        System.out.println("AND SQL STRING: " + SQL);
-        tourMap.put("id", String.valueOf(updatedTour.getId()));
+        tourMap.put(ID, String.valueOf(newTour.getId()));
         return jdbcDAO.mapPreparedStatement(preparedStatement -> {
             try {
                 preparedStatement.executeUpdate();
-                return Optional.of(toUpdate);
+                return Optional.of(oldTour);
             } catch (SQLException e) {
-                e.printStackTrace();
+//                e.printStackTrace();
+                System.out.println("BADABDABDBADBABDBABDBADBBADBBADBABDBDBDBDB");
                 return null;
             }
         }, SQL.toString(), tourMap.values().toArray());
-
     }
 
     public boolean deleteTourById(int id) {
@@ -172,19 +171,19 @@ public class TourDAO {
         }
 
         if (updatedTour.getDuration() != 0 &&
-                !(toUpdate.getDuration() == updatedTour.getDuration())) {
+                (toUpdate.getDuration() != updatedTour.getDuration())) {
             tourMap.put(DURATION, String.valueOf(updatedTour.getDuration()));
             toUpdate.setDuration(updatedTour.getDuration());
         }
 
         if (updatedTour.getPrice() != 0 &&
-                !(toUpdate.getPrice() == updatedTour.getPrice())) {
+                (toUpdate.getPrice() != updatedTour.getPrice())) {
             tourMap.put(PRICE, String.valueOf(updatedTour.getPrice()));
             toUpdate.setPrice(updatedTour.getPrice());
         }
 
         if (updatedTour.getAgentId() != 0 &&
-                !(toUpdate.getAgentId() == updatedTour.getAgentId())) {
+                (toUpdate.getAgentId() != updatedTour.getAgentId())) {
             tourMap.put(AGENT_ID, String.valueOf(updatedTour.getAgentId()));
             toUpdate.setAgentId(updatedTour.getAgentId());
         }
@@ -195,7 +194,7 @@ public class TourDAO {
         }
 
         if (updatedTour.getTourTypesId() != 0 &&
-                !(toUpdate.getTourTypesId() == updatedTour.getTourTypesId())) {
+                (toUpdate.getTourTypesId() != updatedTour.getTourTypesId())) {
             tourMap.put(TOUR_TYPES_ID, String.valueOf(updatedTour.getTourTypesId()));
             toUpdate.setTourTypesId(updatedTour.getTourTypesId());
         }

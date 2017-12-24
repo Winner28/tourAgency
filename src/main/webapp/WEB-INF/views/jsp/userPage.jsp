@@ -82,6 +82,11 @@
         <button class="btn btn-lg btn-success btn-block" type="submit">Delete Tour</button>
     </form:form>
 
+    <form:form method = "GET" action = "/tours/update" cssClass="form-signin">
+        <input type="text" name="id" placeholder="Type an id" class="form-control text-center">
+        <button class="btn btn-lg btn-success btn-block" type="submit">Update Tour</button>
+    </form:form>
+
 </c:if>
 <c:if test="${admin.equals('notAdmin')}">
 <form:form method = "GET" action = "/orders/all" cssClass="form-signin">

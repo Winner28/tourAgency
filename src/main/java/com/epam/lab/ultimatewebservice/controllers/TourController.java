@@ -1,6 +1,7 @@
 package com.epam.lab.ultimatewebservice.controllers;
 
 
+import com.epam.lab.ultimatewebservice.entity.Permission;
 import com.epam.lab.ultimatewebservice.entity.Tour;
 import com.epam.lab.ultimatewebservice.entity.User;
 import com.epam.lab.ultimatewebservice.service.TourService;
@@ -93,13 +94,39 @@ public class TourController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/update", method = RequestMethod.GET)
+    public ModelAndView updateTourPage(HttpServletRequest request) {
+        ModelAndView modelAndView = new ModelAndView();
+        String id = request.getParameter("id");
+        if (id == null || id.isEmpty()) {
+            modelAndView.setViewName("tour/error");
+            modelAndView.addObject("errorMessage", "We dont have tour with such id");
+            return modelAndView;
+        }
+        Tour tour = tourService.getTourById(Integer.parseInt(id));
+        if (tour == null) {
+            modelAndView.setViewName("tour/error");
+            modelAndView.addObject("errorMessage", "We dont have tour with such id");
+            return modelAndView;
+        }
+        modelAndView.setViewName("tour/updateTour");
+        modelAndView.addObject("tour", tour);
+        return modelAndView;
+    }
+
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String updateTour(@ModelAttribute Tour tour, Model model,
                              HttpServletRequest request) {
         tour.setId(Integer.parseInt(request.getParameter("id")));
         Tour updatedTour = tourService.updateTour(tour);
+        String isHot = request.getParameter("hot");
+        String isActive = request.getParameter("active");
         if (updatedTour == null) {
             model.addAttribute("errorMessage", "Error when we try to update tour");
+            return "tour/error";
+        }
+        if (!checkValidation(tour) || isActive != null || isHot != null) {
+            model.addAttribute("errorMessage","please fill all fields");
             return "tour/error";
         }
         model.addAttribute("message", "Tour successfully Updated!");
