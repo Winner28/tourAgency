@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -56,6 +57,17 @@ public class OrderController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String createOrder(@ModelAttribute("order") Order order, Model model,
                               HttpServletRequest request) {
+        if (!checkAccess(request)) {
+            model.addAttribute("errorMessage", "Bad access. Your request denied!");
+            return "errors/error";
+        }
+
+        int tourId = Integer.parseInt(request.getParameter("tourId"));
+        order.setTourId(tourId);
+        order.setUserId(getUserId(request));
+        order.setDate(new Date().toString());
+        order.setActive(true);
+        System.out.println(order);
         if (!checkOrder(order)) {
             model.addAttribute("errorMessage", "Order has wrong parameters!");
             return "errors/error";
@@ -111,11 +123,15 @@ public class OrderController {
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String updateOrder(@ModelAttribute("order") Order order, Model model,
                               HttpServletRequest request) {
+        order.setId(Integer.parseInt(request.getParameter("id")));
+        order.setDate(request.getParameter("date"));
+        order.setActive(Boolean.parseBoolean(request.getParameter("active")));
+        order.setTourId(Integer.parseInt(request.getParameter("tourId")));
+        order.setUserId(Integer.parseInt(request.getParameter("userId")));
         if (!checkOrder(order)) {
             model.addAttribute("errorMessage", "Order has wrong parameters!");
             return "errors/error";
         }
-        order.setId(Integer.parseInt(request.getParameter("id")));
         if (!checkOrderExistence(order.getId())) {
             model.addAttribute("errorMessage", "Order with such id don't exist!");
             return "errors/error";
@@ -156,6 +172,7 @@ public class OrderController {
         }
         modelAndView.setViewName("order/showAllOrders");
         modelAndView.addObject("orderList", orderList);
+        modelAndView.addObject("discount", orderService.getDiscount(id));
         return modelAndView;
     }
 
@@ -175,8 +192,22 @@ public class OrderController {
         return false;
     }
 
+    private int getUserId(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals(LOGGED_COOKIE)) {
+                int id = SessionManager.getUserIdByCookie(cookie);
+                return id;
+            }
+        }
+        return 0;
+    }
+
     private boolean checkOrder(Order order) {
-        return !(order.getDate().isEmpty()) && !(order.getTourId() == 0) && !(order.getUserId() == 0);
+        if(order == null)
+            return false;
+        return !(order.getDate().isEmpty()) &&
+                !(order.getTourId() == 0) && !(order.getUserId() == 0);
     }
 
     private boolean checkOrderExistence(int id){

@@ -38,4 +38,25 @@ public class OrderService {
         return orderDAO.getOrderById(id).orElse(null);
     }
 
+    public int getDiscount(int userId) {
+        List<Order> orderList = getOrdersByUserId(userId);
+        if (orderList.isEmpty()) {
+            return 0;
+        }
+        int size = orderList.size();
+        if (size <= 5) {
+            return 5;
+        }
+        if (size <= 10) {
+            return 10;
+        }
+        if (size <= 20) {
+            return 15;
+        }
+        if (size <= 30) {
+            return 20;
+        } else
+            return 25;
+    }
+
 }
