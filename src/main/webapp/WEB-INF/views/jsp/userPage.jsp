@@ -31,7 +31,7 @@
 <br>
 
 
-<c:if test="${admin.equals('admin')}">
+<c:if test="${userType.equals('admin')}">
     <h2 class="text-center glyphicon-text-color">Hello, mr.Admin</h2>
 
     <form:form method = "GET" action = "/users/create" cssClass="form-signin">
@@ -70,20 +70,38 @@
 
 </c:if>
 
-<c:if test="${admin.equals('notAdmin')}">
-<form:form method = "GET" action = "/orders/all" cssClass="form-signin">
-    <input type="hidden" value="${user.id}">
-    <button class="btn btn-lg btn-info btn-block" type="submit">My orders</button>
-</form:form>
+
+<c:if test="${userType.equals('agent')}">
+    <form:form method = "GET" action = "/orders/all" cssClass="form-signin">
+        <input type="hidden" value="${user.id}">
+        <button class="btn btn-lg btn-info btn-block" type="submit">All orders</button>
+    </form:form>
     <form:form method = "GET" action = "/tours/all" cssClass="form-signin">
         <input type="hidden" value="${user.id}">
         <button class="btn btn-lg btn-info btn-block" type="submit">Show tours</button>
     </form:form>
 </c:if>
 <br>
+
+
+<c:if test="${userType.equals('client')}">
+    <form:form method="GET" action="/orders/all" cssClass="form-signin">
+        <input type="hidden" value="${user.id}">
+        <button class="btn btn-lg btn-info btn-block" type="submit">My orders</button>
+    </form:form>
+    <form:form method="GET" action="/tours/all" cssClass="form-signin">
+        <input type="hidden" value="${user.id}">
+        <button class="btn btn-lg btn-info btn-block" type="submit">Show tours</button>
+    </form:form>
+</c:if>
+<br>
+
+
 <form:form method = "POST" action = "/logout" cssClass="form-signin" cssStyle="border-bottom-width: medium">
     <button class="btn btn-lg btn-primary btn-block" type="submit">Log Out</button>
 </form:form>
+
+
 
 </body>
 </html>
