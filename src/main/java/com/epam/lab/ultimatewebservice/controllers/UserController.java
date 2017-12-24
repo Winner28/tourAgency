@@ -201,13 +201,33 @@ public class UserController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/permissions/get", method = RequestMethod.POST)
+    public ModelAndView getPermissionByUserId(HttpServletRequest request) {
+        ModelAndView modelAndView = new ModelAndView();
+        String id = request.getParameter("id");
+        if (id.isEmpty()) {
+            modelAndView.addObject("errorMessage", "Bad input info");
+            modelAndView.setViewName("errors/error");
+            return modelAndView;
+        }
+        int permissionId = userService.getPermission(Integer.parseInt(id));
+        if (permissionId == 0) {
+            modelAndView.addObject("errorMessage", "Error when try to get user Permission");
+            modelAndView.setViewName("errors/error");
+            return modelAndView;
+        }
+        modelAndView.setViewName("user/showPermission");
+        modelAndView.addObject("permission", new Permission().
+                setUserId(Integer.parseInt(id)).setPermissionNameId(permissionId));
+        return modelAndView;
+    }
+
     @RequestMapping(value = "/permissions/update", method = RequestMethod.POST)
     public String updatePermissionPage(@ModelAttribute Permission permission, Model model) {
         if(!userService.updatePermission(permission)) {
             model.addAttribute("errorMessage", "Error when try to update user Permission");
             return "errors/error";
         }
-
         model.addAttribute("message", "Successfully updated!");
         return "user/info";
     }
