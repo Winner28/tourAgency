@@ -70,6 +70,9 @@
 <c:if test="${userType.equals('agent')}">
     <form:form method = "GET" action = "/orders/agentOrders" cssClass="form-signin">
         <input type="hidden" value="${user.id}">
+        <button class="btn btn-lg btn-info btn-block" type="submit">Orders by my tours</button>
+    </form:form>
+    <form:form method = "GET" action = "/orders/allOrders" cssClass="form-signin">
         <button class="btn btn-lg btn-info btn-block" type="submit">All orders</button>
     </form:form>
     <form:form method = "GET" action = "/tours/agentTours" cssClass="form-signin">
