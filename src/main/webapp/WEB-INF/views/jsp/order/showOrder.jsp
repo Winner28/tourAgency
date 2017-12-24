@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Oder Page</title>
+    <title>Order Page</title>
 
     <spring:url value="/resources/core/css/hello.css" var="coreCss" />
     <spring:url value="/resources/core/css/bootstrap.min.css" var="bootstrapCss" />
@@ -13,7 +13,7 @@
 <h1>${message.toUpperCase()}</h1>
 <h1>Order information</h1>
 <br>
-<h3>order id: ${order.id}</h3>
+<h3>Order id: ${order.id}</h3>
 <h3>Order date: ${order.date}</h3>
 <h3>Order active: ${order.active}</h3>
 <h3>Order tourId: ${order.tourId}</h3>
