@@ -59,10 +59,14 @@ public class OrderController {
                               HttpServletRequest request) {
         if (!checkAccess(request)) {
             model.addAttribute("errorMessage", "Bad access. Your request denied!");
-            return "order/error";
+            return "errors/error";
         }
+
+        int tourId = Integer.parseInt(request.getParameter("tourId"));
+        order.setTourId(tourId);
         order.setUserId(getUserId(request));
         order.setDate(new Date().toString());
+        order.setActive(true);
         System.out.println(order);
         if (!checkOrder(order)) {
             model.addAttribute("errorMessage", "Order has wrong parameters!");
@@ -119,11 +123,15 @@ public class OrderController {
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String updateOrder(@ModelAttribute("order") Order order, Model model,
                               HttpServletRequest request) {
+        order.setId(Integer.parseInt(request.getParameter("id")));
+        order.setDate(request.getParameter("date"));
+        order.setActive(Boolean.parseBoolean(request.getParameter("active")));
+        order.setTourId(Integer.parseInt(request.getParameter("tourId")));
+        order.setUserId(Integer.parseInt(request.getParameter("userId")));
         if (!checkOrder(order)) {
             model.addAttribute("errorMessage", "Order has wrong parameters!");
             return "errors/error";
         }
-        order.setId(Integer.parseInt(request.getParameter("id")));
         if (!checkOrderExistence(order.getId())) {
             model.addAttribute("errorMessage", "Order with such id don't exist!");
             return "errors/error";
