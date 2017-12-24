@@ -1,6 +1,8 @@
 package com.epam.lab.ultimatewebservice.db.dao;
 
 
+import lombok.SneakyThrows;
+
 import java.sql.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -11,9 +13,11 @@ import static java.sql.Statement.RETURN_GENERATED_KEYS;
 @SuppressWarnings("unchecked")
 public interface JdbcDAO extends Supplier<Connection> {
 
+    @SneakyThrows
     default void withConnection(Consumer<Connection> connectionConsumer) {
         Connection connection = get();
         connectionConsumer.accept(connection);
+        connection.close();
     }
 
     default <T>  T mapConnection(Function<Connection, T> tFunction)  {
