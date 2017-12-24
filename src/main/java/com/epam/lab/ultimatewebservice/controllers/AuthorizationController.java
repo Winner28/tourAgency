@@ -78,12 +78,19 @@ public class AuthorizationController {
                 model.addAttribute("userPage");
                 model.addAttribute("user", user);
 
-                switch (authorizationService.getUserPermission(id)){
-                    case 1: model.addAttribute("userType", "admin");
-                            break;
-                    case 2: model.addAttribute("userType", "agent");
-                            break;
-                    case 3: model.addAttribute("userType", "client");
+                switch (authorizationService.getUserPermission(id)) {
+                    case 1:
+                        model.addAttribute("userType", "admin");
+                        break;
+                    case 2:
+                        model.addAttribute("userType", "agent");
+                        break;
+                    case 3:
+                        model.addAttribute("userType", "client");
+                        break;
+                    default:
+                        model.addAttribute("userType", "client");
+                        break;
                 }
 
                 return "userPage";

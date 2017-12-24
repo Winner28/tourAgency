@@ -29,21 +29,24 @@
 
         <c:forEach items="${orderList}" var="order">
             <tr>
-                <td>${order.id}</td>
-                <td>${order.date}</td>
-                <td>${order.active}</td>
-                <td>${order.tourId}</td>
-                <td>${order.userId}</td>
-                <td>
-                    <form:form method="POST" action="/orders/update" cssClass="form-signin"
-                               cssStyle="border-bottom-width: medium">
-                        <input type="hidden" name="id" value="${order.id}">
-                        <input type="hidden" name="date" value="${order.date}">
-                        <input type="hidden" name="active" value="${false}">
-                        <input type="hidden" name="tourId" value="${order.tourId}">
-                        <input type="hidden" name="userId" value="${order.userId}">
-                        <button class="btn btn-lg btn-primary btn-block" type="submit">Cancel</button>
-                    </form:form></td>
+                <c:if test="${order.active}">
+                    <td>${order.id}</td>
+                    <td>${order.date}</td>
+                    <td>${order.active}</td>
+                    <td>${order.tourId}</td>
+                    <td>${order.userId}</td>
+                    <td>
+                        <form:form method="POST" action="/orders/update" cssClass="form-signin"
+                                   cssStyle="border-bottom-width: medium">
+                            <input type="hidden" name="id" value="${order.id}">
+                            <input type="hidden" name="date" value="${order.date}">
+                            <input type="hidden" name="active" value="${false}">
+                            <input type="hidden" name="tourId" value="${order.tourId}">
+                            <input type="hidden" name="userId" value="${order.userId}">
+                            <button class="btn btn-lg btn-primary btn-block" type="submit">Cancel</button>
+                        </form:form>
+                    </td>
+                </c:if>
             </tr>
         </c:forEach>
     </table>

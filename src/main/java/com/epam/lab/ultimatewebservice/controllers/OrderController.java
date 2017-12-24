@@ -141,7 +141,7 @@ public class OrderController {
             model.addAttribute("errorMessage", "Error when we try to update order");
             return "errors/error";
         }
-        model.addAttribute("message", "Order successfully updated!");
+        model.addAttribute("message", "Order successfully denied!");
         model.addAttribute("order", updatedOrder);
         return "order/showOrder";
     }
