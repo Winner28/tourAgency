@@ -10,6 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
+import static org.omg.PortableServer.IdAssignmentPolicyValue.USER_ID;
+
 @Component
 public class TourDAO {
 
@@ -96,8 +98,7 @@ public class TourDAO {
                 preparedStatement.executeUpdate();
                 return Optional.of(oldTour);
             } catch (SQLException e) {
-//                e.printStackTrace();
-                System.out.println("BADABDABDBADBABDBABDBADBBADBBADBABDBDBDBDB");
+                e.printStackTrace();
                 return null;
             }
         }, SQL.toString(), tourMap.values().toArray());
@@ -162,44 +163,32 @@ public class TourDAO {
 
 
 
-    private Map<String, String> getFieldsToUpdate(Tour updatedTour, Tour toUpdate) {
+    private Map<String, String> getFieldsToUpdate(Tour newValue, Tour oldValue) {
         Map<String, String> tourMap = new LinkedHashMap<>();
-
-        if (updatedTour.isHot() != toUpdate.isHot()) {
-            tourMap.put(HOT, String.valueOf(updatedTour.isHot()));
-            toUpdate.setHot(updatedTour.isHot());
+        if (oldValue.isActive() != newValue.isActive()){
+            tourMap.put(ACTIVE, String.valueOf(newValue.isActive()));
+            oldValue.setActive(newValue.isActive());
         }
-
-        if (updatedTour.getDuration() != 0 &&
-                (toUpdate.getDuration() != updatedTour.getDuration())) {
-            tourMap.put(DURATION, String.valueOf(updatedTour.getDuration()));
-            toUpdate.setDuration(updatedTour.getDuration());
+        if (oldValue.isHot() != newValue.isHot()){
+            tourMap.put(HOT, String.valueOf(newValue.isHot()));
+            oldValue.setHot(newValue.isHot());
         }
-
-        if (updatedTour.getPrice() != 0 &&
-                (toUpdate.getPrice() != updatedTour.getPrice())) {
-            tourMap.put(PRICE, String.valueOf(updatedTour.getPrice()));
-            toUpdate.setPrice(updatedTour.getPrice());
+        if (oldValue.getTourTypesId() != newValue.getTourTypesId()){
+            tourMap.put(TOUR_TYPES_ID, String.valueOf(newValue.getTourTypesId()));
+            oldValue.setTourTypesId(newValue.getTourTypesId());
         }
-
-        if (updatedTour.getAgentId() != 0 &&
-                (toUpdate.getAgentId() != updatedTour.getAgentId())) {
-            tourMap.put(AGENT_ID, String.valueOf(updatedTour.getAgentId()));
-            toUpdate.setAgentId(updatedTour.getAgentId());
+        if (oldValue.getAgentId() != newValue.getAgentId()){
+            tourMap.put(AGENT_ID, String.valueOf(newValue.getAgentId()));
+            oldValue.setAgentId(newValue.getAgentId());
         }
-
-        if (updatedTour.isActive() != toUpdate.isActive()) {
-            tourMap.put(ACTIVE, String.valueOf(updatedTour.isActive()));
-            toUpdate.setActive(updatedTour.isActive());
+        if (oldValue.getDuration() != newValue.getDuration()){
+            tourMap.put(DURATION, String.valueOf(newValue.getDuration()));
+            oldValue.setDuration(newValue.getDuration());
         }
-
-        if (updatedTour.getTourTypesId() != 0 &&
-                (toUpdate.getTourTypesId() != updatedTour.getTourTypesId())) {
-            tourMap.put(TOUR_TYPES_ID, String.valueOf(updatedTour.getTourTypesId()));
-            toUpdate.setTourTypesId(updatedTour.getTourTypesId());
+        if (oldValue.getPrice() != newValue.getPrice()){
+            tourMap.put(PRICE, String.valueOf(newValue.getPrice()));
+            oldValue.setPrice(newValue.getPrice());
         }
-
-
         return tourMap;
     }
 
