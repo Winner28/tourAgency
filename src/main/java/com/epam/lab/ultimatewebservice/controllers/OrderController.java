@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -56,6 +57,13 @@ public class OrderController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String createOrder(@ModelAttribute("order") Order order, Model model,
                               HttpServletRequest request) {
+        if (!checkAccess(request)) {
+            model.addAttribute("errorMessage", "Bad access. Your request denied!");
+            return "order/error";
+        }
+        order.setUserId(getUserId(request));
+        order.setDate(new Date().toString());
+        System.out.println(order);
         if (!checkOrder(order)) {
             model.addAttribute("errorMessage", "Order has wrong parameters!");
             return "order/error";
@@ -177,8 +185,22 @@ public class OrderController {
         return false;
     }
 
+    private int getUserId(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals(LOGGED_COOKIE)) {
+                int id = SessionManager.getUserIdByCookie(cookie);
+                return id;
+            }
+        }
+        return 0;
+    }
+
     private boolean checkOrder(Order order) {
-        return !(order.getDate().isEmpty()) && !(order.getTourId() == 0) && !(order.getUserId() == 0);
+        if(order == null)
+            return false;
+        return !(order.getDate().isEmpty()) &&
+                !(order.getTourId() == 0) && !(order.getUserId() == 0);
     }
 
     private boolean checkOrderExistence(int id){
