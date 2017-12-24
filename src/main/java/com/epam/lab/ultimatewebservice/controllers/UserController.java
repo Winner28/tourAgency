@@ -82,6 +82,7 @@ public class UserController {
         return modelAndView;
     }
 
+
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
     public ModelAndView updateUserPage(@PathVariable String id, HttpServletRequest request) {
         if (!checkAccess(request)) {
@@ -103,7 +104,7 @@ public class UserController {
     public ModelAndView updateUserPage(HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView();
         String id = request.getParameter("id");
-        if (id == null) {
+        if (id == null || id.isEmpty()) {
             modelAndView.setViewName("errors/error");
             modelAndView.addObject("errorMessage", "We dont have user with such id");
             return modelAndView;
@@ -225,6 +226,7 @@ public class UserController {
 
     private boolean checkAccess(HttpServletRequest request) {
         Cookie []cookies = request.getCookies();
+        if (cookies == null) return false;
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals(LOGGED_COOKIE)) {
                 int id = SessionManager.getUserIdByCookie(cookie);

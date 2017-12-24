@@ -65,7 +65,16 @@ buildscript {
 gretty {
   httpPort = 8181
   contextPath = '/'
-  servletContainer = 'jetty9'
+  servletContainer = 'tomcat8'
+    fastReload = true
+    recompileOnSourceChange = false
+    reloadOnClassChange = false
+    reloadOnConfigChange = false
+    reloadOnLibChange = false
+
+    enableNaming = true
+
+    debugSuspend = false
 }
 
 
