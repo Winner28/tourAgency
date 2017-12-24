@@ -48,16 +48,13 @@
         <button class="btn btn-lg btn-success btn-block" type="submit">Delete User</button>
     </form:form>
 
-
     <form:form method = "GET" action = "/users/all" cssClass="form-signin">
         <button class="btn btn-lg btn-success btn-block" type="submit">Show all users</button>
     </form:form>
 
-
     <form:form method = "GET" action = "/users/permissions/create" cssClass="form-signin">
         <button class="btn btn-lg btn-success btn-block" type="submit">Create permission</button>
     </form:form>
-
 
     <form:form method = "GET" action = "/users/permissions/update" cssClass="form-signin">
         <button class="btn btn-lg btn-success btn-block" type="submit">Update permission</button>
@@ -67,7 +64,6 @@
         <input type="text" name="id" placeholder="Type an user id" class="form-control text-center">
         <button class="btn btn-lg btn-success btn-block" type="submit">Get permission</button>
     </form:form>
-
 </c:if>
 
 
