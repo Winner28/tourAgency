@@ -151,7 +151,7 @@ public class OrderController {
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public ModelAndView getAllOrders(HttpServletRequest request) {
+    public ModelAndView getAllUserOrders(HttpServletRequest request) {
         if (!checkAccess(request)) {
             return accessDeniedView();
         }
@@ -202,8 +202,29 @@ public class OrderController {
             modelAndView.addObject("errorMessage", "THERE IS NULL");
             return modelAndView;
         }
-        modelAndView.setViewName("order/showAllOrders");
+        modelAndView.setViewName("order/showOrdersForAgent");
         modelAndView.addObject("orderList", agentOrders);
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/allOrders", method = RequestMethod.GET)
+    public ModelAndView getAllOrders(HttpServletRequest request) {
+        if (!checkAccess(request)) {
+            return accessDeniedView();
+        }
+        ModelAndView modelAndView = new ModelAndView();
+        Cookie[] cookies = request.getCookies();
+        int id = getIdByCookie(cookies);
+
+        if (id == 0) {
+            modelAndView.setViewName("errors/error");
+            modelAndView.addObject("errorMessage", "No such User logged in");
+            return modelAndView;
+        }
+
+        List<Order> orderList = orderService.getAllOrders();
+        modelAndView.setViewName("order/showOrdersForAgent");
+        modelAndView.addObject("orderList", orderList);
         return modelAndView;
     }
 
