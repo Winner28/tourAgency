@@ -172,6 +172,7 @@ public class OrderController {
         }
         modelAndView.setViewName("order/showAllOrders");
         modelAndView.addObject("orderList", orderList);
+        modelAndView.addObject("discount", orderService.getDiscount(id));
         return modelAndView;
     }
 

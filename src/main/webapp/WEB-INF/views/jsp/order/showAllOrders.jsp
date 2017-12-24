@@ -15,6 +15,8 @@
         </h4>
     </c:if>
 
+
+    <h2> Your discount is ${discount}%</h2> <br>
     <table border="1" cellspacing="0" cellpadding="2">
         <tr>
             <td>Order ID</td>
