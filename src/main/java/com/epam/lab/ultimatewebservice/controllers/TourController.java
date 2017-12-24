@@ -40,11 +40,9 @@ public class TourController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String tourCreation(@ModelAttribute("tour") Tour tour, Model model,
                                HttpServletRequest request) {
-        String duration = request.getParameter("duration");
-        System.out.println(duration);
         String isHot = request.getParameter("hot");
         String isActive = request.getParameter("active");
-        if (!checkValidation(tour) || isHot == null || isActive == null || Integer.getInteger(duration, null) == null) {
+        if (!checkValidation(tour) || isHot == null || isActive == null) {
             model.addAttribute("errorMessage", "Error when we try to create tour, some fields are empty");
             return "tour/error";
         }
@@ -58,24 +56,21 @@ public class TourController {
         model.addAttribute("message", "User successfully created!");
         return "tour/showTour";
     }
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
-    public ModelAndView deleteTourById(@PathVariable String id) {
-        Tour tourToDelete = tourService.getTourById(Integer.parseInt(id));
-        if (tourToDelete == null) {
-            return new ModelAndView("tour/error", "errorMessage",
-                    "Tour with such id doesn't exist");
-        }
-            if (!tourService.deleteTourById(Integer.parseInt(id))) {
-                return new ModelAndView("tour/error", "errorMessage",
-                        "Error while deleting tour with such id");
-            }
 
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("tour/showTour");
-        modelAndView.addObject("tour", tourToDelete);
-        modelAndView.addObject("message", "Tour with ID = " +
-                tourToDelete.getId() + " successfully deleted!");
-        return modelAndView;
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public String deleteTour(@ModelAttribute Tour tour, Model model,
+                             HttpServletRequest request) {
+        tour.setId(Integer.parseInt(request.getParameter("id")));
+        Tour deletedTour = tourService.getTourById(Integer.parseInt(request.getParameter("id")));
+        if (tourService.deleteTourById(tour.getId())) {
+            model.addAttribute("message", "Tour successfully Deleted!");
+            model.addAttribute("tour", deletedTour);
+            return "tour/showTour";
+        } else {
+            model.addAttribute("errorMessage", "Error when we try to delete tour");
+            return "tour/error";
+
+        }
     }
 
 
@@ -113,6 +108,7 @@ public class TourController {
         modelAndView.addObject("tour", tour);
         return modelAndView;
     }
+
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String updateTour(@ModelAttribute Tour tour, Model model,
