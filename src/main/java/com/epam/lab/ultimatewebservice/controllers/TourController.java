@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
@@ -23,9 +24,13 @@ import java.util.List;
 public class TourController {
 
     private final TourService tourService;
+    private static final String LOGGED_COOKIE = "userLoggedIn";
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public ModelAndView createTourPage() {
+    public ModelAndView createTourPage(HttpServletRequest request) {
+        if (!checkAccess(request)) {
+            return accessDeniedView();
+        }
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("tour/createTour");
         modelAndView.addObject("tour", new Tour());
@@ -35,16 +40,14 @@ public class TourController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String tourCreation(@ModelAttribute("tour") Tour tour, Model model,
                                HttpServletRequest request) {
-        @NonNull
-        int tourTypeId = tour.getTourTypesId();
-        @NonNull
-        int tourAgentId = tour.getAgentId();
-        @NonNull
-        int tourDaration = tour.getDuration();
-        @NonNull
-        double tourPrice = tour.getPrice();
-
-
+        if (!checkAccess(request)) {
+            model.addAttribute("errorMessage", "Bad access. Your request denied");
+            return "errors/error";
+        }
+        if (!validateTour(tour)) {
+            model.addAttribute("errorMessage", "Bad input info");
+            return "errors/error";
+        }
         Tour createdTour = tourService.createTour(tour);
         if (createdTour == null) {
             model.addAttribute("errorMessage", "Error when we try to create tour");
@@ -54,7 +57,10 @@ public class TourController {
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
-    public ModelAndView deleteTourById(@PathVariable int id) {
+    public ModelAndView deleteTourById(@PathVariable int id, HttpServletRequest request) {
+        if (!checkAccess(request)) {
+            return accessDeniedView();
+        }
         Tour tourToDelete = tourService.getTourById(id);
         if (tourToDelete == null) {
             return new ModelAndView("errors/error", "errorMessage",
@@ -73,7 +79,10 @@ public class TourController {
     }
 
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
-    public ModelAndView updateTourPage(@PathVariable int id) {
+    public ModelAndView updateTourPage(@PathVariable int id, HttpServletRequest request) {
+        if (!checkAccess(request)) {
+            return accessDeniedView();
+        }
         ModelAndView modelAndView = new ModelAndView();
         Tour tour = tourService.getTourById(id);
         if (tour == null) {
@@ -89,6 +98,14 @@ public class TourController {
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String updateTour(@ModelAttribute Tour tour, Model model,
                              HttpServletRequest request) {
+        if (!checkAccess(request)) {
+            model.addAttribute("errorMessage", "Bad access. Your request denied");
+            return "errors/error";
+        }
+        if (!validateTour(tour)) {
+            model.addAttribute("errorMessage", "Bad input info");
+            return "errors/error";
+        }
         tour.setId(Integer.parseInt(request.getParameter("id")));
         Tour updatedTour = tourService.updateTour(tour);
         if (updatedTour == null) {
@@ -114,15 +131,23 @@ public class TourController {
         return modelAndView;
     }
 
-    private ModelAndView checkTourAndReturnModel(Tour tour) {
-        ModelAndView model = new ModelAndView();
-        if (tour == null) {
-            model.setViewName("errors/error");
-            model.addObject("errorMessage", "Tour doesn't exist");
-            return model;
+    private boolean checkAccess(HttpServletRequest request) {
+        Cookie [] cookies = request.getCookies();
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals(LOGGED_COOKIE)) {
+                return SessionManager.getUserIdByCookie(cookie) != 3;
+            }
         }
-        model.setViewName("tour/showTour");
-        model.addObject("tour", tour);
-        return model;
+        return false;
+    }
+
+    private boolean validateTour(Tour tour) {
+        return tour.getAgentId() != 0 && tour.getDuration() != 0
+                && tour.getId() != 0 && !(tour.getPrice() == 0) && tour.getTourTypesId() != 0;
+    }
+
+    private ModelAndView accessDeniedView() {
+        return new ModelAndView("errors/error","errorMessage",
+                "Bad access. Your request denied");
     }
 }
