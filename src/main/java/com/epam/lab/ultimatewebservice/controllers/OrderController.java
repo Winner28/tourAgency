@@ -1,7 +1,9 @@
 package com.epam.lab.ultimatewebservice.controllers;
 
 import com.epam.lab.ultimatewebservice.entity.Order;
+import com.epam.lab.ultimatewebservice.entity.Tour;
 import com.epam.lab.ultimatewebservice.service.OrderService;
+import com.epam.lab.ultimatewebservice.service.TourService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -22,6 +25,7 @@ import java.util.List;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class OrderController {
 
+    private final TourService tourService;
     private final OrderService orderService;
     private static final String LOGGED_COOKIE = "userLoggedIn";
 
@@ -141,7 +145,7 @@ public class OrderController {
             model.addAttribute("errorMessage", "Error when we try to update order");
             return "errors/error";
         }
-        model.addAttribute("message", "Order successfully updated!");
+        model.addAttribute("message", "Order successfully denied!");
         model.addAttribute("order", updatedOrder);
         return "order/showOrder";
     }
@@ -153,12 +157,8 @@ public class OrderController {
         }
         ModelAndView modelAndView = new ModelAndView();
         Cookie[] cookies = request.getCookies();
-        int id = 0;
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equals(LOGGED_COOKIE)) {
-                id = SessionManager.getUserIdByCookie(cookie);
-            }
-        }
+        int id = getIdByCookie(cookies);
+
         if (id == 0) {
             modelAndView.setViewName("errors/error");
             modelAndView.addObject("errorMessage", "No such User logged in");
@@ -175,6 +175,48 @@ public class OrderController {
         modelAndView.addObject("discount", orderService.getDiscount(id));
         return modelAndView;
     }
+
+    @RequestMapping(value = "/agentOrders", method = RequestMethod.GET)
+    public ModelAndView getAllAgentOrders(HttpServletRequest request) {
+        if (!checkAccess(request)) {
+            return accessDeniedView();
+        }
+        ModelAndView modelAndView = new ModelAndView();
+        Cookie[] cookies = request.getCookies();
+        int id = getIdByCookie(cookies);
+
+        if (id == 0) {
+            modelAndView.setViewName("errors/error");
+            modelAndView.addObject("errorMessage", "No such User logged in");
+            return modelAndView;
+        }
+
+        List<Tour> agentTours = tourService.getToursIdByAgentId(id) ;
+        List<Order> agentOrders = new ArrayList<>();
+        for (Tour tour : agentTours){
+            agentOrders.addAll(orderService.getOrdersByTourId(tour.getId()));
+        }
+
+        if (agentOrders.size() == 0) {
+            modelAndView.setViewName("errors/error");
+            modelAndView.addObject("errorMessage", "THERE IS NULL");
+            return modelAndView;
+        }
+        modelAndView.setViewName("order/showAllOrders");
+        modelAndView.addObject("orderList", agentOrders);
+        return modelAndView;
+    }
+
+    private int getIdByCookie(Cookie[] cookies){
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals(LOGGED_COOKIE)) {
+                return SessionManager.getUserIdByCookie(cookie);
+            }
+        }
+        return 0;
+    }
+
+
 
     private ModelAndView accessDeniedView() {
         return new ModelAndView("errors/error", "errorMessage",

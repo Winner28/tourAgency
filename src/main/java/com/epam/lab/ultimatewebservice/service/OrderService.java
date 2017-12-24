@@ -43,20 +43,24 @@ public class OrderService {
         if (orderList.isEmpty()) {
             return 0;
         }
-        int size = orderList.size();
-        if (size <= 5) {
+        int activeCount = 0;
+        for (Order o: orderList) {
+            if(o.isActive())
+                activeCount++;
+        }
+        if (activeCount < 5) {
+            return 0;
+        }
+        if (activeCount < 10) {
             return 5;
         }
-        if (size <= 10) {
+        if (activeCount < 20) {
             return 10;
         }
-        if (size <= 20) {
+        if (activeCount < 30) {
             return 15;
-        }
-        if (size <= 30) {
-            return 20;
         } else
-            return 25;
+            return 20;
     }
 
 }
