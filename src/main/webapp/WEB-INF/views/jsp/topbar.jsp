@@ -30,14 +30,13 @@
                 <a href="#" class="social"><i class="fa fa-dribbble" aria-hidden="true"></i></a>
             </div>
             <div class="col-sm-4 text-right hidden-xs">
-                <ul class="tools">
-
-
-                    <li class="dropdown">
-                        <a class="" href="/"><i class="fa fa-user" aria-hidden="true"></i>   Home Page</a>
+                <ul class="tools inline" style="display: inline-block">
+                    <li class="dropdown" style="display: inline-block">
+                        <a class="" href="${pageContext.request.contextPath}/"><i class="fa fa-user" aria-hidden="true"></i>   Home Page</a>
                     </li>
-
-
+                    <li class="dropdown" style="display: inline-block">
+                        <a class="" href="${pageContext.request.contextPath}/logout"><i class="fa fa-sign-out" aria-hidden="true"></i>   Log Out</a>
+                    </li>
                 </ul>
             </div>
         </div>

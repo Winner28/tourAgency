@@ -154,7 +154,7 @@
 
 
 
-<form:form method = "POST" action = "/logout" cssClass="form-signin" cssStyle="border-bottom-width: medium">
+<form:form method = "GET" action = "/logout" cssClass="form-signin" cssStyle="border-bottom-width: medium">
     <button class="btn btn-lg btn-primary btn-block" type="submit">Log Out</button>
 </form:form>
 <br>

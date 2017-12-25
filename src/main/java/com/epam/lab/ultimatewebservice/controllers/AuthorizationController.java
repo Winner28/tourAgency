@@ -99,7 +99,7 @@ public class AuthorizationController {
         return "redirect:/login";
     }
 
-    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout(HttpServletRequest request) {
         Cookie []cookies = request.getCookies();
         for (Cookie cookie : cookies) {
