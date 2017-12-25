@@ -22,8 +22,20 @@
 <div class="container">
     <h3 class="text-center"> id: ${tour.id}</h3>
     <h3 class="text-center"> Tour Name: ${tour.tourName}</h3>
-    <h3 class="text-center"> Active: ${tour.active}</h3>
-    <h3 class="text-center"> Hot: ${tour.hot}</h3>
+    <h3 class="text-center"> Active:
+        <c:if test="${tour.active == true}">
+            Yes
+            </c:if>
+        <c:if test="${tour.active == false}">
+            No
+        </c:if></h3>
+    <h3 class="text-center"> Hot:
+        <c:if test="${tour.active == true}">
+        Yes
+    </c:if>
+        <c:if test="${tour.active==false}">
+            No
+        </c:if></h3>
     <h3 class="text-center"> Duration: ${tour.duration}</h3>
     <h3 class="text-center"> Price: ${tour.price}</h3>
     <h3 class="text-center"> Tour Type Id: ${tour.tourTypesId}</h3>

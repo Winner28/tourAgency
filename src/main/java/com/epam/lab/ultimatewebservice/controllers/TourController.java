@@ -151,16 +151,10 @@ public class TourController {
         }
         tour.setId(Integer.parseInt(request.getParameter("id")));
         Tour updatedTour = tourService.updateTour(tour);
-        String isHot = request.getParameter("hot");
-        String isActive = request.getParameter("active");
         if (updatedTour == null) {
             model.addAttribute("errorMessage", "Error when we try to update tour");
             return "errors/error";
         }
-//        if (isActive == null || isHot == null) {
-//            model.addAttribute("errorMessage", "please fill all fields");
-//            return "errors/error";
-//        }
         model.addAttribute("message", "Tour successfully Updated!");
         model.addAttribute("tour", updatedTour);
         return "tour/showTour";
@@ -168,8 +162,6 @@ public class TourController {
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public ModelAndView getAllTours(HttpServletRequest request) {
-
-        //request check
         List<Tour> tourList;
         ModelAndView modelAndView = new ModelAndView();
         tourList = tourService.getTourList();
