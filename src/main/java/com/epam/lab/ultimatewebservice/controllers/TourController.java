@@ -6,6 +6,7 @@ import com.epam.lab.ultimatewebservice.entity.Tour;
 import com.epam.lab.ultimatewebservice.entity.User;
 import com.epam.lab.ultimatewebservice.service.AuthorizationService;
 import com.epam.lab.ultimatewebservice.service.TourService;
+import com.epam.lab.ultimatewebservice.service.TourTypeService;
 import com.epam.lab.ultimatewebservice.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -32,6 +33,7 @@ public class TourController {
 
     private final TourService tourService;
     private final UserService userService;
+    private final TourTypeService tourTypeService;
     private final AuthorizationService authorizationService;
     private static final String LOGGED_COOKIE = "userLoggedIn";
 
@@ -81,6 +83,8 @@ public class TourController {
         }
         model.addAttribute("tour", createdTour);
         model.addAttribute("message", "Tour      successfully created!");
+        model.addAttribute("userService", userService);
+        model.addAttribute("tourTypeService", tourTypeService);
         return "tour/showTour";
     }
 

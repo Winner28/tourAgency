@@ -22,6 +22,9 @@
 <div class="container">
     <h3 class="text-center"> id: ${tour.id}</h3>
     <h3 class="text-center"> Tour Name: ${tour.tourName}</h3>
+    <h3 class="text-center"> Agent: ${userService.getUserById(tour.agentId).firstName}
+
+                                        ${userService.getUserById(tour.agentId).lastName}</h3>
     <h3 class="text-center"> Active:
         <c:if test="${tour.active == true}">
             Yes
@@ -38,8 +41,9 @@
         </c:if></h3>
     <h3 class="text-center"> Duration: ${tour.duration}</h3>
     <h3 class="text-center"> Price: ${tour.price}</h3>
-    <h3 class="text-center"> Tour Type Id: ${tour.tourTypesId}</h3>
-    <h3 class="text-center"> Agent Id: ${tour.agentId}</h3>
+    <h3 class="text-center"> Tour Type: ${tourTypeService.getTourTypeById(tour.tourTypesId).tourType}</h3>
+
+
 </div>
 
 <form:form method = "GET" action = "/" cssClass="form-signin">
