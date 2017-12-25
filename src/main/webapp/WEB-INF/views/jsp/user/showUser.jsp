@@ -25,7 +25,6 @@
     <h3 class="text-center"> First Name: ${user.firstName}</h3>
     <h3 class="text-center"> Last Name: ${user.lastName}</h3>
     <h3 class="text-center"> Email: ${user.email}</h3>
-    <h3 class="text-center"> Password: ${user.passwordHash}</h3>
 </div>
 
 <form:form method = "GET" action = "/" cssClass="form-signin">

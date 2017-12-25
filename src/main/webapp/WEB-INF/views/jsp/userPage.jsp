@@ -33,9 +33,10 @@
 </div>
 <br>
 
+<h2 class="text-center"><b>Hello, mr.${user.lastName}</b></h2>
 
 <c:if test="${userType.equals('admin')}">
-    <h2 class="text-center"><b>Hello, mr.${user.lastName}</b></h2>
+
 
 <table class="table table-condensed">
     <tbody>
@@ -135,7 +136,6 @@
 
 
 <c:if test="${userType.equals('agent')}">
-    <h2 class="text-center glyphicon-text-color">You have entered as tour-agent</h2>
 
     <form:form method = "GET" action = "/tours/create" cssClass="form-signin">
         <button class="btn btn-lg btn-success btn-block" type="submit">Create tour</button>
@@ -163,7 +163,7 @@
 
 
 
-<form:form method = "POST" action = "/logout" cssClass="form-signin" cssStyle="border-bottom-width: medium">
+<form:form method = "GET" action = "/logout" cssClass="form-signin" cssStyle="border-bottom-width: medium">
     <button class="btn btn-lg btn-primary btn-block" type="submit">Log Out</button>
 </form:form>
 <br>

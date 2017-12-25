@@ -34,9 +34,11 @@
     </c:forEach>
     </tbody>
 </table>
-<form:form method = "POST" action = "/" cssClass="form-signin">
-    <button class="btn btn-lg btn-success btn-block" type="submit">Get back to Home Page</button>
+<form:form method = "GET" action = "/" cssClass="form-signin">
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Get back to Home Page</button>
 </form:form>
+<br>
+<br>
 <%@include file="../footer.jsp" %>
 
 </body>
