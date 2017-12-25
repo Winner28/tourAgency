@@ -130,6 +130,10 @@
         <button class="btn btn-lg btn-success btn-block" type="submit">Delete Tour</button>
     </form:form>
 
+    <form:form method = "GET" action = "/tours/all" cssClass="form-signin">
+        <button class="btn btn-lg btn-success btn-block" type="submit">Show all tours</button>
+    </form:form>
+
 </c:if>
 <br>
 

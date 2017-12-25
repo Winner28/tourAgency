@@ -1,50 +1,61 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: vladey
-  Date: 21.12.17
-  Time: 13:36
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
-    <title>Tours List</title>
+    <title>Users List</title>
+    <link href="${contextPath}/resources/core/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${contextPath}/resources/core/css/common.css" rel="stylesheet">
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+
+    <link href="${bootstrapCss}" rel="stylesheet" />
+    <link href="${coreCss}" rel="stylesheet" />
 </head>
 <body>
-<h1><b>List of Tours: </b></h1> <br>
+<h1 class="text-center glyphicon-text-color"><b>Tours List</b></h1> <br>
 
-<ul>
-    <%--<c:forEach var="tour" items="${tourList}">--%>
-       <%--<h4><li>${tour.toString()}</li></h4>--%>
-    <%--</c:forEach>--%>
-    <table border="1" cellspacing="0" cellpadding="2">
+
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <td class="text-center">id</td>
+        <td class="text-center">Agent Id</td>
+        <td class="text-center">Tour Type Id</td>
+        <td class="text-center">Price</td>
+        <td class="text-center">Duration</td>
+        <td class="text-center">Active</td>
+        <td class="text-center">Hot</td>
+    </tr>
+    </thead>
+    <tbody>
+    <c:forEach items="${tourList}" var="tour">
         <tr>
-            <td>TourID</td>
-            <td>Hot</td>
-            <td>Price</td>
-            <td>Duration</td>
-            <td>Tour Type</td>
-            <td>Action</td>
+            <td class="text-center">${tour.id}</td>
+            <td class="text-center">${tour.agentId}</td>
+            <td class="text-center">${tour.tourTypesId}</td>
+            <td class="text-center">${tour.price}</td>
+            <td class="text-center">${tour.duration}</td>
+            <td class="text-center">${tour.active}</td>
+            <td class="text-center">${tour.hot}</td>
+            <td class="text-center">
+                <form:form method = "GET" action = "/tours/update">
+                    <input type="hidden" name="id" value="${tour.id}">
+                    <button class="btn btn-lg btn-success btn-block btn-xs" type="submit">Update Tour</button>
+                </form:form>
+            </td>
+            <td class="text-center">
+                <form:form method = "POST" action = "/tours/delete">
+                    <input type="hidden" name="id" value="${tour.id}">
+                    <button class="btn btn-lg btn-success btn-block btn-xs text-center" type="submit">Delete Tour</button>
+                </form:form>
+            </td>
         </tr>
-
-        <c:forEach items="${tourList}" var="tour">
-            <tr>
-                <td>${tour.id}</td>
-                <td>${tour.hot}</td>
-                <td>${tour.price}</td>
-                <td>${tour.duration}</td>
-                <td>${tour.tourTypesId}</td>
-                <td>
-                    <form:form method = "POST" action = "/orders/create"  cssClass="form-signin" cssStyle="border-bottom-width: medium">
-                        <input type="hidden" name="tourId" value="${tour.id}">
-                        <button class="btn btn-lg btn-primary btn-block" type="submit">Purchase</button>
-                    </form:form></td>
-            </tr>
-        </c:forEach>
-    </table>
-</ul>
-
+    </c:forEach>
+    </tbody>
+</table>
+<form:form method = "GET" action = "/" cssClass="form-signin">
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Get back to Home Page</button>
+</form:form>
 </body>
 </html>
