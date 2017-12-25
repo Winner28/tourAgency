@@ -39,7 +39,7 @@
     <div class="form-group">
         <label for="tourTypesId">Tour type: </label>
         <form:select path = "tourTypesId" cssClass="form-control">
-            <form:option value="0" label="--- Select ---"/>
+            <form:option value="${tour.tourTypesId}" label="--- Select ---"/>
             <form:option value="1">sightseeing</form:option>
             <form:option value="2">transfer</form:option>
             <form:option value="3">shopping</form:option>

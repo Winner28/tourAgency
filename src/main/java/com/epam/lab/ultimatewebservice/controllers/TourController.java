@@ -161,6 +161,8 @@ public class TourController {
         }
         model.addAttribute("message", "Tour successfully Updated!");
         model.addAttribute("tour", updatedTour);
+        model.addAttribute("tourTypeService", tourTypeService);
+        model.addAttribute("userService",userService);
         return "tour/showTour";
     }
 
@@ -200,6 +202,8 @@ public class TourController {
             return modelAndView;
         }
 
+        modelAndView.addObject("tourTypeService", tourTypeService);
+        modelAndView.addObject("userService", userService);
         modelAndView.setViewName("tour/showAllTours");
         modelAndView.addObject("tourList", tourList);
 
