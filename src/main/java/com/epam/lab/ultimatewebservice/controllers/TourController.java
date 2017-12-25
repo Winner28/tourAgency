@@ -6,6 +6,7 @@ import com.epam.lab.ultimatewebservice.entity.Tour;
 import com.epam.lab.ultimatewebservice.entity.User;
 import com.epam.lab.ultimatewebservice.service.AuthorizationService;
 import com.epam.lab.ultimatewebservice.service.TourService;
+import com.epam.lab.ultimatewebservice.service.TourTypeService;
 import com.epam.lab.ultimatewebservice.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -32,6 +33,7 @@ public class TourController {
 
     private final TourService tourService;
     private final UserService userService;
+    private final TourTypeService tourTypeService;
     private final AuthorizationService authorizationService;
     private static final String LOGGED_COOKIE = "userLoggedIn";
 
@@ -80,7 +82,9 @@ public class TourController {
             return "errors/error";
         }
         model.addAttribute("tour", createdTour);
-        model.addAttribute("message", "User successfully created!");
+        model.addAttribute("message", "Tour      successfully created!");
+        model.addAttribute("userService", userService);
+        model.addAttribute("tourTypeService", tourTypeService);
         return "tour/showTour";
     }
 
@@ -151,25 +155,19 @@ public class TourController {
         }
         tour.setId(Integer.parseInt(request.getParameter("id")));
         Tour updatedTour = tourService.updateTour(tour);
-        String isHot = request.getParameter("hot");
-        String isActive = request.getParameter("active");
         if (updatedTour == null) {
             model.addAttribute("errorMessage", "Error when we try to update tour");
             return "errors/error";
         }
-        if (isActive == null || isHot == null) {
-            model.addAttribute("errorMessage", "please fill all fields");
-            return "errors/error";
-        }
         model.addAttribute("message", "Tour successfully Updated!");
         model.addAttribute("tour", updatedTour);
+        model.addAttribute("tourTypeService", tourTypeService);
+        model.addAttribute("userService",userService);
         return "tour/showTour";
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public ModelAndView getAllTours(HttpServletRequest request) {
-
-        //request check
         List<Tour> tourList;
         ModelAndView modelAndView = new ModelAndView();
         tourList = tourService.getTourList();
@@ -204,6 +202,8 @@ public class TourController {
             return modelAndView;
         }
 
+        modelAndView.addObject("tourTypeService", tourTypeService);
+        modelAndView.addObject("userService", userService);
         modelAndView.setViewName("tour/showAllTours");
         modelAndView.addObject("tourList", tourList);
 

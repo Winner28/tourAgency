@@ -14,34 +14,40 @@
     <link href="${bootstrapCss}" rel="stylesheet" />
     <link href="${coreCss}" rel="stylesheet" />
 </head>
-
+<body>
+<%@include file="../topbar.jsp" %>
 <h1 class="text-center">Update Page</h1>
 <br>
 <form:form method = "POST" action = "/tours/update" modelAttribute="tour" cssClass="form-signin">
     <input type="hidden" name="id" value="${tour.id}"/>
-    <div class="form-group">
 
+    <div class="form-group">
+        <label for="tourName">Tour Name: </label>
+        <form:input path = "tourName" cssClass="form-control"/>
+    </div>
+
+    <div class="form-group">
         <label for="duration">Duration: </label>
         <form:input path = "duration" cssClass="form-control"/>
     </div>
-    <div class="form-group">
 
+    <div class="form-group">
         <label for="price">Price: </label>
         <form:input path = "price" cssClass="form-control"/>
     </div>
-    <div class="form-group">
 
+    <div class="form-group">
         <label for="tourTypesId">Tour type: </label>
         <form:select path = "tourTypesId" cssClass="form-control">
-            <form:option value="0" label="--- Select ---"/>
+            <form:option value="${tour.tourTypesId}" label="--- Select ---"/>
             <form:option value="1">sightseeing</form:option>
             <form:option value="2">transfer</form:option>
             <form:option value="3">shopping</form:option>
             <form:option value="4">excursion</form:option>
         </form:select>
     </div>
-    <div class="form-group">
 
+    <div class="form-group">
         <label for="agentId">Agent number:</label>
         <form:input path = "agentId" cssClass="form-control"/>
     </div>
@@ -60,9 +66,6 @@
     </div>
 
     <button class="btn btn-lg btn-primary btn-block" type="submit">Update Tour</button>
-
-
-
 </form:form>
 
 <form:form method = "GET" action = "/" cssClass="form-signin">

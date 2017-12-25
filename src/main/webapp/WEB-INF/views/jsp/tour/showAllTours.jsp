@@ -3,7 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
-    <title>Users List</title>
+    <title>Tour List</title>
     <link href="${contextPath}/resources/core/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/core/css/common.css" rel="stylesheet">
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -13,15 +13,14 @@
     <link href="${coreCss}" rel="stylesheet" />
 </head>
 <body>
+<%@include file="../topbar.jsp" %>
 <h1 class="text-center glyphicon-text-color"><b>Tours List</b></h1> <br>
-
-
 <table class="table table-hover">
     <thead>
     <tr>
-        <td class="text-center">id</td>
-        <td class="text-center">Agent Id</td>
-        <td class="text-center">Tour Type Id</td>
+        <td class="text-center">Tour Name</td>
+        <td class="text-center">Agent</td>
+        <td class="text-center">Tour Type</td>
         <td class="text-center">Price</td>
         <td class="text-center">Duration</td>
         <td class="text-center">Active</td>
@@ -31,9 +30,11 @@
     <tbody>
     <c:forEach items="${tourList}" var="tour">
         <tr>
-            <td class="text-center">${tour.id}</td>
-            <td class="text-center">${tour.agentId}</td>
-            <td class="text-center">${tour.tourTypesId}</td>
+            <td class="text-center">${tour.tourName}</td>
+            <td class="text-center">${userService.getUserById(tour.agentId).firstName}
+
+                    ${userService.getUserById(tour.agentId).lastName}</td>
+            <td class="text-center">${tourTypeService.getTourTypeById(tour.tourTypesId).tourType}</td>
             <td class="text-center">${tour.price}</td>
             <td class="text-center">${tour.duration}</td>
             <td class="text-center">${tour.active}</td>
