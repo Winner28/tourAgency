@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>User Page</title>
+    <title>Permission Page</title>
 
     <link href="${contextPath}/resources/core/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/core/css/common.css" rel="stylesheet">
@@ -14,20 +14,18 @@
     <link href="${bootstrapCss}" rel="stylesheet" />
     <link href="${coreCss}" rel="stylesheet" />
 </head>
-<h1 class="text-center glyphicon-text-color">${message}</h1>
-<h2 class="text-center">User information</h2>
+<h2 class="text-center">Permission information</h2>
 <br>
 <div class="container">
-    <h3 class="text-center"> id: ${user.id}</h3>
-    <h3 class="text-center"> First Name: ${user.firstName}</h3>
-    <h3 class="text-center"> Last Name: ${user.lastName}</h3>
-    <h3 class="text-center"> Email: ${user.email}</h3>
-    <h3 class="text-center"> Password: ${user.passwordHash}</h3>
-</div>
+    <h3 class="text-center"> User id: ${permission.userId}</h3>
+    <h3 class="text-center"> Permission Id: ${permission.permissionNameId}</h3>
 
+</div>
 <form:form method = "GET" action = "/" cssClass="form-signin">
     <button class="btn btn-lg btn-primary btn-block" type="submit">Get back to Home Page</button>
 </form:form>
+
+
 <spring:url value="/resources/core/css/hello.js" var="coreJs" />
 <spring:url value="/resources/core/css/bootstrap.min.js" var="bootstrapJs" />
 

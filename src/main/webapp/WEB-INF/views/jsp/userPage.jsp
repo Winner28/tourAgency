@@ -31,47 +31,47 @@
 <br>
 
 
-<c:if test="${admin.equals('admin')}">
+<c:if test="${userType.equals('admin')}">
     <h2 class="text-center glyphicon-text-color">Hello, mr.Admin</h2>
 
-<table class="table table-bordered">
+<table class="table table-condensed">
     <tbody>
     <tr>
-   <td><form:form method = "GET" action = "/users/create" cssClass="form-signin">
+        <td>
+<form:form method = "GET" action = "/users/create" cssClass="form-signin">
         <button class="btn btn-lg btn-success btn-block" type="submit">Create user</button>
     </form:form></td>
+        <td>
 
-        <td><form:form method = "GET" action = "/users/all" cssClass="form-signin">
-            <button class="btn btn-lg btn-success btn-block" type="submit">Show all users</button>
-        </form:form>
+            <form:form method = "GET" action = "/users/permissions/all" cssClass="form-signin">
+                <button class="btn btn-lg btn-success btn-block" type="submit">Get permissions List</button>
+            </form:form>
         </td>
         <td>
-        <form:form method = "GET" action = "/users/permissions/create" cssClass="form-signin">
-            <button class="btn btn-lg btn-success btn-block" type="submit">Create permission</button>
-        </form:form>
-
+            <form:form method = "GET" action = "/users/permissions/create" cssClass="form-signin">
+                <button class="btn btn-lg btn-success btn-block" type="submit">Create permission</button>
+            </form:form>
         </td>
     </tr>
-
     <tr>
-        <td> <form:form method = "GET" action = "/users/update" cssClass="form-signin">
-            <input type="text" name="id" placeholder="Type an id" class="form-control text-center">
-            <button class="btn btn-lg btn-success btn-block" type="submit">Update User</button>
-        </form:form></td>
-
-
-
-        <td> <form:form method = "POST" action = "/users/delete" cssClass="form-signin">
-            <input type="text" name="id" placeholder="Type an id" class="form-control text-center">
-            <button class="btn btn-lg btn-success btn-block" type="submit">Delete User</button>
-        </form:form>
+        <td>
+    <form:form method = "GET" action = "/users/all" cssClass="form-signin">
+        <button class="btn btn-lg btn-success btn-block" type="submit">Show all users</button>
+    </form:form>
         </td>
 
         <td>
-            <form:form method = "POST" action = "/users/permissions/delete" cssClass="form-signin">
-                <input type="text" name="id" placeholder="Type an user id" class="form-control text-center">
-                <button class="btn btn-lg btn-success btn-block" type="submit">Delete permission</button>
+
+            <form:form method = "POST" action = "/users/delete" cssClass="form-signin">
+                <input type="text" name="id" placeholder="Type an id" class="form-control text-center">
+                <button class="btn btn-lg btn-success btn-block" type="submit">Delete User</button>
             </form:form>
+        </td>
+
+        <td>
+    <form:form method = "GET" action = "/users/permissions/update" cssClass="form-signin">
+        <button class="btn btn-lg btn-success btn-block" type="submit">Update permission</button>
+    </form:form>
         </td>
     </tr>
     <tr>
@@ -81,37 +81,60 @@
         <button class="btn btn-lg btn-success btn-block" type="submit">Get permission</button>
     </form:form>
         </td>
+
         <td>
-            <form:form method = "GET" action = "/users/permissions/update" cssClass="form-signin">
-                <button class="btn btn-lg btn-success btn-block" type="submit">Update permission</button>
+
+            <form:form method = "GET" action = "/users/update" cssClass="form-signin">
+                <input type="text" name="id" placeholder="Type an id" class="form-control text-center">
+                <button class="btn btn-lg btn-success btn-block" type="submit">Update User</button>
             </form:form>
         </td>
         <td>
-    <form:form method = "POST" action = "/users/permissions/getbyid" cssClass="form-signin">
+    <form:form method = "POST" action = "/users/permissions/id" cssClass="form-signin">
         <input type="text" name="id" placeholder="Type an permission id" class="form-control text-center">
-        <button class="btn btn-lg btn-success btn-block" type="submit">Get Permissions List</button>
+        <button class="btn btn-lg btn-success btn-block" type="submit">Get permissions By Id</button>
     </form:form>
         </td>
     </tr>
     </tbody>
 </table>
-
 </c:if>
 
-<c:if test="${admin.equals('notAdmin')}">
-<form:form method = "POST" action = "/orders" cssClass="form-signin">
-    <input type="hidden" value="${user.id}">
-    <button class="btn btn-lg btn-info btn-block" type="submit">My orders</button>
-</form:form>
-    <form:form method = "GET" action = "/tours/all" cssClass="form-signin">
-    <input type="hidden" value="${user.id}">
-    <button class="btn btn-lg btn-info btn-block" type="submit">Look up for tours</button>
-</form:form>
+
+<c:if test="${userType.equals('agent')}">
+    <form:form method = "GET" action = "/orders/agentOrders" cssClass="form-signin">
+        <input type="hidden" value="${user.id}">
+        <button class="btn btn-lg btn-info btn-block" type="submit">Orders by my tours</button>
+    </form:form>
+    <form:form method = "GET" action = "/orders/allOrders" cssClass="form-signin">
+        <button class="btn btn-lg btn-info btn-block" type="submit">All orders</button>
+    </form:form>
+    <form:form method = "GET" action = "/tours/agentTours" cssClass="form-signin">
+        <input type="hidden" value="${user.id}">
+        <button class="btn btn-lg btn-info btn-block" type="submit">Show tours</button>
+    </form:form>
 </c:if>
 <br>
+
+
+<c:if test="${userType.equals('client')}">
+    <form:form method="GET" action="/orders/all" cssClass="form-signin">
+        <input type="hidden" value="${user.id}">
+        <button class="btn btn-lg btn-info btn-block" type="submit">My orders</button>
+    </form:form>
+    <form:form method="GET" action="/tours/all" cssClass="form-signin">
+        <input type="hidden" value="${user.id}">
+        <button class="btn btn-lg btn-info btn-block" type="submit">Show tours</button>
+    </form:form>
+</c:if>
+<br>
+
+
 <form:form method = "POST" action = "/logout" cssClass="form-signin" cssStyle="border-bottom-width: medium">
     <button class="btn btn-lg btn-primary btn-block" type="submit">Log Out</button>
 </form:form>
+
+
 
 </body>
 </html>

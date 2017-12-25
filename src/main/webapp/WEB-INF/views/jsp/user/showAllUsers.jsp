@@ -7,18 +7,58 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
     <title>Users List</title>
+    <link href="${contextPath}/resources/core/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${contextPath}/resources/core/css/common.css" rel="stylesheet">
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+
+    <link href="${bootstrapCss}" rel="stylesheet" />
+    <link href="${coreCss}" rel="stylesheet" />
 </head>
 <body>
-<h1><b>List of Users: </b></h1> <br>
+<h1 class="text-center glyphicon-text-color"><b>Users List</b></h1> <br>
 
-<ul>
-    <c:forEach var="user" items="${userList}">
-       <h4><li>${user.toString()}</li></h4>
-    </c:forEach>
-</ul>
 
+<table class="table table-hover">
+    <thead>
+            <tr>
+                <td class="text-center">id</td>
+                <td class="text-center">First Name</td>
+                <td class="text-center">Last Name</td>
+                <td class="text-center">Email</td>
+                <td class="text-center">Update</td>
+                <td class="text-center">Delete</td>
+            </tr>
+    </thead>
+    <tbody>
+            <c:forEach items="${userList}" var="user">
+                <tr>
+                    <td class="text-center">${user.id}</td>
+                    <td class="text-center">${user.firstName}</td>
+                    <td class="text-center">${user.lastName}</td>
+                    <td class="text-center">${user.email}</td>
+                    <td class="text-center">
+                        <form:form method = "GET" action = "/users/update">
+                            <input type="hidden" name="id" value="${user.id}">
+                            <button class="btn btn-lg btn-success btn-block btn-xs" type="submit">Update User</button>
+                        </form:form>
+                    </td>
+                    <td class="text-center">
+                        <form:form method = "POST" action = "/users/delete">
+                            <input type="hidden" name="id" value="${user.id}">
+                            <button class="btn btn-lg btn-success btn-block btn-xs text-center" type="submit">Delete User</button>
+                        </form:form>
+                    </td>
+                </tr>
+            </c:forEach>
+    </tbody>
+        </table>
+<form:form method = "GET" action = "/" cssClass="form-signin">
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Get back to Home Page</button>
+</form:form>
 </body>
 </html>

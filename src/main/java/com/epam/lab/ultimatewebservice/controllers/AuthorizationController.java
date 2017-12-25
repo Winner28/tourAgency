@@ -24,6 +24,9 @@ public class AuthorizationController {
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String loginPage(HttpServletRequest request) {
         Cookie [] cookies = request.getCookies();
+        if (cookies == null) {
+            return "authorization/login";
+        }
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals(LOGGED_COOKIE)) {
                 int id = SessionManager.getUserIdByCookie(cookie);
@@ -59,6 +62,9 @@ public class AuthorizationController {
     @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
     public String userPage(HttpServletRequest request, Model model) {
         Cookie [] cookies = request.getCookies();
+        if(cookies == null){
+            return "redirect:/login";
+        }
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals(LOGGED_COOKIE)) {
                 int id = SessionManager.getUserIdByCookie(cookie);
@@ -71,11 +77,22 @@ public class AuthorizationController {
                 }
                 model.addAttribute("userPage");
                 model.addAttribute("user", user);
-                if (authorizationService.getUserPermission(id) == 1) {
-                    model.addAttribute("admin", "admin");
-                } else {
-                    model.addAttribute("admin", "notAdmin");
+
+                switch (authorizationService.getUserPermission(id)) {
+                    case 1:
+                        model.addAttribute("userType", "admin");
+                        break;
+                    case 2:
+                        model.addAttribute("userType", "agent");
+                        break;
+                    case 3:
+                        model.addAttribute("userType", "client");
+                        break;
+                    default:
+                        model.addAttribute("userType", "client");
+                        break;
                 }
+
                 return "userPage";
             }
         }

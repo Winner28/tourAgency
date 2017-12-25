@@ -26,9 +26,12 @@ public class PermissionDAO {
             "SELECT user_id, permission_name_id FROM permissions";
     private final static String UPDATE_USER_PERMISSION =
             "UPDATE permissions SET permission_name_id=? WHERE user_id=?";
+    private final static String GET_PERMISSION_NAME =
+            "SELECT id, name FROM permission_names WHERE id=?";
 
     private final static String ID = "user_id";
     private final static String PERMISSION = "permission_name_id";
+    private final static String PERMISSION_NAME = "permission_name";
 
 
     private JdbcDAO jdbcDAO;
@@ -53,11 +56,11 @@ public class PermissionDAO {
                            .setUserId(resultSet.getInt(ID))
                            .setPermissionNameId(resultSet.getInt(PERMISSION));
                }
+               return null;
            } catch (SQLException e) {
                e.printStackTrace();
                return null;
            }
-           return null;
         }, GET_USER_PERMISSION_BY_ID, id));
 
     }
@@ -87,9 +90,9 @@ public class PermissionDAO {
     }
 
     public Optional<Permission> updatePermission(Permission permission) {
-        return Optional.ofNullable(jdbcDAO.mapPreparedStatement(preparedStatement -> {
+        return Optional.ofNullable(jdbcDAO.mapPreparedStatementFlagged(preparedStatement -> {
             try {
-                preparedStatement.executeUpdate();
+                preparedStatement.getGeneratedKeys();
                 return permission;
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -127,5 +130,19 @@ public class PermissionDAO {
             }
         },GET_ALL_PERMISSIONS);
         return permissionList;
+    }
+
+    public String getPermissionName(int id){
+        StringBuilder sb = new StringBuilder();
+        jdbcDAO.withPreparedStatement(preparedStatement -> {
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                if(rs.next()){
+                    sb.append(rs.getString(PERMISSION_NAME));
+                }
+            } catch (SQLException e){
+                e.printStackTrace();
+            }
+        }, GET_PERMISSION_NAME, id);
+        return sb.toString();
     }
 }

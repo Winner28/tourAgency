@@ -37,4 +37,12 @@ public class PermissionService {
     public List<Integer> getUsersListByPermissionNameId(int permissionsNameId){
         return permissionDAO.getUsersIdByPermissionNameId(permissionsNameId);
     }
+
+    public String getPermissionNameByUserId(int userId){
+        Permission permission = permissionDAO.getPermissionByUserId(userId).orElse(null);
+        if(permission == null){
+            return "No such User!";
+        }
+        return permissionDAO.getPermissionName(permission.getPermissionNameId());
+    }
 }

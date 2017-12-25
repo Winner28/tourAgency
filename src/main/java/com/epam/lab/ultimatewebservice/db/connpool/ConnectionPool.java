@@ -78,7 +78,7 @@ public class ConnectionPool {
     }
 
     public Connection getConnection() throws InterruptedException {
-        Connection connection = null;
+       /* Connection connection = null;
         try {
             connection = connectionQueue.take();
             givenAwayConQueue.add(connection);
@@ -86,7 +86,14 @@ public class ConnectionPool {
             errorLog.error("Connection pool exception: can't get connection");
             throw e;
         }
-        return connection;
+        return connection;*/
+        try {
+            return new PooledConnection(dataSource.getConnection());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     public void closeConnection(Connection con, Statement st, ResultSet resultSet) {
@@ -133,7 +140,7 @@ public class ConnectionPool {
 
         @Override
         public void close() throws SQLException {
-            if (connection.isClosed()) {
+            /*if (connection.isClosed()) {
                 throw new SQLException("Attempting to close closed connection.");
             }
             if (connection.isReadOnly()) {
@@ -144,7 +151,7 @@ public class ConnectionPool {
             }
             if (!connectionQueue.offer(this)) {
                 throw new SQLException("Error returning connection in the pool.");
-            }
+            }*/
         }
     }
 }
