@@ -210,6 +210,25 @@ public class TourController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/clientTours", method = RequestMethod.GET)
+    public ModelAndView getAlLToursForClient(HttpServletRequest request) {
+        if (!checkAccess(request)) {
+            return accessDeniedView();
+        }
+        ModelAndView modelAndView = new ModelAndView();
+
+        List<Tour> tourList = tourService.getTourListForUser();
+        if (tourList.isEmpty()) {
+            modelAndView.setViewName("errors/error");
+            modelAndView.addObject("errorMessage", "THERE ARE NO TOURS AVAILABLE");
+            return modelAndView;
+        }
+
+        modelAndView.setViewName("tour/showToursForClient");
+        modelAndView.addObject("tourList", tourList);
+        return modelAndView;
+    }
+
     private boolean checkAccess(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
         for (Cookie cookie : cookies) {

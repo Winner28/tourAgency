@@ -4,13 +4,16 @@
 <html lang="en">
 <head>
     <title>Order Page</title>
+    <link href="${contextPath}/resources/core/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${contextPath}/resources/core/css/common.css" rel="stylesheet">
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 
-    <spring:url value="/resources/core/css/hello.css" var="coreCss" />
-    <spring:url value="/resources/core/css/bootstrap.min.css" var="bootstrapCss" />
-    <link href="${bootstrapCss}" rel="stylesheet" />
-    <link href="${coreCss}" rel="stylesheet" />
+    <link href="${bootstrapCss}" rel="stylesheet"/>
+    <link href="${coreCss}" rel="stylesheet"/>
 </head>
-<h1>${message.toUpperCase()}</h1>
+<%@include file="../topbar.jsp" %>
+<h1 class="text-info">${message.toUpperCase()}</h1>
 <h1>Order information</h1>
 <br>
 <h3>Order id: ${order.id}</h3>
