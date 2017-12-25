@@ -1,4 +1,5 @@
 <%@taglib uri = "http://www.springframework.org/tags/form" prefix = "form"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
 <head>
     <title>Create</title>
@@ -65,6 +66,7 @@
 <script src="${coreJs}"></script>
 <script src="${bootstrapJs}"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<%@include file="../footer.jsp" %>
 
 </body>
 </html>

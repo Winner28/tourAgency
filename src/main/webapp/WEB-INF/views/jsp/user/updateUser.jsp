@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <%@include file="../topbar.jsp" %>
     <title>Update User Page</title>
 
     <link href="${contextPath}/resources/core/css/bootstrap.min.css" rel="stylesheet">
@@ -63,6 +64,6 @@
 <script src="${coreJs}"></script>
 <script src="${bootstrapJs}"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-
+<%@include file="../footer.jsp" %>
 </body>
 </html>

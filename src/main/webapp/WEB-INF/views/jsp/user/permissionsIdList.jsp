@@ -14,6 +14,8 @@
     <link href="${coreCss}" rel="stylesheet" />
 </head>
 <body>
+<%@include file="../topbar.jsp" %>
+
 <h1 class="text-center glyphicon-text-color">List of <b>${userType}</b></h1> <br>
 <br>
 <table class="table table-hover">
@@ -33,5 +35,7 @@
 <form:form method = "GET" action = "/" cssClass="form-signin">
     <button class="btn btn-lg btn-primary btn-block" type="submit">Get back to Home Page</button>
 </form:form>
+<%@include file="../footer.jsp" %>
+
 </body>
 </html>

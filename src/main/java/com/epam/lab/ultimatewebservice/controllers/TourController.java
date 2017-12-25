@@ -95,7 +95,7 @@ public class TourController {
             return "tour/showTour";
         } else {
             model.addAttribute("errorMessage", "Error when we try to delete tour");
-            return "tour/error";
+            return "errors/error";
 
         }
     }
@@ -122,13 +122,13 @@ public class TourController {
         ModelAndView modelAndView = new ModelAndView();
         String id = request.getParameter("id");
         if (id == null || id.isEmpty()) {
-            modelAndView.setViewName("tour/error");
+            modelAndView.setViewName("errors/error");
             modelAndView.addObject("errorMessage", "We dont have tour with such id");
             return modelAndView;
         }
         Tour tour = tourService.getTourById(Integer.parseInt(id));
         if (tour == null) {
-            modelAndView.setViewName("tour/error");
+            modelAndView.setViewName("errors/error");
             modelAndView.addObject("errorMessage", "We dont have tour with such id");
             return modelAndView;
         }
@@ -169,6 +169,7 @@ public class TourController {
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public ModelAndView getAllTours(HttpServletRequest request) {
 
+        //request check
         List<Tour> tourList;
         ModelAndView modelAndView = new ModelAndView();
         tourList = tourService.getTourList();

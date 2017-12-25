@@ -12,6 +12,8 @@
 </head>
 
 <body>
+<%@include file="../topbar.jsp" %>
+
 <h1 class="text-center">Create User Permission</h1>
 <form:form method = "POST" action = "/users/permissions/create" modelAttribute="permission" cssClass="form-signin">
     <div class="form-group">
@@ -27,6 +29,8 @@
 
     <button class="btn btn-lg btn-primary btn-block" type="submit">Create Permission</button>
 </form:form>
+<%@include file="../footer.jsp" %>
+
 </body>
 
 </html>

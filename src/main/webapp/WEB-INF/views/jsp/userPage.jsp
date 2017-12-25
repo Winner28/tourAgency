@@ -21,18 +21,21 @@
     </head>
 </head>
 <body>
+<%@include file="topbar.jsp" %>
+
 <h1 class="text-center" class="glyphicon-text-color">Profile Page</h1>
 <br>
 <div class="container">
     <h2 class="text-center"> First Name: ${user.firstName}</h2>
     <h2 class="text-center"> Last Name: ${user.lastName}</h2>
+    <h2 class="text-center"> Role: ${userType}</h2>
     <h2 class="text-center"> Email: ${user.email}</h2>
 </div>
 <br>
 
 
 <c:if test="${userType.equals('admin')}">
-    <h2 class="text-center">Hello, mr.Admin</h2>
+    <h2 class="text-center"><b>Hello, mr.${user.lastName}</b></h2>
 
 <table class="table table-condensed">
     <tbody>
@@ -148,14 +151,14 @@
         <button class="btn btn-lg btn-info btn-block" type="submit">Show tours</button>
     </form:form>
 </c:if>
-<br>
+
 
 
 <form:form method = "POST" action = "/logout" cssClass="form-signin" cssStyle="border-bottom-width: medium">
     <button class="btn btn-lg btn-primary btn-block" type="submit">Log Out</button>
 </form:form>
-
-
-
+<br>
+<br>
+<%@include file="footer.jsp" %>
 </body>
 </html>

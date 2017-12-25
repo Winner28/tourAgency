@@ -20,7 +20,10 @@
     <link href="${coreCss}" rel="stylesheet" />
 </head>
 <body>
-<h1 class="text-center glyphicon-text-color"><b>Users List</b></h1> <br>
+<%@include file="../topbar.jsp" %>
+<div class="wrapper">
+    <div class="content">
+<h1 class="text-center"><b>Users List</b></h1> <br>
 
 
 <table class="table table-hover">
@@ -44,13 +47,13 @@
                     <td class="text-center">
                         <form:form method = "GET" action = "/users/update">
                             <input type="hidden" name="id" value="${user.id}">
-                            <button class="btn btn-lg btn-success btn-block btn-xs" type="submit">Update User</button>
+                            <button class="btn btn-lg btn-success btn-block btn-md text-center" type="submit">Update User</button>
                         </form:form>
                     </td>
                     <td class="text-center">
                         <form:form method = "POST" action = "/users/delete">
                             <input type="hidden" name="id" value="${user.id}">
-                            <button class="btn btn-lg btn-success btn-block btn-xs text-center" type="submit">Delete User</button>
+                            <button class="btn btn-lg btn-success btn-block btn-md text-center" type="submit">Delete User</button>
                         </form:form>
                     </td>
                 </tr>
@@ -60,5 +63,11 @@
 <form:form method = "GET" action = "/" cssClass="form-signin">
     <button class="btn btn-lg btn-primary btn-block" type="submit">Get back to Home Page</button>
 </form:form>
+    </div>
+</div>
+<br>
+<br>
+<%@include file="../footer.jsp" %>
+
 </body>
 </html>

@@ -63,8 +63,17 @@ public class UserController {
         return "user/showUser";
     }
 
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
-    public ModelAndView deleteUserById(@PathVariable String id) {
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public ModelAndView deleteUserById(HttpServletRequest request) {
+        String id = request.getParameter("id");
+        if (id.isEmpty() || Integer.parseInt(id) < 0) {
+            return new ModelAndView("errors/error", "errorMessage",
+                    "Bad input");
+        }
+        if(!userService.deletePermission(Integer.parseInt(id))) {
+            return new ModelAndView("errors/error", "errorMessage",
+                    "Cant delete permission");
+        }
         User userToDelete = userService.getUserById(Integer.parseInt(id));
         if (userToDelete == null) {
             return new ModelAndView("errors/error", "errorMessage",
