@@ -32,7 +32,7 @@
 
 
 <c:if test="${userType.equals('admin')}">
-    <h2 class="text-center glyphicon-text-color">Hello, mr.Admin</h2>
+    <h2 class="text-center">Hello, mr.Admin</h2>
 
 <table class="table table-condensed">
     <tbody>
