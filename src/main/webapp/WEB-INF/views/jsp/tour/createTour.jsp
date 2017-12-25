@@ -1,45 +1,60 @@
 <%@taglib uri = "http://www.springframework.org/tags/form" prefix = "form"%>
 <html>
 <head>
-    <title>Creation</title>
+    <title>Create</title>
+    <link href="${contextPath}/resources/core/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${contextPath}/resources/core/css/common.css" rel="stylesheet">
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+
+    <link href="${bootstrapCss}" rel="stylesheet" />
+    <link href="${coreCss}" rel="stylesheet" />
 </head>
 
 <body>
-<h2>Create Tour</h2>
-<form:form method = "POST" action = "/tours/create" modelAttribute="tour">
-    <table>
-        <tr>
-            <td><form:label path = "duration">Duration</form:label></td>
-            <td><form:input path = "duration" /></td>
-        </tr>
-        <tr>
-            <td><form:label path = "price">Price</form:label></td>
-            <td><form:input path = "price" /></td>
-        </tr>
-        <tr>
-        <td><form:label path = "tourTypesId">Tout Type ID</form:label></td>
-        <td><form:input path = "tourTypesId" /></td>
-    </tr>
-        <tr>
-            <td><form:label path = "agentId">Agent ID</form:label></td>
-            <td><form:input path = "agentId" /></td>
-        </tr>
-        <tr>
-            <td><input type="radio" name="active" value="1"/>Active</td>
-            <td><input type="radio" name="active" value="2"/>Archive</td>
-        </tr>
-        <tr>
-            <td><input type="radio" name="hot" value="1"/>Casual</td>
-            <td><input type="radio" name="hot" value="2"/>Hot</td>
-        </tr>
+<h1 class="text-center">Create Tour</h1>
+<form:form method = "POST" action = "/tours/create" modelAttribute="tour" cssClass="form-signin">
+    <div class="form-group">
 
-        <tr>
-            <td colspan = "3">
-                <input type = "submit" value = "Submit"/>
-            </td>
-        </tr>
-    </table>
+        <label for="duration">Duration: </label>
+        <form:input path = "duration" cssClass="form-control"/>
+    </div>
+    <div class="form-group">
+
+        <label for="price">Price: </label>
+        <form:input path = "price" cssClass="form-control"/>
+    </div>
+    <div class="form-group">
+
+        <label for="tourTypesId">Tour type: </label>
+        <form:select path = "tourTypesId" cssClass="form-control">
+            <form:option value="0" label="--- Select ---"/>
+            <form:option value="1">sightseeing</form:option>
+            <form:option value="2">transfer</form:option>
+            <form:option value="3">shopping</form:option>
+            <form:option value="4">excursion</form:option>
+        </form:select>
+    </div>
+    <div class="form-group">
+
+        <label for="agentId">Agent number:</label>
+        <form:input path = "agentId" cssClass="form-control"/>
+    </div>
+
+    <div class="container">
+        <p>Tour options:</p>
+        <div class="radio">
+            <label><input type="radio" name="hot" value="1">Hot</label>
+            <label><input type="radio" name="hot" value="0">Casual</label>
+        </div>
+        <div class="radio">
+            <label><input type="radio" name="active" value="1">Active</label>
+            <label><input type="radio" name="active" value="0">Archive</label>
+        </div>
+
+    </div>
+
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Create Tour</button>
 </form:form>
 </body>
-
 </html>
