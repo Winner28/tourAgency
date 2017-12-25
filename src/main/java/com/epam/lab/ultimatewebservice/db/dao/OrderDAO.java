@@ -23,6 +23,8 @@ public class OrderDAO {
             "SELECT id, date, active, tour_id, user_id FROM orders WHERE user_id=?";
     private static final String DELETE_ORDER_BY_ID =
             "DELETE FROM orders WHERE id=?";
+    private static final String GET_ALL_ORDERS =
+            "SELECT id, date, active, tour_id, user_id FROM orders";
 
     private static final String ID = "id";
     private static final String DATE = "date";
@@ -124,6 +126,27 @@ public class OrderDAO {
                 e.printStackTrace();
             }
         }, GET_ORDERS_BY_USER_ID, userId);
+        return orderList;
+    }
+
+    public List<Order> getAllOrders() {
+        List<Order> orderList = new ArrayList<>();
+        jdbcDAO.withResultSet(rs -> {
+            try {
+                while (rs.next()) {
+                    orderList.add(new Order()
+                            .setId(rs.getInt(ID))
+                            .setDate(rs.getString(DATE))
+                            .setActive(rs.getBoolean(ACTIVE))
+                            .setTourId(rs.getInt(TOUR_ID))
+                            .setUserId(rs.getInt(USER_ID))
+                    );
+                }
+            }catch (SQLException e) {
+                throw new RuntimeException("Got an exception");
+
+            }
+        }, GET_ALL_ORDERS);
         return orderList;
     }
 

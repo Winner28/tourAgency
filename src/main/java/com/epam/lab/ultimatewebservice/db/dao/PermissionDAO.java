@@ -56,11 +56,11 @@ public class PermissionDAO {
                            .setUserId(resultSet.getInt(ID))
                            .setPermissionNameId(resultSet.getInt(PERMISSION));
                }
+               return null;
            } catch (SQLException e) {
                e.printStackTrace();
                return null;
            }
-           return null;
         }, GET_USER_PERMISSION_BY_ID, id));
 
     }
@@ -90,9 +90,9 @@ public class PermissionDAO {
     }
 
     public Optional<Permission> updatePermission(Permission permission) {
-        return Optional.ofNullable(jdbcDAO.mapPreparedStatement(preparedStatement -> {
+        return Optional.ofNullable(jdbcDAO.mapPreparedStatementFlagged(preparedStatement -> {
             try {
-                preparedStatement.executeUpdate();
+                preparedStatement.getGeneratedKeys();
                 return permission;
             } catch (SQLException e) {
                 e.printStackTrace();
