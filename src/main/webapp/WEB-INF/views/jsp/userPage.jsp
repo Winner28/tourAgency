@@ -92,11 +92,39 @@
                 <button class="btn btn-lg btn-success btn-block" type="submit">Update User</button>
             </form:form>
         </td>
+    </tr>
+    <tr>
+        <td>
+            <form:form method = "GET" action = "/tours/all" cssClass="form-signin">
+                <button class="btn btn-lg btn-success btn-block" type="submit">Show all tours</button>
+            </form:form>
+        </td>
         <td>
     <form:form method = "POST" action = "/users/permissions/id" cssClass="form-signin">
         <input type="text" name="id" placeholder="Type an permission id" class="form-control text-center">
         <button class="btn btn-lg btn-success btn-block" type="submit">Get permissions By Id</button>
     </form:form>
+        </td>
+    </tr>
+    <tr>
+        <td>
+                <form:form method = "GET" action = "/tours/update" cssClass="form-signin">
+            <input type="text" name="id" placeholder="Type an id" class="form-control text-center">
+            <button class="btn btn-lg btn-success btn-block" type="submit">Update Tour</button>
+        </form:form>
+        </td>
+        <td>
+        <form:form method = "POST" action = "/tours/delete" cssClass="form-signin">
+            <input type="text" name="id" placeholder="Type an id" class="form-control text-center">
+            <button class="btn btn-lg btn-success btn-block" type="submit">Delete Tour</button>
+        </form:form>
+        </td>
+        </tr>
+    <tr>
+        <td>
+            <form:form method = "GET" action = "/orders/allOrders" cssClass="form-signin">
+                <button class="btn btn-lg btn-info btn-block" type="submit">All orders</button>
+            </form:form>
         </td>
     </tr>
     </tbody>
@@ -107,39 +135,21 @@
 <c:if test="${userType.equals('agent')}">
     <h2 class="text-center glyphicon-text-color">You have entered as tour-agent</h2>
 
-    <form:form method = "GET" action = "/orders/agentOrders" cssClass="form-signin">
-        <input type="hidden" value="${user.id}">
-        <button class="btn btn-lg btn-info btn-block" type="submit">Orders by my tours</button>
-    </form:form>
-    <form:form method = "GET" action = "/orders/allOrders" cssClass="form-signin">
-        <button class="btn btn-lg btn-info btn-block" type="submit">All orders</button>
-    </form:form>
-    <form:form method = "GET" action = "/tours/agentTours" cssClass="form-signin">
-        <input type="hidden" value="${user.id}">
-        <button class="btn btn-lg btn-info btn-block" type="submit">Show tours</button>
-    </form:form>
-
-    <form:form method = "GET" action = "/tours/update" cssClass="form-signin">
-        <input type="text" name="id" placeholder="Type an id" class="form-control text-center">
-        <button class="btn btn-lg btn-success btn-block" type="submit">Update Tour</button>
-    </form:form>
-
     <form:form method = "GET" action = "/tours/create" cssClass="form-signin">
         <button class="btn btn-lg btn-success btn-block" type="submit">Create tour</button>
     </form:form>
 
-    <form:form method = "POST" action = "/tours/delete" cssClass="form-signin">
-        <input type="text" name="id" placeholder="Type an id" class="form-control text-center">
-        <button class="btn btn-lg btn-success btn-block" type="submit">Delete Tour</button>
+    <form:form method = "GET" action = "/orders/agentOrders" cssClass="form-signin">
+        <input type="hidden" value="${user.id}">
+        <button class="btn btn-lg btn-info btn-block" type="submit">My Orders</button>
     </form:form>
 
-    <form:form method = "GET" action = "/tours/all" cssClass="form-signin">
-        <button class="btn btn-lg btn-success btn-block" type="submit">Show all tours</button>
+    <form:form method = "GET" action = "/tours/agentTours" cssClass="form-signin">
+        <input type="hidden" value="${user.id}">
+        <button class="btn btn-lg btn-info btn-block" type="submit">My tours</button>
     </form:form>
 
 </c:if>
-<br>
-
 
 <c:if test="${userType.equals('client')}">
     <form:form method="GET" action="/orders/all" cssClass="form-signin">

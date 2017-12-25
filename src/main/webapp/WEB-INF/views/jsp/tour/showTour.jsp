@@ -14,11 +14,14 @@
     <link href="${bootstrapCss}" rel="stylesheet" />
     <link href="${coreCss}" rel="stylesheet" />
 </head>
+<body>
+<%@include file="../topbar.jsp" %>
 <h1 class="text-center glyphicon-text-color">${message}</h1>
 <h2 class="text-center">Tour information</h2>
 <br>
 <div class="container">
     <h3 class="text-center"> id: ${tour.id}</h3>
+    <h3 class="text-center"> Tour Name: ${tour.tourName}</h3>
     <h3 class="text-center"> Active: ${tour.active}</h3>
     <h3 class="text-center"> Hot: ${tour.hot}</h3>
     <h3 class="text-center"> Duration: ${tour.duration}</h3>

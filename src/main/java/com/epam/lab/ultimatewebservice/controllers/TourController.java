@@ -80,7 +80,7 @@ public class TourController {
             return "errors/error";
         }
         model.addAttribute("tour", createdTour);
-        model.addAttribute("message", "User successfully created!");
+        model.addAttribute("message", "Tour      successfully created!");
         return "tour/showTour";
     }
 
@@ -157,10 +157,10 @@ public class TourController {
             model.addAttribute("errorMessage", "Error when we try to update tour");
             return "errors/error";
         }
-        if (isActive == null || isHot == null) {
-            model.addAttribute("errorMessage", "please fill all fields");
-            return "errors/error";
-        }
+//        if (isActive == null || isHot == null) {
+//            model.addAttribute("errorMessage", "please fill all fields");
+//            return "errors/error";
+//        }
         model.addAttribute("message", "Tour successfully Updated!");
         model.addAttribute("tour", updatedTour);
         return "tour/showTour";

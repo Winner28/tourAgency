@@ -13,6 +13,7 @@
 </head>
 
 <body>
+<%@include file="../topbar.jsp" %>
 <h1 class="text-center">Create Tour</h1>
 <form:form method = "POST" action = "/tours/create" modelAttribute="tour" cssClass="form-signin">
     <div class="form-group">
