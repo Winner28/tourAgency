@@ -72,7 +72,7 @@ public class UserController {
         }
         if(!userService.deletePermission(Integer.parseInt(id))) {
             return new ModelAndView("errors/error", "errorMessage",
-                    "Cant delete permission");
+                    "Cant delete permission that already deleted");
         }
         User userToDelete = userService.getUserById(Integer.parseInt(id));
         if (userToDelete == null) {
