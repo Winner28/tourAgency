@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -137,8 +138,8 @@ public class TourController {
             model.addAttribute("errorMessage", "Error when we try to update tour");
             return "errors/error";
         }
-        if ( isActive == null || isHot == null) {
-            model.addAttribute("errorMessage","please fill all fields");
+        if (isActive == null || isHot == null) {
+            model.addAttribute("errorMessage", "please fill all fields");
             return "errors/error";
         }
         model.addAttribute("message", "Tour successfully Updated!");
@@ -152,11 +153,11 @@ public class TourController {
         List<Tour> tourList;
         ModelAndView modelAndView = new ModelAndView();
         tourList = tourService.getTourList();
-            if (tourList == null) {
-                modelAndView.setViewName("errors/error");
-                modelAndView.addObject("errorMessage", "THERE IS NULL");
-                return modelAndView;
-            }
+        if (tourList == null) {
+            modelAndView.setViewName("errors/error");
+            modelAndView.addObject("errorMessage", "THERE IS NULL");
+            return modelAndView;
+        }
 
         modelAndView.setViewName("tour/showAllTours");
         modelAndView.addObject("tourList", tourList);
@@ -168,8 +169,8 @@ public class TourController {
     public ModelAndView getAllAgentTours(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
         int userId = 0;
-        for (Cookie cookie : cookies){
-            if (cookie.getName().equals("userLoggedIn")){
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals("userLoggedIn")) {
                 userId = SessionManager.getUserIdByCookie(cookie);
             }
         }
@@ -190,7 +191,7 @@ public class TourController {
     }
 
     private boolean checkAccess(HttpServletRequest request) {
-        Cookie [] cookies = request.getCookies();
+        Cookie[] cookies = request.getCookies();
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals(LOGGED_COOKIE)) {
                 return SessionManager.getUserIdByCookie(cookie) != 3;
@@ -198,9 +199,11 @@ public class TourController {
         }
         return false;
     }
+
     private boolean checkValidation(Tour tour) {
-        return tour.getPrice() != 0  && tour.getDuration() != 0 &&
+        return tour.getPrice() != 0 && tour.getDuration() != 0 &&
                 tour.getAgentId() != 0 && tour.getTourTypesId() != 0;
+    }
 
     private boolean validateTour(Tour tour) {
         return tour.getAgentId() != 0 && tour.getDuration() != 0
@@ -208,7 +211,8 @@ public class TourController {
     }
 
     private ModelAndView accessDeniedView() {
-        return new ModelAndView("errors/error","errorMessage",
+        return new ModelAndView("errors/error", "errorMessage",
                 "Bad access. Your request denied");
     }
 }
+
