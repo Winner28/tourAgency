@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`users` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `first_name` VARCHAR(45) NOT NULL,
   `last_name` VARCHAR(45) NOT NULL,
-  `email` VARCHAR(45) NOT NULL,
+  `email` VARCHAR(90) NOT NULL,
   `password_hash` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
@@ -62,13 +62,14 @@ INSERT INTO `users` (`id`,`first_name`,`last_name`,`email`,`password_hash`) VALU
 DROP TABLE IF EXISTS `mydb`.`tours` ;
 
 CREATE TABLE IF NOT EXISTS `mydb`.`tours` (
-  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id` INT UNSIGNED NOT NULL,
   `hot` TINYINT NOT NULL,
   `price` DOUBLE NOT NULL,
   `duration` INT UNSIGNED NOT NULL,
   `agent_id` INT UNSIGNED NOT NULL,
   `active` TINYINT NOT NULL,
   `tour_types_id` INT UNSIGNED NOT NULL,
+  `tour_name` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_tours_tour_types1_idx` (`tour_types_id` ASC),
   INDEX `fk_tours_users1_idx` (`agent_id` ASC),
@@ -84,16 +85,16 @@ CREATE TABLE IF NOT EXISTS `mydb`.`tours` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-INSERT INTO `tours` (`id`,`hot`,`price`,`duration`,`agent_id`,`active`,`tour_types_id`) VALUES (1,"0",34664,7,61,"1",3),(2,"0",12108,27,45,"0",2),(3,"1",78630,21,51,"1",1),(4,"1",66402,6,24,"1",2),(5,"1",15825,13,35,"0",2),(6,"1",35304,20,84,"1",2),(7,"1",84458,4,66,"1",2),(8,"0",71149,20,46,"1",4),(9,"1",3003,4,83,"1",4),(10,"0",45717,7,18,"1",1);
-INSERT INTO `tours` (`id`,`hot`,`price`,`duration`,`agent_id`,`active`,`tour_types_id`) VALUES (11,"0",12371,3,41,"1",3),(12,"1",98420,12,55,"0",1),(13,"0",14795,12,82,"1",2),(14,"0",40320,7,39,"0",4),(15,"1",7073,18,5,"1",3),(16,"0",12893,23,99,"1",4),(17,"0",93085,14,76,"0",3),(18,"0",25121,8,37,"1",4),(19,"0",31681,2,77,"0",3),(20,"1",4620,30,32,"0",3);
-INSERT INTO `tours` (`id`,`hot`,`price`,`duration`,`agent_id`,`active`,`tour_types_id`) VALUES (21,"0",10943,20,6,"1",2),(22,"1",35083,7,63,"0",2),(23,"0",51062,13,45,"1",2),(24,"0",22983,2,51,"1",2),(25,"1",33274,29,76,"0",2),(26,"1",46071,10,50,"0",2),(27,"1",75703,13,70,"0",2),(28,"0",99935,24,54,"0",2),(29,"0",49009,10,98,"1",1),(30,"0",76899,11,80,"1",3);
-INSERT INTO `tours` (`id`,`hot`,`price`,`duration`,`agent_id`,`active`,`tour_types_id`) VALUES (31,"0",91301,20,80,"1",4),(32,"1",73752,30,71,"0",4),(33,"0",69419,4,38,"0",1),(34,"0",18069,9,91,"1",1),(35,"0",28291,13,2,"1",2),(36,"1",24136,17,100,"0",3),(37,"0",24567,18,13,"0",1),(38,"1",64514,3,93,"1",1),(39,"1",19528,15,95,"1",2),(40,"0",67090,22,33,"1",2);
-INSERT INTO `tours` (`id`,`hot`,`price`,`duration`,`agent_id`,`active`,`tour_types_id`) VALUES (41,"1",47807,28,79,"1",3),(42,"1",64015,22,33,"1",4),(43,"0",54796,24,6,"1",3),(44,"0",55294,13,11,"0",4),(45,"0",68863,12,40,"1",4),(46,"0",12895,27,22,"1",1),(47,"0",99524,8,74,"0",2),(48,"1",37750,25,47,"0",4),(49,"1",38435,4,4,"1",3),(50,"1",22871,29,100,"0",3);
-INSERT INTO `tours` (`id`,`hot`,`price`,`duration`,`agent_id`,`active`,`tour_types_id`) VALUES (51,"1",26474,25,79,"0",2),(52,"1",33603,13,88,"0",4),(53,"1",31311,14,42,"0",1),(54,"1",61505,27,29,"1",4),(55,"1",44103,12,49,"0",1),(56,"0",24898,26,58,"1",4),(57,"0",19085,22,75,"0",2),(58,"1",68529,2,45,"0",4),(59,"1",67944,13,72,"1",4),(60,"1",31323,3,15,"0",1);
-INSERT INTO `tours` (`id`,`hot`,`price`,`duration`,`agent_id`,`active`,`tour_types_id`) VALUES (61,"0",32537,18,11,"0",2),(62,"0",12379,4,94,"1",4),(63,"0",86030,6,79,"1",2),(64,"1",58661,6,81,"0",1),(65,"1",73715,5,64,"1",3),(66,"0",97942,28,45,"1",1),(67,"0",74375,28,93,"1",3),(68,"0",18489,26,30,"1",4),(69,"0",66069,26,24,"1",4),(70,"0",62281,23,78,"1",3);
-INSERT INTO `tours` (`id`,`hot`,`price`,`duration`,`agent_id`,`active`,`tour_types_id`) VALUES (71,"0",15815,29,61,"1",2),(72,"1",14946,27,40,"0",4),(73,"1",12927,14,30,"0",3),(74,"0",5304,19,84,"1",1),(75,"1",17878,25,46,"0",4),(76,"0",10673,27,32,"0",2),(77,"0",81208,28,67,"0",4),(78,"1",77891,28,67,"1",4),(79,"0",64018,15,48,"1",1),(80,"1",8342,28,19,"0",4);
-INSERT INTO `tours` (`id`,`hot`,`price`,`duration`,`agent_id`,`active`,`tour_types_id`) VALUES (81,"1",52679,29,96,"1",3),(82,"1",79050,12,41,"1",4),(83,"1",93625,2,8,"1",2),(84,"1",83749,24,90,"0",1),(85,"1",98549,15,84,"0",2),(86,"0",37652,27,56,"1",4),(87,"1",44335,15,59,"1",2),(88,"1",4475,17,28,"1",3),(89,"1",82060,24,19,"0",3),(90,"0",98107,2,85,"1",2);
-INSERT INTO `tours` (`id`,`hot`,`price`,`duration`,`agent_id`,`active`,`tour_types_id`) VALUES (91,"0",5449,17,24,"1",2),(92,"1",73582,19,76,"1",4),(93,"1",20733,15,34,"1",4),(94,"0",78057,20,28,"1",3),(95,"0",68247,24,62,"1",3),(96,"0",62448,28,63,"1",1),(97,"1",36678,15,63,"1",2),(98,"1",88903,29,37,"1",3),(99,"1",15665,16,86,"1",2),(100,"1",98745,19,57,"0",3);
+INSERT INTO `tours` (`id`,`hot`,`price`,`duration`,`agent_id`,`active`,`tour_types_id`,`tour_name`) VALUES (1,"0",74239,28,100,"1",1,"New Caledonia"),(101,"1",7806,24,8,"1",2,"Lebanon"),(201,"1",56614,18,94,"0",3,"Spain"),(301,"0",28887,26,42,"1",2,"Bolivia"),(401,"0",48945,5,81,"0",3,"Marshall Islands"),(501,"1",48962,11,67,"0",1,"Cayman Islands"),(601,"1",22026,23,18,"1",1,"Saudi Arabia"),(701,"0",6111,21,87,"0",3,"Bhutan"),(801,"1",47220,17,52,"1",2,"Montenegro"),(901,"1",84717,12,15,"1",2,"Cook Islands");
+INSERT INTO `tours` (`id`,`hot`,`price`,`duration`,`agent_id`,`active`,`tour_types_id`,`tour_name`) VALUES (1001,"1",17485,5,45,"1",4,"Israel"),(1101,"1",81802,12,64,"1",4,"Guinea"),(1201,"0",80160,27,19,"0",1,"Micronesia"),(1301,"1",84574,16,70,"1",4,"Malawi"),(1401,"1",8207,25,77,"0",1,"Korea, South"),(1501,"0",37246,15,1,"0",3,"Central African Republic"),(1601,"1",80662,4,57,"0",3,"United States Minor Outlying Islands"),(1701,"1",87206,28,37,"0",2,"Denmark"),(1801,"0",44496,30,16,"0",1,"Jamaica"),(1901,"0",56372,16,94,"0",1,"Kuwait");
+INSERT INTO `tours` (`id`,`hot`,`price`,`duration`,`agent_id`,`active`,`tour_types_id`,`tour_name`) VALUES (2001,"0",57237,30,13,"1",1,"Cuba"),(2101,"1",10928,26,46,"1",3,"Heard Island and Mcdonald Islands"),(2201,"1",88515,30,63,"1",1,"Mongolia"),(2301,"1",27147,6,15,"1",1,"Guinea-Bissau"),(2401,"1",92716,15,52,"0",1,"Malawi"),(2501,"0",11114,20,37,"1",2,"Ghana"),(2601,"1",80792,14,14,"0",3,"Portugal"),(2701,"1",56650,27,99,"0",3,"Slovenia"),(2801,"1",36063,13,74,"0",4,"Guatemala"),(2901,"1",63346,20,65,"1",4,"Costa Rica");
+INSERT INTO `tours` (`id`,`hot`,`price`,`duration`,`agent_id`,`active`,`tour_types_id`,`tour_name`) VALUES (3001,"1",90301,3,66,"0",4,"Spain"),(3101,"1",96245,15,61,"0",2,"Benin"),(3201,"0",91867,8,7,"1",3,"Romania"),(3301,"1",78459,20,83,"1",4,"Israel"),(3401,"1",24576,19,19,"0",3,"Bolivia"),(3501,"1",87409,30,78,"1",1,"United States"),(3601,"1",75843,4,12,"0",1,"Lebanon"),(3701,"1",42933,30,88,"1",1,"Jersey"),(3801,"0",9468,11,63,"0",4,"Romania"),(3901,"0",63989,13,52,"0",4,"Guam");
+INSERT INTO `tours` (`id`,`hot`,`price`,`duration`,`agent_id`,`active`,`tour_types_id`,`tour_name`) VALUES (4001,"1",62853,11,31,"1",4,"Belgium"),(4101,"1",15382,12,2,"1",2,"Hong Kong"),(4201,"1",97376,24,30,"0",1,"Botswana"),(4301,"0",53944,30,76,"1",3,"Zambia"),(4401,"1",78885,15,59,"0",2,"Nepal"),(4501,"0",14313,8,93,"0",4,"Lebanon"),(4601,"1",72833,10,88,"0",3,"Solomon Islands"),(4701,"1",23812,6,14,"1",3,"Liechtenstein"),(4801,"1",22473,2,32,"1",4,"Yemen"),(4901,"1",87892,11,56,"0",2,"Antigua and Barbuda");
+INSERT INTO `tours` (`id`,`hot`,`price`,`duration`,`agent_id`,`active`,`tour_types_id`,`tour_name`) VALUES (5001,"1",71377,6,95,"0",2,"Bolivia"),(5101,"0",36845,12,3,"0",2,"Armenia"),(5201,"1",28783,12,75,"1",2,"Bahrain"),(5301,"0",39316,8,3,"1",3,"Western Sahara"),(5401,"0",50668,10,28,"0",3,"Romania"),(5501,"0",13644,9,14,"1",2,"Italy"),(5601,"0",29385,12,22,"1",2,"China"),(5701,"1",54244,4,84,"0",3,"Taiwan"),(5801,"0",75631,15,49,"1",3,"Norway"),(5901,"1",94650,25,1,"0",2,"Germany");
+INSERT INTO `tours` (`id`,`hot`,`price`,`duration`,`agent_id`,`active`,`tour_types_id`,`tour_name`) VALUES (6001,"1",51622,19,16,"0",3,"Estonia"),(6101,"0",93492,16,21,"0",3,"Nigeria"),(6201,"0",65453,15,60,"0",3,"Marshall Islands"),(6301,"0",49211,20,90,"0",2,"Singapore"),(6401,"1",8049,8,70,"1",4,"Mozambique"),(6501,"0",33928,4,78,"0",4,"Tonga"),(6601,"0",60161,5,24,"1",4,"Jordan"),(6701,"1",78791,26,19,"1",2,"Paraguay"),(6801,"0",41731,14,29,"1",2,"Congo (Brazzaville)"),(6901,"1",70447,4,5,"1",2,"Kazakhstan");
+INSERT INTO `tours` (`id`,`hot`,`price`,`duration`,`agent_id`,`active`,`tour_types_id`,`tour_name`) VALUES (7001,"0",89755,12,53,"1",4,"Cayman Islands"),(7101,"0",46570,4,42,"0",3,"Comoros"),(7201,"1",45355,22,23,"1",4,"Guinea-Bissau"),(7301,"0",42368,21,27,"0",4,"Christmas Island"),(7401,"1",89083,6,91,"0",2,"Turkmenistan"),(7501,"0",7284,9,82,"1",2,"Poland"),(7601,"0",84937,16,29,"0",4,"Oman"),(7701,"1",25475,14,29,"1",3,"Portugal"),(7801,"0",58485,3,13,"0",1,"Guinea"),(7901,"1",69143,2,9,"0",2,"United Arab Emirates");
+INSERT INTO `tours` (`id`,`hot`,`price`,`duration`,`agent_id`,`active`,`tour_types_id`,`tour_name`) VALUES (8001,"0",31792,13,18,"0",3,"Brunei"),(8101,"0",12446,18,87,"0",4,"Cook Islands"),(8201,"1",92570,13,52,"1",1,"Ireland"),(8301,"0",45750,12,18,"0",1,"Moldova"),(8401,"1",47598,2,40,"1",3,"Eritrea"),(8501,"1",17604,17,4,"1",1,"Palestine, State of"),(8601,"1",29734,25,41,"0",3,"Liechtenstein"),(8701,"1",58670,8,63,"0",3,"Burundi"),(8801,"0",90935,8,70,"0",4,"Virgin Islands, British"),(8901,"1",59569,26,13,"1",4,"Latvia");
+INSERT INTO `tours` (`id`,`hot`,`price`,`duration`,`agent_id`,`active`,`tour_types_id`,`tour_name`) VALUES (9001,"0",53817,25,57,"1",1,"Serbia"),(9101,"0",42424,10,62,"0",3,"French Southern Territories"),(9201,"1",74705,15,80,"0",3,"Andorra"),(9301,"1",94716,30,82,"0",2,"Serbia"),(9401,"0",57526,12,99,"1",3,"Eritrea"),(9501,"1",82087,11,52,"0",3,"Maldives"),(9601,"1",69142,14,8,"1",1,"Saint Pierre and Miquelon"),(9701,"1",53882,22,96,"1",2,"Sudan"),(9801,"1",13495,5,67,"1",2,"Uzbekistan"),(9901,"1",84230,30,63,"0",1,"United Kingdom (Great Britain)");
 
 -- -----------------------------------------------------
 -- Table `mydb`.`orders`
