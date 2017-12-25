@@ -21,18 +21,22 @@
     </head>
 </head>
 <body>
+<%@include file="topbar.jsp" %>
+
 <h1 class="text-center" class="glyphicon-text-color">Profile Page</h1>
 <br>
 <div class="container">
     <h2 class="text-center"> First Name: ${user.firstName}</h2>
     <h2 class="text-center"> Last Name: ${user.lastName}</h2>
+    <h2 class="text-center"> Role: ${userType}</h2>
     <h2 class="text-center"> Email: ${user.email}</h2>
 </div>
 <br>
 
+<h2 class="text-center"><b>Hello, mr.${user.lastName}</b></h2>
 
 <c:if test="${userType.equals('admin')}">
-    <h2 class="text-center glyphicon-text-color">Hello, mr.Admin</h2>
+
 
 <table class="table table-condensed">
     <tbody>
@@ -102,6 +106,7 @@
 
 
 <c:if test="${userType.equals('agent')}">
+
     <form:form method = "GET" action = "/orders/agentOrders" cssClass="form-signin">
         <input type="hidden" value="${user.id}">
         <button class="btn btn-lg btn-info btn-block" type="submit">Orders by my tours</button>
@@ -113,6 +118,25 @@
         <input type="hidden" value="${user.id}">
         <button class="btn btn-lg btn-info btn-block" type="submit">Show tours</button>
     </form:form>
+
+    <form:form method = "GET" action = "/tours/update" cssClass="form-signin">
+        <input type="text" name="id" placeholder="Type an id" class="form-control text-center">
+        <button class="btn btn-lg btn-success btn-block" type="submit">Update Tour</button>
+    </form:form>
+
+    <form:form method = "GET" action = "/tours/create" cssClass="form-signin">
+        <button class="btn btn-lg btn-success btn-block" type="submit">Create tour</button>
+    </form:form>
+
+    <form:form method = "POST" action = "/tours/delete" cssClass="form-signin">
+        <input type="text" name="id" placeholder="Type an id" class="form-control text-center">
+        <button class="btn btn-lg btn-success btn-block" type="submit">Delete Tour</button>
+    </form:form>
+
+    <form:form method = "GET" action = "/tours/all" cssClass="form-signin">
+        <button class="btn btn-lg btn-success btn-block" type="submit">Show all tours</button>
+    </form:form>
+
 </c:if>
 <br>
 
@@ -127,14 +151,14 @@
         <button class="btn btn-lg btn-info btn-block" type="submit">Show tours</button>
     </form:form>
 </c:if>
-<br>
+
 
 
 <form:form method = "POST" action = "/logout" cssClass="form-signin" cssStyle="border-bottom-width: medium">
     <button class="btn btn-lg btn-primary btn-block" type="submit">Log Out</button>
 </form:form>
-
-
-
+<br>
+<br>
+<%@include file="footer.jsp" %>
 </body>
 </html>

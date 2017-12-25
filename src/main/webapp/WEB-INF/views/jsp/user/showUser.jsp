@@ -14,7 +14,10 @@
     <link href="${bootstrapCss}" rel="stylesheet" />
     <link href="${coreCss}" rel="stylesheet" />
 </head>
-<h1 class="text-center glyphicon-text-color">${message}</h1>
+<body>
+<%@include file="../topbar.jsp" %>
+
+<h1 class="text-center">${message}</h1>
 <h2 class="text-center">User information</h2>
 <br>
 <div class="container">
@@ -22,7 +25,6 @@
     <h3 class="text-center"> First Name: ${user.firstName}</h3>
     <h3 class="text-center"> Last Name: ${user.lastName}</h3>
     <h3 class="text-center"> Email: ${user.email}</h3>
-    <h3 class="text-center"> Password: ${user.passwordHash}</h3>
 </div>
 
 <form:form method = "GET" action = "/" cssClass="form-signin">
@@ -34,6 +36,6 @@
 <script src="${coreJs}"></script>
 <script src="${bootstrapJs}"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-
+<%@include file="../footer.jsp" %>
 </body>
 </html>

@@ -63,9 +63,19 @@ public class UserController {
         return "user/showUser";
     }
 
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
-    public ModelAndView deleteUserById(@PathVariable String id) {
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public ModelAndView deleteUserById(HttpServletRequest request) {
+        String id = request.getParameter("id");
+        if (id.isEmpty() || Integer.parseInt(id) < 0) {
+            return new ModelAndView("errors/error", "errorMessage",
+                    "Bad input");
+        }
         User userToDelete = userService.getUserById(Integer.parseInt(id));
+
+        if(!userService.deletePermission(Integer.parseInt(id)) && userToDelete==null) {
+            return new ModelAndView("errors/error", "errorMessage",
+                    "Cant delete user, permission already deleted");
+        }
         if (userToDelete == null) {
             return new ModelAndView("errors/error", "errorMessage",
                     "User with such id dont exists");
@@ -77,7 +87,7 @@ public class UserController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("user/showUser");
         modelAndView.addObject("user", userToDelete);
-        modelAndView.addObject("message", "User with ID = " +
+        modelAndView.addObject("message", "User with ID " +
                 userToDelete.getId() + " successfully deleted!");
         return modelAndView;
     }
@@ -172,6 +182,14 @@ public class UserController {
 
     @RequestMapping(value = "/permissions/create" ,method = RequestMethod.POST)
     public String createPermission(@ModelAttribute Permission permission, Model model) {
+        if (permission.getUserId() == 0 || permission.getPermissionNameId() == 0) {
+            model.addAttribute("errorMessage", "Bad input");
+            return "errors/error";
+        }
+        if (userService.getPermission(permission.getUserId()) != 0) {
+            model.addAttribute("errorMessage", "Cant create permission that already exists, You can only update it");
+            return "errors/error";
+        }
         if(!userService.createPermission(permission)) {
             model.addAttribute("errorMessage", "Error when creating permission");
             return "errors/error";

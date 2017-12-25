@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <title>Update User Page</title>
     <link href="${contextPath}/resources/core/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/core/css/common.css" rel="stylesheet">
@@ -12,6 +13,9 @@
     <link href="${bootstrapCss}" rel="stylesheet" />
     <link href="${coreCss}" rel="stylesheet" />
 </head>
+<body>
+<%@include file="../topbar.jsp" %>
+
 <h1 class="text-center">Update Permission Information</h1>
 <br>
 
@@ -37,6 +41,7 @@
 <script src="${coreJs}"></script>
 <script src="${bootstrapJs}"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<%@include file="../footer.jsp" %>
 
 </body>
 </html>

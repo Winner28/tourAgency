@@ -1,7 +1,11 @@
 body {
-    padding-top: 40px;
-    padding-bottom: 40px;
-    background-color: #eee;
+    position: relative;
+    margin: 0;
+    min-height: 100%;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    margin:0;
+    padding: 0;
+    height:100%;
 }
 
 .form-signin {
@@ -46,3 +50,105 @@ body {
 .has-error {
     color: red
 }
+
+
+/**
+ * Demo Styles
+ */
+
+html {
+    height: 100%;
+    box-sizing: border-box;
+}
+
+
+
+/**
+ * Footer Styles
+ */
+
+.footer {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 1rem;
+    background-color: #35404f;
+    color: #878c94;
+    text-align: center;
+}
+
+
+
+/*////////////////TOP NAV BAR////////////////*/
+
+.top-bar{background-color:black;min-height:40px;padding-top:5px;padding-bottom: 0px;}
+.top-bar .nav-text {
+    color: #00BCD4;
+    display: block;
+    margin-top: 5px;
+}
+.top-bar .social{color:#FFF;display:inline-block;padding:5px;text-decoration: none;}
+
+.top-bar .tools{margin:0px;padding:0px;list-style-type:none;}
+.top-bar .tools li{list-style-type: none;display:inline-block;}
+.top-bar .tools li a {
+    display: block;
+    text-decoration: none;
+    color: #fff;
+    padding-left: 15px;
+    padding-top: 5px;
+}
+
+.navbar-brand {
+    /* float: left; */
+    height: 50px;
+    padding: 3px 15px;
+    font-size: 18px;
+    line-height: 20px;
+    position: absolute;
+    z-index: 11;
+    margin: 0 auto;
+    right: 42%;
+}
+
+
+.navbar-inverse {
+    background-color: #009688;
+    border-color: #080808;
+}
+
+.navbar {
+    position: relative;
+    min-height: 50px;
+    margin-bottom: 0px;
+    border: 0px solid #000;;
+    border-radius:0px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    color: #fff;
+}
+.nav > li > a {
+    position: relative;
+    display: block;
+    padding: 15px 11px;}
+
+.form-control{
+    border-color:#fff;
+    border-radius:0px;
+    background-color:transparent;
+}
+
+.btn-default-1 {
+    color: #fff;
+    background-color: transparent;
+    border-color: #fff;
+    border-radius: 0px;
+}
+
+.cart-heart a{display:inline-block;color:#fff;font-size:20px;padding:5px;}
+
+/*CROUSELE START///////////////////////////*/
+

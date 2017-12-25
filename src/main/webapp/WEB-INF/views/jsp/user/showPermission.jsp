@@ -14,6 +14,9 @@
     <link href="${bootstrapCss}" rel="stylesheet" />
     <link href="${coreCss}" rel="stylesheet" />
 </head>
+<body>
+<%@include file="../topbar.jsp" %>
+
 <h2 class="text-center">Permission information</h2>
 <br>
 <div class="container">
@@ -32,6 +35,6 @@
 <script src="${coreJs}"></script>
 <script src="${bootstrapJs}"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-
+<%@include file="../footer.jsp" %>
 </body>
 </html>
