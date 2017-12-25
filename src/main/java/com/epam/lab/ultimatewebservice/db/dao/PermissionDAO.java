@@ -90,9 +90,9 @@ public class PermissionDAO {
     }
 
     public Optional<Permission> updatePermission(Permission permission) {
-        return Optional.ofNullable(jdbcDAO.mapPreparedStatementFlagged(preparedStatement -> {
+        return Optional.ofNullable(jdbcDAO.mapPreparedStatement(preparedStatement -> {
             try {
-                preparedStatement.getGeneratedKeys();
+                preparedStatement.executeUpdate();
                 return permission;
             } catch (SQLException e) {
                 e.printStackTrace();

@@ -33,9 +33,10 @@
 </div>
 <br>
 
+<h2 class="text-center"><b>Hello, mr.${user.lastName}</b></h2>
 
 <c:if test="${userType.equals('admin')}">
-    <h2 class="text-center"><b>Hello, mr.${user.lastName}</b></h2>
+
 
 <table class="table table-condensed">
     <tbody>
@@ -105,7 +106,6 @@
 
 
 <c:if test="${userType.equals('agent')}">
-    <h2 class="text-center glyphicon-text-color">You have entered as tour-agent</h2>
 
     <form:form method = "GET" action = "/orders/agentOrders" cssClass="form-signin">
         <input type="hidden" value="${user.id}">
