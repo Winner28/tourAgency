@@ -27,6 +27,18 @@ public class TourService {
 
     public List<Tour> getTourList() { return tourDAO.getAllTours();}
 
+    public List<Tour> getTourListForUser() {
+        List<Tour> tours = tourDAO.getAllTours();
+        if (tours.isEmpty())
+            return tours;
+        List<Tour> userTours = new ArrayList<>();
+        for (Tour t: tours) {
+            if(t.isActive())
+                userTours.add(t);
+        }
+        return userTours;
+    }
+
     public List<Tour> getToursIdByAgentId(int agentId) {
         List<Tour> agentTours = tourDAO.getAllTours();
         Iterator<Tour> allTours= agentTours.iterator();

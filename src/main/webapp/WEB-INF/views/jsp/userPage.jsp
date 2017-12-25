@@ -155,7 +155,7 @@
         <input type="hidden" value="${user.id}">
         <button class="btn btn-lg btn-info btn-block" type="submit">My orders</button>
     </form:form>
-    <form:form method="GET" action="/tours/all" cssClass="form-signin">
+    <form:form method="GET" action="/tours/clientTours" cssClass="form-signin">
         <input type="hidden" value="${user.id}">
         <button class="btn btn-lg btn-info btn-block" type="submit">Show tours</button>
     </form:form>

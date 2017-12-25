@@ -164,14 +164,20 @@ public class OrderController {
             modelAndView.addObject("errorMessage", "No such User logged in");
             return modelAndView;
         }
-        List<Order> orderList = orderService.getOrdersByUserId(id);
-        if (orderList == null) {
+        List<Order> orders = orderService.getOrdersByUserId(id);
+        if (orders == null) {
             modelAndView.setViewName("errors/error");
             modelAndView.addObject("errorMessage", "THERE IS NULL");
             return modelAndView;
         }
+        List<Order> orderList = new ArrayList<>();
+        for (Order o: orders) {
+            if(o.isActive())
+                orderList.add(o);
+        }
         modelAndView.setViewName("order/showAllOrders");
         modelAndView.addObject("orderList", orderList);
+        modelAndView.addObject("tourService", tourService);
         modelAndView.addObject("discount", orderService.getDiscount(id));
         return modelAndView;
     }
