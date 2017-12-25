@@ -16,13 +16,13 @@ import static org.omg.PortableServer.IdAssignmentPolicyValue.USER_ID;
 public class TourDAO {
 
     private final static String ADD_TOUR =
-            "INSERT INTO tours (hot, price, duration, agent_id, active, tour_types_id) VALUES(?,?,?,?,?,?)";
+            "INSERT INTO tours (hot, price, duration, agent_id, active, tour_types_id, tour_name) VALUES(?,?,?,?,?,?,?)";
     private final static String DELETE_TOUR_BY_ID =
             "DELETE FROM tours WHERE id=?";
     private final static String GET_ALL_TOURS =
-            "SELECT id, hot, price, duration, agent_id, active, tour_types_id FROM tours";
+            "SELECT id, hot, price, duration, agent_id, active, tour_types_id, tour_name FROM tours";
     private final static String GET_TOUR_BY_ID =
-            "SELECT id, hot, price, duration, agent_id, active, tour_types_id FROM tours WHERE id=?";
+            "SELECT id, hot, price, duration, agent_id, active, tour_types_id, tour_name FROM tours WHERE id=?";
 
     private final static String ID = "id";
     private final static String HOT= "hot";
@@ -31,6 +31,7 @@ public class TourDAO {
     private final static String AGENT_ID  = "agent_id";
     private final static String ACTIVE  = "active";
     private final static String TOUR_TYPES_ID  = "tour_types_id";
+    private final static String TOUR_NAME = "tour_name";
 
     private JdbcDAO jdbcDAO;
 
@@ -62,12 +63,14 @@ public class TourDAO {
                         .setDuration(tour.getDuration())
                         .setAgentId(tour.getAgentId())
                         .setActive(tour.isActive())
-                        .setTourTypesId(tour.getTourTypesId());
+                        .setTourTypesId(tour.getTourTypesId())
+                        .setTourName(tour.getTourName());
             } catch (SQLException e) {
                 e.printStackTrace();
                 return null;
             }
-        }, ADD_TOUR, tour.isHot(), tour.getPrice(), tour.getDuration(), tour.getAgentId(), tour.isActive(), tour.getTourTypesId()));
+        }, ADD_TOUR, tour.isHot(), tour.getPrice(), tour.getDuration(),
+                tour.getAgentId(), tour.isActive(), tour.getTourTypesId(), tour.getTourName()));
     }
 
 
@@ -129,7 +132,8 @@ public class TourDAO {
                             .setDuration(rs.getInt(DURATION))
                             .setAgentId(rs.getInt(AGENT_ID))
                             .setActive(rs.getBoolean(ACTIVE))
-                            .setTourTypesId(rs.getInt(TOUR_TYPES_ID)));
+                            .setTourTypesId(rs.getInt(TOUR_TYPES_ID))
+                            .setTourName(rs.getString(TOUR_NAME)));
                 }
             }catch (SQLException e) {
                 throw new RuntimeException("Got an exception");
@@ -151,7 +155,8 @@ public class TourDAO {
                             .setDuration(resultSet.getInt(DURATION))
                             .setAgentId(resultSet.getInt(AGENT_ID))
                             .setActive(resultSet.getBoolean(ACTIVE))
-                            .setTourTypesId(resultSet.getInt(TOUR_TYPES_ID));
+                            .setTourTypesId(resultSet.getInt(TOUR_TYPES_ID))
+                            .setTourName(resultSet.getString(TOUR_NAME));
                 }
                 return null;
             } catch (SQLException e) {
@@ -188,6 +193,10 @@ public class TourDAO {
         if (oldValue.getPrice() != newValue.getPrice()){
             tourMap.put(PRICE, String.valueOf(newValue.getPrice()));
             oldValue.setPrice(newValue.getPrice());
+        }
+        if (!(oldValue.getTourName().equals(newValue.getTourName()))){
+            tourMap.put(TOUR_NAME, newValue.getTourName());
+            oldValue.setTourName(newValue.getTourName());
         }
         return tourMap;
     }

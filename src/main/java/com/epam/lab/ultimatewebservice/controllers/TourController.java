@@ -4,7 +4,9 @@ package com.epam.lab.ultimatewebservice.controllers;
 import com.epam.lab.ultimatewebservice.entity.Permission;
 import com.epam.lab.ultimatewebservice.entity.Tour;
 import com.epam.lab.ultimatewebservice.entity.User;
+import com.epam.lab.ultimatewebservice.service.AuthorizationService;
 import com.epam.lab.ultimatewebservice.service.TourService;
+import com.epam.lab.ultimatewebservice.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,8 @@ import java.util.Map;
 public class TourController {
 
     private final TourService tourService;
+    private final UserService userService;
+    private final AuthorizationService authorizationService;
     private static final String LOGGED_COOKIE = "userLoggedIn";
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
@@ -45,12 +49,27 @@ public class TourController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String tourCreation(@ModelAttribute("tour") Tour tour, Model model,
                                HttpServletRequest request) {
+        Cookie [] cookies = request.getCookies();
+        int agentId = 0;
+        if(cookies == null){
+            return "redirect:/login";
+        }
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals(LOGGED_COOKIE)) {
+                int id = SessionManager.getUserIdByCookie(cookie);
+                if (id == 0) {
+                    return "redirect:/login";
+                }
+                agentId = id;
+            }
+        }
         String isHot = request.getParameter("hot");
         String isActive = request.getParameter("active");
         if (!checkAccess(request)) {
             model.addAttribute("errorMessage", "Bad access. Your request denied");
             return "errors/error";
         }
+        tour.setAgentId(agentId);
         if (!checkValidation(tour) || isHot == null || isActive == null) {
             model.addAttribute("errorMessage", "Bad input info");
             return "errors/error";
@@ -207,7 +226,8 @@ public class TourController {
 
     private boolean validateTour(Tour tour) {
         return tour.getAgentId() != 0 && tour.getDuration() != 0
-                && tour.getId() != 0 && !(tour.getPrice() == 0) && tour.getTourTypesId() != 0;
+                && tour.getId() != 0 && !(tour.getPrice() == 0) && tour.getTourTypesId() != 0
+                && tour.getTourName() != null;
     }
 
     private ModelAndView accessDeniedView() {

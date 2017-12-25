@@ -16,6 +16,9 @@
 <form:form method = "POST" action = "/tours/create" modelAttribute="tour" cssClass="form-signin">
     <div class="form-group">
 
+        <label for="tourName">Tour Name: </label>
+        <form:input path = "tourName" cssClass="form-control"/>
+
         <label for="duration">Duration: </label>
         <form:input path = "duration" cssClass="form-control"/>
     </div>
@@ -36,10 +39,6 @@
         </form:select>
     </div>
     <div class="form-group">
-
-        <label for="agentId">Agent number:</label>
-        <form:input path = "agentId" cssClass="form-control"/>
-    </div>
 
     <div class="container">
         <p>Tour options:</p>
