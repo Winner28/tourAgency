@@ -1,5 +1,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,7 +25,9 @@
     <h3 class="text-center"> Password: ${user.passwordHash}</h3>
 </div>
 
-
+<form:form method = "GET" action = "/" cssClass="form-signin">
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Get back to Home Page</button>
+</form:form>
 <spring:url value="/resources/core/css/hello.js" var="coreJs" />
 <spring:url value="/resources/core/css/bootstrap.min.js" var="bootstrapJs" />
 

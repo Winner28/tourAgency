@@ -13,9 +13,12 @@
 
 <br>
 
-<h1 class="text-center" class="alert-danger">${errorMessage}</h1>
+<h1 class="text-center alert-danger">${errorMessage}</h1>
 
-
+<h1 class="text-center" class="alert-success">${message}</h1>
+<form:form method = "GET" action = "/" cssClass="form-signin">
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Get back to Home Page</button>
+</form:form>
 <spring:url value="/resources/core/css/hello.js" var="coreJs" />
 <spring:url value="/resources/core/css/bootstrap.min.js" var="bootstrapJs" />
 

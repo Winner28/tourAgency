@@ -60,4 +60,12 @@ public class UserService {
         }
         return permission.getPermissionNameId();
     }
+
+    public List<Integer> getPermissionListById(int permissionId) {
+        return permissionService.getUsersListByPermissionNameId(permissionId);
+    }
+
+    public List<Permission> getAllPermissions() {
+        return permissionService.getPermissionsList();
+    }
 }

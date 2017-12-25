@@ -43,7 +43,7 @@
     </form:form></td>
         <td>
 
-            <form:form method = "POST" action = "/users/permissions/all" cssClass="form-signin">
+            <form:form method = "GET" action = "/users/permissions/all" cssClass="form-signin">
                 <button class="btn btn-lg btn-success btn-block" type="submit">Get permissions List</button>
             </form:form>
         </td>

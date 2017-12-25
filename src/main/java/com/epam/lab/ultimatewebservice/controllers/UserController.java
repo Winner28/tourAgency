@@ -224,12 +224,71 @@ public class UserController {
 
     @RequestMapping(value = "/permissions/update", method = RequestMethod.POST)
     public String updatePermissionPage(@ModelAttribute Permission permission, Model model) {
+        if (permission.getUserId() == 0 || permission.getPermissionNameId() == 0 || permission.getPermissionNameId() > 3) {
+            model.addAttribute("errorMessage", "Bad input");
+            return "errors/error";
+        }
         if(!userService.updatePermission(permission)) {
             model.addAttribute("errorMessage", "Error when try to update user Permission");
             return "errors/error";
         }
         model.addAttribute("message", "Successfully updated!");
         return "user/info";
+    }
+
+    @RequestMapping(value = "/permissions/id", method = RequestMethod.POST)
+    public ModelAndView getPermissionsByPermissionId(HttpServletRequest request) {
+        if (!checkAccess(request)) {
+            return accessDeniedView();
+        }
+        String id = request.getParameter("id");
+        ModelAndView modelAndView = new ModelAndView();
+        if (id == null || id.isEmpty()) {
+            modelAndView.setViewName("errors/error");
+            modelAndView.addObject("errorMessage", "Bad input info");
+            return modelAndView;
+        }
+        List<Integer> usersId = userService.getPermissionListById(Integer.parseInt(id));
+        if (usersId.size() == 0 || usersId == null) {
+            modelAndView.setViewName("errors/error");
+            modelAndView.addObject("errorMessage", "Something goes wrong");
+            return modelAndView;
+        }
+        modelAndView.addObject("users_id", usersId);
+        switch (Integer.parseInt(id)) {
+            case 1:
+                modelAndView.addObject("userType", "Admins");
+                break;
+            case 2:
+                modelAndView.addObject("userType", "Agents");
+                break;
+            case 3:
+                modelAndView.addObject("userType", "Clients");
+                break;
+            default:
+                modelAndView.addObject("userType", "Clients");
+                break;
+        }
+
+        modelAndView.setViewName("user/permissionsIdList");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/permissions/all", method = RequestMethod.GET)
+    public ModelAndView getPermissionList(HttpServletRequest request) {
+        if (!checkAccess(request)) {
+            return accessDeniedView();
+        }
+        ModelAndView modelAndView = new ModelAndView();
+        List<Permission> permissionList =userService.getAllPermissions();
+        if (permissionList.size() == 0 || permissionList == null) {
+            modelAndView.setViewName("errors/error");
+            modelAndView.addObject("errorMessage", "Something goes wrong");
+            return modelAndView;
+        }
+        modelAndView.setViewName("user/permissionsList");
+        modelAndView.addObject("permissions", permissionList);
+        return modelAndView;
     }
 
     private ModelAndView checkUserAndReturnModel(User user) {

@@ -57,5 +57,8 @@
             </c:forEach>
     </tbody>
         </table>
+<form:form method = "GET" action = "/" cssClass="form-signin">
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Get back to Home Page</button>
+</form:form>
 </body>
 </html>
