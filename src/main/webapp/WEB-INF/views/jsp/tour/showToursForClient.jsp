@@ -21,7 +21,7 @@
     <thead>
     <tr>
         <td class="text-center">Name</td>
-        <td class="text-center">Tour Type Id</td>
+        <td class="text-center">Tour Type</td>
         <td class="text-center">Price</td>
         <td class="text-center">Duration</td>
         <td class="text-center">Hot</td>
@@ -31,7 +31,7 @@
     <c:forEach items="${tourList}" var="tour">
         <tr>
             <td class="text-center">${tour.tourName}</td>
-            <td class="text-center">${tour.tourTypesId}</td>
+            <td class="text-center">${tourTypeService.getTourTypeById(tour.tourTypesId).tourType}</td>
             <td class="text-center">${tour.price}</td>
             <td class="text-center">${tour.duration}</td>
             <td class="text-center">

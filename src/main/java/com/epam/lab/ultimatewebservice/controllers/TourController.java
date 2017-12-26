@@ -226,6 +226,7 @@ public class TourController {
 
         modelAndView.setViewName("tour/showToursForClient");
         modelAndView.addObject("tourList", tourList);
+        modelAndView.addObject("tourTypeService", tourTypeService);
         return modelAndView;
     }
 
