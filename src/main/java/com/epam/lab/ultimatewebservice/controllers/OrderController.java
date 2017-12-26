@@ -86,6 +86,7 @@ public class OrderController {
 
         model.addAttribute("order", createdOrder);
         model.addAttribute("message", "Order successfully created!");
+        model.addAttribute("tourService", tourService);
         return "order/showOrder";
     }
 

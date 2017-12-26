@@ -19,9 +19,14 @@
 <br>
 <h3>Order id: ${order.id}</h3>
 <h3>Order date: ${order.date}</h3>
-<h3>Order active: ${order.active}</h3>
-<h3>Order tourId: ${order.tourId}</h3>
-<h3>Order userId: ${order.userId}</h3>
+<h3>Order active:
+    <c:if test="${order.active}">
+        Yes
+    </c:if>
+    <c:if test="${!order.active}">
+        No
+    </c:if></h3>
+<h3>Order tour name: ${tourService.getTourById(order.tourId).tourName}</h3>
 
 
 <spring:url value="/resources/core/css/hello.js" var="coreJs" />
