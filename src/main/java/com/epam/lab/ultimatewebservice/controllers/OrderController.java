@@ -4,6 +4,7 @@ import com.epam.lab.ultimatewebservice.entity.Order;
 import com.epam.lab.ultimatewebservice.entity.Tour;
 import com.epam.lab.ultimatewebservice.service.OrderService;
 import com.epam.lab.ultimatewebservice.service.TourService;
+import com.epam.lab.ultimatewebservice.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,6 +28,7 @@ public class OrderController {
 
     private final TourService tourService;
     private final OrderService orderService;
+    private final UserService userService;
     private static final String LOGGED_COOKIE = "userLoggedIn";
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -216,6 +218,8 @@ public class OrderController {
 //        }
         modelAndView.setViewName("order/showOrdersForAgent");
         modelAndView.addObject("orderList", agentOrders);
+        modelAndView.addObject("tourService", tourService);
+        modelAndView.addObject("userService", userService);
         return modelAndView;
     }
 

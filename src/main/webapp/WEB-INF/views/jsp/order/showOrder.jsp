@@ -17,7 +17,7 @@
 <h1 class="text-info">${message.toUpperCase()}</h1>
 <h1>Order information</h1>
 <br>
-<h3>Order id: ${order.id}</h3>
+<h3>Order number: ${order.id}</h3>
 <h3>Order date: ${order.date}</h3>
 <h3>Order active:
     <c:if test="${order.active}">

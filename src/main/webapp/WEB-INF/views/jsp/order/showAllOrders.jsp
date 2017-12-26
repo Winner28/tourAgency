@@ -18,9 +18,9 @@
 
 <ul>
     <c:if test="${empty orderList}">
-        <h4>
+        <h2 class="text-info">
             You have no orders!
-        </h4>
+        </h2>
     </c:if>
 
 
@@ -28,7 +28,7 @@
     <table class="table table-hover">
         <thead>
         <tr>
-            <td>Order ID</td>
+            <td>Order number</td>
             <td>Date</td>
             <td>Active</td>
             <td>Tour Name</td>

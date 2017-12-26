@@ -29,8 +29,8 @@
             <td>Order ID</td>
             <td>Date</td>
             <td>Active</td>
-            <td>Tour ID</td>
-            <td>User ID</td>
+            <td>Tour name</td>
+            <td>User email</td>
         </tr>
         </thead>
 
@@ -40,8 +40,8 @@
                 <td>${order.id}</td>
                 <td>${order.date}</td>
                 <td>${order.active}</td>
-                <td>${order.tourId}</td>
-                <td>${order.userId}</td>
+                <td>${tourService.getTourById(order.tourId).tourName}</td>
+                <td>${userService.getUserById(order.userId).email}</td>
             </tr>
         </c:forEach>
         </tbody>
