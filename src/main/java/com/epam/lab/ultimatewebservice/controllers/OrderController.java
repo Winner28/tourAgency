@@ -209,11 +209,11 @@ public class OrderController {
             }
         }
 
-        if (agentOrders.size() == 0) {
-            modelAndView.setViewName("errors/error");
-            modelAndView.addObject("errorMessage", "There are no orders for you!");
-            return modelAndView;
-        }
+//        if (agentOrders.size() == 0) {
+//            modelAndView.setViewName("errors/error");
+//            modelAndView.addObject("errorMessage", "There are no orders for you!");
+//            return modelAndView;
+//        }
         modelAndView.setViewName("order/showOrdersForAgent");
         modelAndView.addObject("orderList", agentOrders);
         return modelAndView;
