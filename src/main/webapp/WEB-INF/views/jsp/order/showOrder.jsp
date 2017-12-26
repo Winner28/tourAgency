@@ -12,6 +12,7 @@
     <link href="${bootstrapCss}" rel="stylesheet"/>
     <link href="${coreCss}" rel="stylesheet"/>
 </head>
+<body>
 <%@include file="../topbar.jsp" %>
 <h1 class="text-info">${message.toUpperCase()}</h1>
 <h1>Order information</h1>

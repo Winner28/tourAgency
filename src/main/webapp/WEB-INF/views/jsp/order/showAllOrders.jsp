@@ -59,7 +59,7 @@
                             <input type="hidden" name="active" value="${false}">
                             <input type="hidden" name="tourId" value="${order.tourId}">
                             <input type="hidden" name="userId" value="${order.userId}">
-                            <button class="btn btn-lg btn-primary btn-block" type="submit">Cancel</button>
+                            <button class="btn btn-lg btn-primary btn-block " type="submit">Cancel</button>
                         </form:form>
                     </td>
                 </c:if>

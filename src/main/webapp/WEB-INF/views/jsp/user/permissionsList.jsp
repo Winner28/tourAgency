@@ -16,20 +16,22 @@
 <body>
 <%@include file="../topbar.jsp" %>
 
-<h1 class="text-center glyphicon-text-color"><b>Permissions List</b></h1> <br>
+<h1 class="text-center"><b>Permissions List</b></h1> <br>
 <br>
 <table class="table table-hover">
     <thead>
     <tr>
-        <td class="text-center">User ID</td>
-        <td class="text-center">Permission ID</td>
+        <td class="text-center">User Name</td>
+        <td class="text-center">User Email</td>
+        <td class="text-center">Permission Name</td>
     </tr>
     </thead>
     <tbody>
-    <c:forEach items="${permissions}" var="permission">
+    <c:forEach items="${combined}" var="combo">
         <tr>
-            <td class="text-center">${permission.userId}</td>
-            <td class="text-center">${permission.permissionNameId}</td>
+            <td class="text-center">${combo.firstName} ${combo.lastName} </td>
+            <td class="text-center">${combo.email}</td>
+            <td class="text-center">${combo.permission_name}</td>
         </tr>
     </c:forEach>
     </tbody>

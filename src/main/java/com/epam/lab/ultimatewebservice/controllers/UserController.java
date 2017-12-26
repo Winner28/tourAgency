@@ -1,5 +1,6 @@
 package com.epam.lab.ultimatewebservice.controllers;
 
+import com.epam.lab.ultimatewebservice.entity.Combined;
 import com.epam.lab.ultimatewebservice.entity.Permission;
 import com.epam.lab.ultimatewebservice.entity.User;
 import com.epam.lab.ultimatewebservice.service.UserService;
@@ -12,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -24,10 +26,17 @@ public class UserController {
     private static final String LOGGED_COOKIE = "userLoggedIn";
 
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ModelAndView getUserById(@PathVariable(value = "id") int id, HttpServletRequest request) {
+    @RequestMapping(value = "/get", method = RequestMethod.GET)
+    public ModelAndView getUserById(HttpServletRequest request) {
         if (!checkAccess(request)) {
             return accessDeniedView();
+        }
+        int id;
+        try {
+            id = Integer.parseInt(request.getParameter("id"));
+        } catch (RuntimeException e) {
+            return new ModelAndView("errors/error", "errorMessage",
+                    "Bad input");
         }
         return checkUserAndReturnModel(userService.getUserById(id));
     }
@@ -66,19 +75,33 @@ public class UserController {
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public ModelAndView deleteUserById(HttpServletRequest request) {
         String id = request.getParameter("id");
+        try {
+        int nd = Integer.parseInt(id);
+        } catch (NumberFormatException e) {
+            return new ModelAndView("errors/error", "errorMessage",
+                    "Bad input");}
         if (id.isEmpty() || Integer.parseInt(id) < 0) {
             return new ModelAndView("errors/error", "errorMessage",
                     "Bad input");
         }
         User userToDelete = userService.getUserById(Integer.parseInt(id));
-
-        if(!userService.deletePermission(Integer.parseInt(id)) && userToDelete==null) {
-            return new ModelAndView("errors/error", "errorMessage",
-                    "Cant delete user, permission already deleted");
-        }
         if (userToDelete == null) {
             return new ModelAndView("errors/error", "errorMessage",
                     "User with such id dont exists");
+        }
+        if(!userService.deletePermission(Integer.parseInt(id))) {
+            return new ModelAndView("errors/error", "errorMessage",
+                    "Cant delete user");
+        }
+        if (userToDelete.getId() == 2) {
+            if (!userService.deleteUserFromTours(Integer.parseInt(id))) {
+                return new ModelAndView("errors/error", "errorMessage",
+                        "Cant delete Agent, he has some tours");
+            }
+        }
+        if (!userService.deleteUserFromOrders(Integer.parseInt(id))) {
+            return new ModelAndView("errors/error", "errorMessage",
+                    "Cant delete user, he have some orders");
         }
         if (!userService.deleteUserById(Integer.parseInt(id))) {
             return new ModelAndView("errors/error", "errorMessage",
@@ -114,6 +137,12 @@ public class UserController {
     public ModelAndView updateUserPage(HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView();
         String id = request.getParameter("id");
+        try {
+        int nd = Integer.parseInt(id);
+    } catch (NumberFormatException e) {
+        return new ModelAndView("errors/error", "errorMessage",
+                "Bad input");
+        }
         if (id == null || id.isEmpty()) {
             modelAndView.setViewName("errors/error");
             modelAndView.addObject("errorMessage", "We dont have user with such id");
@@ -228,7 +257,14 @@ public class UserController {
             modelAndView.setViewName("errors/error");
             return modelAndView;
         }
-        int permissionId = userService.getPermission(Integer.parseInt(id));
+        int permissionId;
+        try {
+             permissionId = userService.getPermission(Integer.parseInt(id));
+        }catch (NumberFormatException e) {
+            modelAndView.addObject("errorMessage", "Bad input info");
+            modelAndView.setViewName("errors/error");
+            return modelAndView;
+        }
         if (permissionId == 0) {
             modelAndView.addObject("errorMessage", "Error when try to get user Permission");
             modelAndView.setViewName("errors/error");
@@ -254,26 +290,40 @@ public class UserController {
         return "user/info";
     }
 
-    @RequestMapping(value = "/permissions/id", method = RequestMethod.POST)
+    @RequestMapping(value = "/permissions/name", method = RequestMethod.POST)
     public ModelAndView getPermissionsByPermissionId(HttpServletRequest request) {
-        if (!checkAccess(request)) {
-            return accessDeniedView();
+        String name = request.getParameter("id");
+        int id;
+        switch (name.toLowerCase()) {
+            case "admin":
+                id = 1;
+                break;
+            case "agent":
+                id = 2;
+                break;
+            case "client":
+                id = 3;
+                break;
+                default:
+                    id = 0;
         }
-        String id = request.getParameter("id");
         ModelAndView modelAndView = new ModelAndView();
-        if (id == null || id.isEmpty()) {
+        if (id == 0) {
             modelAndView.setViewName("errors/error");
             modelAndView.addObject("errorMessage", "Bad input info");
             return modelAndView;
         }
-        List<Integer> usersId = userService.getPermissionListById(Integer.parseInt(id));
-        if (usersId.size() == 0 || usersId == null) {
+        if (!checkAccess(request)) {
+            return accessDeniedView();
+        }
+        List<User> userList = userService.getUsersListByPermissionId(id);
+        if (userList.size() == 0 || userList== null) {
             modelAndView.setViewName("errors/error");
             modelAndView.addObject("errorMessage", "Something goes wrong");
             return modelAndView;
         }
-        modelAndView.addObject("users_id", usersId);
-        switch (Integer.parseInt(id)) {
+        modelAndView.addObject("users", userList);
+        switch (id) {
             case 1:
                 modelAndView.addObject("userType", "Admins");
                 break;
@@ -287,7 +337,6 @@ public class UserController {
                 modelAndView.addObject("userType", "Clients");
                 break;
         }
-
         modelAndView.setViewName("user/permissionsIdList");
         return modelAndView;
     }
@@ -298,15 +347,31 @@ public class UserController {
             return accessDeniedView();
         }
         ModelAndView modelAndView = new ModelAndView();
-        List<Permission> permissionList =userService.getAllPermissions();
-        if (permissionList.size() == 0 || permissionList == null) {
+
+       List<Combined> combinedList = userService.getAllPermissions();
+        if (combinedList.size() == 0 || combinedList == null) {
             modelAndView.setViewName("errors/error");
             modelAndView.addObject("errorMessage", "Something goes wrong");
             return modelAndView;
         }
         modelAndView.setViewName("user/permissionsList");
-        modelAndView.addObject("permissions", permissionList);
+        modelAndView.addObject("combined", combinedList);
         return modelAndView;
+    }
+
+
+
+    private String getPermissionName(Permission permission) {
+        switch (permission.getPermissionNameId()) {
+            case 1:
+                return "Admin";
+            case 2:
+                return "Agent";
+            case 3:
+                return "Client";
+                default:
+                    return "Client";
+        }
     }
 
     private ModelAndView checkUserAndReturnModel(User user) {

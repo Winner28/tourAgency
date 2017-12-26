@@ -16,18 +16,23 @@
 <body>
 <%@include file="../topbar.jsp" %>
 
-<h1 class="text-center glyphicon-text-color">List of <b>${userType}</b></h1> <br>
+<h1 class="text-center">List of <b>${userType}</b></h1> <br>
 <br>
 <table class="table table-hover">
     <thead>
     <tr>
-        <td class="text-center">User ID</td>
+        <td class="text-center">First Name</td>
+        <td class="text-center">Last Name</td>
+        <td class="text-center">Email</td>
+
     </tr>
     </thead>
     <tbody>
-    <c:forEach items="${users_id}" var="user">
+    <c:forEach items="${users}" var="user">
         <tr>
-            <td class="text-center">${user}</td>
+            <td class="text-center">${user.firstName}</td>
+            <td class="text-center">${user.lastName}</td>
+            <td class="text-center">${user.email}</td>
         </tr>
     </c:forEach>
     </tbody>

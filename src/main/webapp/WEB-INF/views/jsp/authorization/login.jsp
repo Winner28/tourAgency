@@ -23,9 +23,18 @@
 <body>
 <%@include file="../topbar.jsp" %>
 <div class="container">
+    <br>
+    <br>
+    <br>
+    <h1 class="text-center form-signin-heading">Tour Agent NeverLand</h1>
+    <br>
 
+    <br>
+    <br>
+    <br>
+    <br>
     <form method="POST" action="${contextPath}/login" class="form-signin">
-        <h2 class="form-heading">Log in</h2>
+        <h2 class="form-heading text-center">Log in</h2>
 
         <div class="form-group ${error != null ? 'has-error' : ''}">
             <span>${message}</span>

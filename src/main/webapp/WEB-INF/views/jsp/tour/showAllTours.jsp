@@ -14,7 +14,7 @@
 </head>
 <body>
 <%@include file="../topbar.jsp" %>
-<h1 class="text-center glyphicon-text-color"><b>Tours List</b></h1> <br>
+<h1 class="text-center"><b>Tours List</b></h1> <br>
 <table class="table table-hover">
     <thead>
     <tr>
@@ -31,9 +31,7 @@
     <c:forEach items="${tourList}" var="tour">
         <tr>
             <td class="text-center">${tour.tourName}</td>
-            <td class="text-center">${userService.getUserById(tour.agentId).firstName}
-
-                    ${userService.getUserById(tour.agentId).lastName}</td>
+            <td class="text-center">${userService.getUserById(tour.agentId)}</td>
             <td class="text-center">${tourTypeService.getTourTypeById(tour.tourTypesId).tourType}</td>
             <td class="text-center">${tour.price}</td>
             <td class="text-center">${tour.duration}</td>
@@ -56,13 +54,13 @@
             <td class="text-center">
                 <form:form method = "GET" action = "/tours/update">
                     <input type="hidden" name="id" value="${tour.id}">
-                    <button class="btn btn-lg btn-success btn-block btn-xs" type="submit">Update Tour</button>
+                    <button class="btn btn-lg btn-success btn-block btn-md" type="submit">Update Tour</button>
                 </form:form>
             </td>
             <td class="text-center">
                 <form:form method = "POST" action = "/tours/delete">
                     <input type="hidden" name="id" value="${tour.id}">
-                    <button class="btn btn-lg btn-success btn-block btn-xs text-center" type="submit">Delete Tour</button>
+                    <button class="btn btn-lg btn-success btn-block btn-md text-center" type="submit">Delete Tour</button>
                 </form:form>
             </td>
         </tr>
@@ -72,6 +70,8 @@
 <form:form method = "GET" action = "/" cssClass="form-signin">
     <button class="btn btn-lg btn-primary btn-block" type="submit">Get back to Home Page</button>
 </form:form>
+<br>
+<br>
 <%@include file="../footer.jsp" %>
 
 </body>

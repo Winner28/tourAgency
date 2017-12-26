@@ -1,6 +1,7 @@
 package com.epam.lab.ultimatewebservice.db.dao;
 
 import com.epam.lab.ultimatewebservice.db.connpool.ConnectionPool;
+import com.epam.lab.ultimatewebservice.entity.Combined;
 import com.epam.lab.ultimatewebservice.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,19 +19,35 @@ public class UserDAO {
             "INSERT INTO users (first_name, last_name, email, password_hash) VALUES(?,?,?,?)";
     private final static String DELETE_USER_BY_ID =
             "DELETE FROM users WHERE id=?";
+    private final static String DELETE_USER_FROM_ORDERS =
+            "DELETE FROM orders WHERE user_id=?;";
+    private final static String DELETE_USER_FROM_TOURS =
+            "DELETE FROM tours WHERE agent_id=?";
     private final static String GET_ALL_USERS =
             "SELECT id,first_name, last_name, email, password_hash FROM users";
     private final static String GET_USER_BY_ID =
             "SELECT id,first_name, last_name, email, password_hash FROM users WHERE id=?";
     private final static String GET_USER_BY_EMAIL =
             "SELECT id,first_name, last_name, email, password_hash FROM users WHERE email=?";
+    private final static String GET_USERS_AND_PERMESSIONS =
+            "SELECT first_name, last_name, email, name \n" +
+                    "FROM users\n" +
+                    "JOIN permissions p ON users.id = p.user_id \n" +
+                    "JOIN permission_names pn ON p.permission_name_id = pn.id";
+    private final static String GET_USERS_BY_PERMISSION_ID =
+            "SELECT first_name, last_name, email, password_hash\n" +
+                    "FROM users\n" +
+                    "JOIN permissions p ON users.id = p.user_id\n" +
+                    "WHERE p.permission_name_id=?";
 
 
     private final static String ID = "id";
     private final static String EMAIL= "email";
+    private final static String NAME = "name";
     private final static String FIRSTNAME = "first_name";
     private final static String LASTNAME  = "last_name";
     private final static String PASSWORD  = "password_hash";
+
 
     private JdbcDAO jdbcDAO;
 
@@ -44,6 +61,24 @@ public class UserDAO {
                 return null;
             }
         };
+    }
+
+    public List<Combined> getUsersPermissionList() {
+        List<Combined> combinedList = new ArrayList<>();
+        jdbcDAO.withResultSet(rs -> {
+            try {
+                while (rs.next()) {
+                    combinedList.add(new Combined()
+                            .setFirstName(rs.getString(FIRSTNAME))
+                            .setLastName(rs.getString(LASTNAME))
+                            .setEmail(rs.getString(EMAIL))
+                            .setPermission_name(rs.getString(NAME)));
+                }
+            }catch (SQLException e) {
+                e.printStackTrace();
+            }
+        },GET_USERS_AND_PERMESSIONS);
+        return combinedList;
     }
 
     public Optional<User> addUser(User user) {
@@ -208,4 +243,47 @@ public class UserDAO {
         return userMap;
     }
 
+    public List<User> getUserListByPermissionId(int permissionId) {
+        List<User> userList = new ArrayList<>();
+        return jdbcDAO.mapPreparedStatement(preparedStatement -> {
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                while (rs.next()) {
+                    userList.add(new User()
+                            .setId(0)
+                            .setFirstName(rs.getString(FIRSTNAME))
+                            .setLastName(rs.getString(LASTNAME))
+                            .setEmail(rs.getString(EMAIL))
+                            .setPasswordHash("zero"));
+                }
+                return userList;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return null;
+            }
+        },GET_USERS_BY_PERMISSION_ID, permissionId);
+    }
+
+    public boolean deleteUserFromOrders(int user_id) {
+        return jdbcDAO.mapPreparedStatement(preparedStatement -> {
+            try {
+                preparedStatement.executeUpdate();
+                return true;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }, DELETE_USER_FROM_ORDERS, user_id);
+    }
+
+    public boolean deleteUserFromTours(int agent_id) {
+        return jdbcDAO.mapPreparedStatement(preparedStatement -> {
+            try {
+                preparedStatement.executeUpdate();
+                return true;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }, DELETE_USER_FROM_TOURS, agent_id);
+    }
 }

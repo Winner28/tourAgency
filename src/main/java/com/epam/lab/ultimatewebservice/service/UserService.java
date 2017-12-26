@@ -1,6 +1,7 @@
 package com.epam.lab.ultimatewebservice.service;
 
 import com.epam.lab.ultimatewebservice.db.dao.UserDAO;
+import com.epam.lab.ultimatewebservice.entity.Combined;
 import com.epam.lab.ultimatewebservice.entity.Permission;
 import com.epam.lab.ultimatewebservice.entity.User;
 import lombok.AllArgsConstructor;
@@ -16,6 +17,7 @@ public class UserService {
 
     private  UserDAO userDAO;
     private PermissionService permissionService;
+
 
     public User getUserById(int id) {
         return userDAO.getUserById(id).orElse(null);
@@ -61,11 +63,19 @@ public class UserService {
         return permission.getPermissionNameId();
     }
 
-    public List<Integer> getPermissionListById(int permissionId) {
-        return permissionService.getUsersListByPermissionNameId(permissionId);
+    public List<Combined> getAllPermissions() {
+        return userDAO.getUsersPermissionList();
     }
 
-    public List<Permission> getAllPermissions() {
-        return permissionService.getPermissionsList();
+    public List<User> getUsersListByPermissionId(int permissionId) {
+        return userDAO.getUserListByPermissionId(permissionId);
+    }
+
+    public boolean deleteUserFromOrders(int id) {
+        return userDAO.deleteUserFromOrders(id);
+    }
+
+    public boolean deleteUserFromTours(int agent_id) {
+        return userDAO.deleteUserFromTours(agent_id);
     }
 }

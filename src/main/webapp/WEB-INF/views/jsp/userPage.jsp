@@ -51,12 +51,7 @@
                 <button class="btn btn-lg btn-success btn-block" type="submit">Create permission</button>
             </form:form>
         </td>
-        <td>
-            <form:form method = "GET" action = "/tours/create" cssClass="form-signin">
-                <input type="text" name="id" placeholder="Type an id" class="form-control text-center">
-                <button class="btn btn-lg btn-success btn-block" type="submit">Create Tour</button>
-            </form:form>
-        </td>
+
     </tr>
     <tr>
         <td>
@@ -70,12 +65,7 @@
                 <button class="btn btn-lg btn-success btn-block" type="submit">Get permissions List</button>
             </form:form>
         </td>
-        <td>
-            <form:form method = "POST" action = "/tours/delete" cssClass="form-signin">
-                <input type="text" name="id" placeholder="Type an id" class="form-control text-center">
-                <button class="btn btn-lg btn-success btn-block" type="submit">Delete Tour</button>
-            </form:form>
-        </td>
+
     </tr>
     <tr>
         <td>
@@ -88,11 +78,7 @@
                 <button class="btn btn-lg btn-success btn-block" type="submit">Update permission</button>
             </form:form>
         </td>
-        <td>
-            <form:form method = "GET" action = "/tours/all" cssClass="form-signin">
-                <button class="btn btn-lg btn-success btn-block" type="submit">Show all tours</button>
-            </form:form>
-        </td>
+
     </tr>
     <tr>
         <td>
@@ -107,28 +93,23 @@
                 <button class="btn btn-lg btn-success btn-block" type="submit">Get permission</button>
             </form:form>
         </td>
-        <td>
-            <form:form method = "GET" action = "/tours/update" cssClass="form-signin">
-                <input type="text" name="id" placeholder="Type an id" class="form-control text-center">
-                <button class="btn btn-lg btn-success btn-block" type="submit">Update Tour</button>
-            </form:form>
-        </td>
+
     </tr>
     <tr>
         <td>
+            <form:form method = "GET" action = "/users/get" cssClass="form-signin">
+                <input type="text" name="id" placeholder="Type an user id" class="form-control text-center">
+                <button class="btn btn-lg btn-success btn-block" type="submit">Get User By Id</button>
+            </form:form>
+        </td>
 
-        </td>
         <td>
-            <form:form method = "POST" action = "/users/permissions/id" cssClass="form-signin">
-                <input type="text" name="id" placeholder="Type an permission id" class="form-control text-center">
-                <button class="btn btn-lg btn-success btn-block" type="submit">Get permissions By Id</button>
+            <form:form method = "POST" action = "/users/permissions/name" cssClass="form-signin">
+                <input type="text" name="id" placeholder="Type an permission Name" class="form-control text-center">
+                <button class="btn btn-lg btn-success btn-block" type="submit">Get permissions By Name</button>
             </form:form>
         </td>
-        <td>
-            <form:form method = "GET" action = "/orders/allOrders" cssClass="form-signin">
-                <button class="btn btn-lg btn-info btn-block" type="submit">All orders</button>
-            </form:form>
-        </td>
+
     </tr>
     </tbody>
 </table>

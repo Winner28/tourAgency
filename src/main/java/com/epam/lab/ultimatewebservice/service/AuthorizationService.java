@@ -16,11 +16,11 @@ public class AuthorizationService {
 
     public User login(String email, String password) {
         User user = userService.getUserByEmail(email);
-        if (user == null || (!user.getEmail().equals(email.trim())
-                && user.getPasswordHash().equals(password.trim()))) {
-            return null;
+        if ( user != null && user.getEmail().equals(email) &&
+                 user.getPasswordHash().equals(password)) {
+            return user;
         }
-        return user;
+        return null;
     }
 
     public User getUserById(int id) {
