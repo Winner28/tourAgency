@@ -89,10 +89,6 @@ public class UserController {
             return new ModelAndView("errors/error", "errorMessage",
                     "User with such id dont exists");
         }
-        if(!userService.deletePermission(Integer.parseInt(id))) {
-            return new ModelAndView("errors/error", "errorMessage",
-                    "Cant delete user");
-        }
         if (userToDelete.getId() == 2) {
             if (!userService.deleteUserFromTours(Integer.parseInt(id))) {
                 return new ModelAndView("errors/error", "errorMessage",
@@ -103,6 +99,7 @@ public class UserController {
             return new ModelAndView("errors/error", "errorMessage",
                     "Cant delete user, he have some orders");
         }
+        userService.deletePermission(Integer.parseInt(id));
         if (!userService.deleteUserById(Integer.parseInt(id))) {
             return new ModelAndView("errors/error", "errorMessage",
                     "Smth goes wrong when we trying to delete user");
@@ -167,11 +164,12 @@ public class UserController {
                              HttpServletRequest request) {
         user.setId(Integer.parseInt(request.getParameter("id")));
         User updatedUser = userService.updateUser(user);
-        String permission = request.getParameter("permission");
         if (updatedUser == null) {
             model.addAttribute("errorMessage", "Error when we try to update user");
             return "errors/error";
         }
+        String permission = request.getParameter("permission");
+
         if (permission != null) {
             userService.updatePermission(new Permission().setUserId(updatedUser.getId())
                     .setPermissionNameId(Integer.parseInt(permission)));

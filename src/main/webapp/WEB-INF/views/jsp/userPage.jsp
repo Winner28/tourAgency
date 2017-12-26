@@ -23,6 +23,12 @@
 <body>
 <%@include file="topbar.jsp" %>
 
+<nav class="navbar-left">
+    <img src="https://icon-icons.com/icons2/951/PNG/256/road-perspective-of-curves_icon-icons.com_74166.png"/>
+</nav>
+<nav class="navbar-right">
+    <img src="https://icon-icons.com/icons2/951/PNG/256/airplane-outline-pointing-left_icon-icons.com_74184.png"/>
+</nav>
 <h1 class="text-center" class="glyphicon-text-color">Profile Page</h1>
 <br>
 <div class="container">
@@ -149,6 +155,7 @@
 <form:form method = "GET" action = "/logout" cssClass="form-signin" cssStyle="border-bottom-width: medium">
     <button class="btn btn-lg btn-primary btn-block" type="submit">Log Out</button>
 </form:form>
+<br>
 <br>
 <br>
 <%@include file="footer.jsp" %>

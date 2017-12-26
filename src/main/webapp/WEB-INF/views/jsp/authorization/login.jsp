@@ -15,36 +15,56 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="sumit kumar">
-    <title>Trial</title>
+    <title>Login</title>
     <script src="https://use.fontawesome.com/07b0ce5d10.js"></script>
 
 </head>
 
 <body>
-<nav class="top-bar">
+<%--<nav class="top-bar">
     <div class="container">
-        <div class="row">
-            <div class="col-sm-4 hidden-xs text-center">
+        <div class="row" style="margin-right: auto; margin-left: auto;">
+            <div class="center-block">
             <span class="nav-text">
                 <a href="/"> <img src="https://icon-icons.com/icons2/865/PNG/512/Citycons_plane_icon-icons.com_67921.png" height="50"/> </a> </span>
             </div>
+        </div>
+    </div>
+</nav>--%>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="${pageContext.request.contextPath}/"><img src="https://icon-icons.com/icons2/1310/PNG/512/map_86329.png" height="36px"/></a>
 
-
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+            </ul>
             <ul class="nav navbar-nav navbar-right">
-
-
+                <li><a href="${pageContext.request.contextPath}/register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
             </ul>
         </div>
     </div>
 </nav>
+<nav class="navbar-left">
+   <img src="https://static.life.ru/posts/2016/12/952847/gr/north/8dac341646c14eed4f41233514e97b4e__1440x.jpg" height="600px" width="500px"/>
+</nav>
+
+<nav class="navbar-right">
+    <img src="https://www.gismeteo.ru/static/news/img/src/23433/8e806b98.jpg" height="600px" width="500px"/>
+</nav>
+
+
 <div class="container">
     <br>
     <br>
     <br>
-    <h1 class="text-center form-signin-heading">Tour Agent NeverLand</h1>
-    <br>
-
-    <br>
+    <h1 class="text-center form-signin-heading">Tour Agency NeverLand</h1>
     <br>
     <br>
     <br>
