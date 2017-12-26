@@ -37,8 +37,22 @@
             <td class="text-center">${tourTypeService.getTourTypeById(tour.tourTypesId).tourType}</td>
             <td class="text-center">${tour.price}</td>
             <td class="text-center">${tour.duration}</td>
-            <td class="text-center">${tour.active}</td>
-            <td class="text-center">${tour.hot}</td>
+            <td class="text-center">
+                <c:if test="${tour.active}">
+                    Yes
+                </c:if>
+                <c:if test="${!tour.active}">
+                    No
+                </c:if>
+            </td>
+            <td class="text-center">
+                <c:if test="${tour.hot}">
+                    Yes
+                </c:if>
+                <c:if test="${!tour.hot}">
+                    No
+                </c:if>
+            </td>
             <td class="text-center">
                 <form:form method = "GET" action = "/tours/update">
                     <input type="hidden" name="id" value="${tour.id}">
