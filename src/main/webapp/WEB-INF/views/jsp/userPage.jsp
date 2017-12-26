@@ -122,11 +122,13 @@
         <button class="btn btn-lg btn-success btn-block" type="submit">Create tour</button>
     </form:form>
 
-
-
     <form:form method = "GET" action = "/tours/agentTours" cssClass="form-signin">
         <input type="hidden" value="${user.id}">
         <button class="btn btn-lg btn-info btn-block" type="submit">My tours</button>
+    </form:form>
+
+    <form:form method = "GET" action = "/orders/agentOrders" cssClass="form-signin">
+        <button class="btn btn-lg btn-success btn-block" type="submit">Show orders</button>
     </form:form>
 
 </c:if>

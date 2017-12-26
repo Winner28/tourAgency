@@ -198,15 +198,20 @@ public class OrderController {
             return modelAndView;
         }
 
-        List<Tour> agentTours = tourService.getToursIdByAgentId(id) ;
+        List<Tour> agentTours = tourService.getToursIdByAgentId(id);
+        List<Order> tmp = orderService.getAllOrders();
         List<Order> agentOrders = new ArrayList<>();
         for (Tour tour : agentTours){
-            agentOrders.addAll(orderService.getOrdersByTourId(tour.getId()));
+            //agentOrders.addAll(orderService.getOrdersByTourId(tour.getId()));
+            for(Order o: tmp) {
+                if(o.getTourId() == tour.getId())
+                    agentOrders.add(o);
+            }
         }
 
         if (agentOrders.size() == 0) {
             modelAndView.setViewName("errors/error");
-            modelAndView.addObject("errorMessage", "THERE IS NULL");
+            modelAndView.addObject("errorMessage", "There are no orders for you!");
             return modelAndView;
         }
         modelAndView.setViewName("order/showOrdersForAgent");
