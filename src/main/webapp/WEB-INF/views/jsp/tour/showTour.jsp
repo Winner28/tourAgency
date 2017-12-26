@@ -40,7 +40,7 @@
         </c:if></h3>
     <h3 class="text-center"> Duration: ${tour.duration}</h3>
     <h3 class="text-center"> Price: ${tour.price}</h3>
-    <h3 class="text-center"> Tour Type: ${tourTypeService.getTourTypeById(tour.tourTypesId).tourType}</h3>
+    <h3 class="text-center"> Tour Type: ${tourTypeService.getTourTypeNameById(tour.tourTypesId)}</h3>
 </div>
 
 <form:form method = "GET" action = "/" cssClass="form-signin">
