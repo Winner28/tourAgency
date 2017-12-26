@@ -1,3 +1,4 @@
+<%--
 <!DOCTYPE html>
 
 <html lang="en">
@@ -13,34 +14,29 @@
 </head>
 
 <body>
+
+</body>
+</html>
+--%>
+
+
+
 <nav class="top-bar">
     <div class="container">
         <div class="row">
             <div class="col-sm-4 hidden-xs">
             <span class="nav-text">
-                <i class="fa fa-phone" aria-hidden="true"></i>  +7(999) 300-03-300
-                <i class="fa fa-email" aria-hidden="true"></i>  @epam.com</span>
+                <a href="/"> <img src="https://icon-icons.com/icons2/865/PNG/512/Citycons_plane_icon-icons.com_67921.png" height="50"/> </a> </span>
             </div>
-            <div class="col-sm-4 text-center">
-                <a href="#" class="social"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-                <a href="#" class="social"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-                <a href="#" class="social"><i class="fa fa-instagram" aria-hidden="true"></i></a>
-                <a href="#" class="social"><i class="fa fa-youtube-play" aria-hidden="true"></i></a>
-                <a href="#" class="social"><i class="fa fa-google" aria-hidden="true"></i></a>
-                <a href="#" class="social"><i class="fa fa-dribbble" aria-hidden="true"></i></a>
-            </div>
-            <div class="col-sm-4 text-right hidden-xs">
-                <ul class="tools inline" style="display: inline-block">
-                    <li class="dropdown" style="display: inline-block">
-                        <a class="" href="${pageContext.request.contextPath}/"><i class="fa fa-user" aria-hidden="true"></i>   Home Page</a>
-                    </li>
-                    <li class="dropdown" style="display: inline-block">
-                        <a class="" href="${pageContext.request.contextPath}/logout"><i class="fa fa-sign-out" aria-hidden="true"></i>   Log Out</a>
-                    </li>
-                </ul>
-            </div>
+
+
+            <ul class="nav navbar-nav navbar-right">
+
+                <li>
+                    <a class="" href="${pageContext.request.contextPath}/logout"><i class="fa fa-sign-out" aria-hidden="true"></i>Log Out</a>
+
+                </li>
+            </ul>
         </div>
     </div>
 </nav>
-</body>
-</html>

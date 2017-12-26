@@ -82,7 +82,7 @@ html {
 
 /*////////////////TOP NAV BAR////////////////*/
 
-.top-bar{background-color:black;min-height:40px;padding-top:5px;padding-bottom: 0px;}
+.top-bar{background-color:d;min-height:40px;padding-top:5px;padding-bottom: 0px;}
 .top-bar .nav-text {
     color: #00BCD4;
     display: block;

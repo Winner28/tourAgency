@@ -16,7 +16,26 @@
 </head>
 
 <body>
-<%@include file="../topbar.jsp" %>
+<nav class="top-bar">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4 hidden-xs">
+            <span class="nav-text">
+                <a href="/"> <img src="https://icon-icons.com/icons2/865/PNG/512/Citycons_plane_icon-icons.com_67921.png" height="50"/> </a> </span>
+            </div>
+
+
+            <ul class="nav navbar-nav navbar-right">
+
+                <li>
+                    <a class="" href="${pageContext.request.contextPath}/logout"><i class="fa fa-sign-out" aria-hidden="true"></i>
+                       Log In</a>
+
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
 
 <h1>${errorMessage}</h1>
