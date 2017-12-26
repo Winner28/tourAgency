@@ -1,3 +1,3 @@
 <div class="footer">
-    <strong>EPAM</strong>
+    EPAM SYSTEMS (C) 2017
 </div>
