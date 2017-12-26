@@ -1,7 +1,9 @@
 package com.epam.lab.ultimatewebservice.controllers;
 
+import com.epam.lab.ultimatewebservice.entity.Permission;
 import com.epam.lab.ultimatewebservice.entity.User;
 import com.epam.lab.ultimatewebservice.service.AuthorizationService;
+import com.epam.lab.ultimatewebservice.service.PermissionService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 public class AuthorizationController {
 
     private final AuthorizationService authorizationService;
+    private final PermissionService permissionService;
     private static final String LOGGED_COOKIE = "userLoggedIn";
 
 
@@ -89,6 +92,10 @@ public class AuthorizationController {
                         model.addAttribute("userType", "client");
                         break;
                     default:
+                        permissionService.createPermission(
+                                new Permission()
+                                        .setUserId(id)
+                                        .setPermissionNameId(3));
                         model.addAttribute("userType", "client");
                         break;
                 }
