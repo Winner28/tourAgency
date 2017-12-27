@@ -1,3 +1,5 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -16,16 +18,15 @@
 </head>
 <body>
 <%@include file="../topbar.jsp" %>
-
-<h2 class="text-center">Permission information</h2>
+<h2 class="text-center"><spring:message code="permission.info"/></h2>
 <br>
 <div class="container">
-    <h3 class="text-center"> User id: ${permission.userId}</h3>
-    <h3 class="text-center"> Permission Id: ${permission.permissionNameId}</h3>
+    <h3 class="text-center"> <spring:message code="update.permission.user"/>: ${permission.userId}</h3>
+    <h3 class="text-center"> <spring:message code="update.permission"/>: ${permission.permissionNameId}</h3>
 
 </div>
 <form:form method = "GET" action = "/" cssClass="form-signin">
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Get back to Home Page</button>
+    <button class="btn btn-lg btn-primary btn-block" type="submit"><spring:message code="button.back"/></button>
 </form:form>
 
 

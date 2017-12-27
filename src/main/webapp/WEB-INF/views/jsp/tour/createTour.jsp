@@ -1,3 +1,5 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <%@taglib uri = "http://www.springframework.org/tags/form" prefix = "form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
@@ -14,24 +16,24 @@
 
 <body>
 <%@include file="../topbar.jsp" %>
-<h1 class="text-center">Create Tour</h1>
+<h1 class="text-center"><spring:message code="tour.create"/></h1>
 <form:form method = "POST" action = "/tours/create" modelAttribute="tour" cssClass="form-signin">
     <div class="form-group">
 
-        <label for="tourName">Tour Name: </label>
+        <label for="tourName"><spring:message code="tour.create"/>: </label>
         <form:input path = "tourName" cssClass="form-control"/>
 
-        <label for="duration">Duration: </label>
+        <label for="duration"><spring:message code="tour.duration"/>: </label>
         <form:input path = "duration" cssClass="form-control"/>
     </div>
     <div class="form-group">
 
-        <label for="price">Price: </label>
+        <label for="price"><spring:message code="tours.price"/>: </label>
         <form:input path = "price" cssClass="form-control"/>
     </div>
     <div class="form-group">
 
-        <label for="tourTypesId">Tour type: </label>
+        <label for="tourTypesId"><spring:message code="tour.type"/>: </label>
         <form:select path = "tourTypesId" cssClass="form-control">
             <form:option value="0" label="--- Select ---"/>
             <form:option value="1">sightseeing</form:option>
@@ -55,11 +57,12 @@
 
     </div>
 
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Create Tour</button>
+
+    <button class="btn btn-lg btn-primary btn-block" type="submit"><spring:message code="tour.create"/></button>
 </form:form>
 
 <form:form method = "GET" action = "/" cssClass="form-signin">
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Get back to Home Page</button>
+    <button class="btn btn-lg btn-primary btn-block" type="submit"><spring:message code="button.back"/></button>
 </form:form>
 <spring:url value="/resources/core/css/hello.js" var="coreJs" />
 <spring:url value="/resources/core/css/bootstrap.min.js" var="bootstrapJs" />

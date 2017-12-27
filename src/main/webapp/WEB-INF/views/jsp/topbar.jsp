@@ -1,3 +1,4 @@
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%--
 <!DOCTYPE html>
 
@@ -41,7 +42,9 @@
         </div>
     </div>
 </nav>--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <head>
+    <meta charset="utf-8">
     <link href="${contextPath}/resources/core/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/core/css/common.css" rel="stylesheet">
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -66,7 +69,9 @@
             <ul class="nav navbar-nav">
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/logout"><span class="glyphicon glyphicon-user"></span>Log Out</a></li>
+                <li><a href="?lang=en"><span class="glyphicon glyphicon-user"></span>English</a></li>
+                <li><a href="?lang=ru"><span class="glyphicon glyphicon-user"></span>Русский</a></li>
+                <li><a href="/logout"><span class="glyphicon glyphicon-user"></span><spring:message code="logout"/> </a></li>
             </ul>
         </div>
     </div>

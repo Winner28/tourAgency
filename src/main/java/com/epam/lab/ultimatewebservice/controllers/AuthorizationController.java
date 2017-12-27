@@ -6,6 +6,8 @@ import com.epam.lab.ultimatewebservice.service.AuthorizationService;
 import com.epam.lab.ultimatewebservice.service.PermissionService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Locale;
 
 @Controller
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -21,6 +24,7 @@ public class AuthorizationController {
 
     private final AuthorizationService authorizationService;
     private final PermissionService permissionService;
+    private MessageSource messageSource;
     private static final String LOGGED_COOKIE = "userLoggedIn";
 
 
@@ -63,7 +67,7 @@ public class AuthorizationController {
     }
 
     @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
-    public String userPage(HttpServletRequest request, Model model) {
+    public String userPage(HttpServletRequest request, Model model, Locale locale) {
         Cookie [] cookies = request.getCookies();
         if(cookies == null){
             return "redirect:/login";

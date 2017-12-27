@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -9,7 +10,7 @@
   Time: 15:18
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <html>
 <head>
     <head>
@@ -29,13 +30,13 @@
 <nav class="navbar-right">
     <img src="https://icon-icons.com/icons2/951/PNG/256/airplane-outline-pointing-left_icon-icons.com_74184.png"/>
 </nav>
-<h1 class="text-center" class="glyphicon-text-color">Profile Page</h1>
+<h1 class="text-center" class="glyphicon-text-color"><spring:message code="profile.page"/></h1>
 <br>
 <div class="container">
-    <h2 class="text-center"> First Name: ${user.firstName}</h2>
-    <h2 class="text-center"> Last Name: ${user.lastName}</h2>
-    <h2 class="text-center"> Role: ${userType}</h2>
-    <h2 class="text-center"> Email: ${user.email}</h2>
+    <h2 class="text-center"> <spring:message code="firstName"/>: ${user.firstName}</h2>
+    <h2 class="text-center"> <spring:message code="lastName"/>: ${user.lastName}</h2>
+    <h2 class="text-center"> <spring:message code="role"/>: ${userType}</h2>
+    <h2 class="text-center"> <spring:message code="email"/>: ${user.email}</h2>
 </div>
 <br>
 
@@ -49,12 +50,12 @@
     <tr>
         <td>
             <form:form method = "GET" action = "/users/create" cssClass="form-signin">
-                <button class="btn btn-lg btn-success btn-block" type="submit">Create user</button>
+                <button class="btn btn-lg btn-success btn-block" type="submit"><spring:message code="user.create"/></button>
             </form:form>
         </td>
         <td>
             <form:form method = "GET" action = "/users/permissions/create" cssClass="form-signin">
-                <button class="btn btn-lg btn-success btn-block" type="submit">Create permission</button>
+                <button class="btn btn-lg btn-success btn-block" type="submit"><spring:message code="permission.create"/></button>
             </form:form>
         </td>
 
@@ -62,13 +63,13 @@
     <tr>
         <td>
             <form:form method = "POST" action = "/users/delete" cssClass="form-signin">
-                <input type="text" name="id" placeholder="Type an id" class="form-control text-center">
-                <button class="btn btn-lg btn-success btn-block" type="submit">Delete User</button>
+                <input type="text" name="id" placeholder="<spring:message code="type.id"/>" class="form-control text-center">
+                <button class="btn btn-lg btn-success btn-block" type="submit"><spring:message code="user.delete"/></button>
             </form:form>
         </td>
         <td>
             <form:form method = "GET" action = "/users/permissions/all" cssClass="form-signin">
-                <button class="btn btn-lg btn-success btn-block" type="submit">Get permissions List</button>
+                <button class="btn btn-lg btn-success btn-block" type="submit"><spring:message code="permission.all"/></button>
             </form:form>
         </td>
 
@@ -76,12 +77,12 @@
     <tr>
         <td>
             <form:form method = "GET" action = "/users/all" cssClass="form-signin">
-                <button class="btn btn-lg btn-success btn-block" type="submit">Show all users</button>
+                <button class="btn btn-lg btn-success btn-block" type="submit"><spring:message code="user.all"/></button>
             </form:form>
         </td>
         <td>
             <form:form method = "GET" action = "/users/permissions/update" cssClass="form-signin">
-                <button class="btn btn-lg btn-success btn-block" type="submit">Update permission</button>
+                <button class="btn btn-lg btn-success btn-block" type="submit"><spring:message code="permission.update"/></button>
             </form:form>
         </td>
 
@@ -89,14 +90,14 @@
     <tr>
         <td>
             <form:form method = "GET" action = "/users/update" cssClass="form-signin">
-                <input type="text" name="id" placeholder="Type an id" class="form-control text-center">
-                <button class="btn btn-lg btn-success btn-block" type="submit">Update User</button>
+                <input type="text" name="id" placeholder="<spring:message code="type.id"/>" class="form-control text-center">
+                <button class="btn btn-lg btn-success btn-block" type="submit"><spring:message code="user.update"/></button>
             </form:form>
         </td>
         <td>
             <form:form method = "POST" action = "/users/permissions/get" cssClass="form-signin">
-                <input type="text" name="id" placeholder="Type an user id" class="form-control text-center">
-                <button class="btn btn-lg btn-success btn-block" type="submit">Get permission</button>
+                <input type="text" name="id" placeholder="<spring:message code="type.id"/>" class="form-control text-center">
+                <button class="btn btn-lg btn-success btn-block" type="submit"><spring:message code="permission.get"/></button>
             </form:form>
         </td>
 
@@ -104,15 +105,15 @@
     <tr>
         <td>
             <form:form method = "GET" action = "/users/get" cssClass="form-signin">
-                <input type="text" name="id" placeholder="Type an user id" class="form-control text-center">
-                <button class="btn btn-lg btn-success btn-block" type="submit">Get User By Id</button>
+                <input type="text" name="id" placeholder="<spring:message code="type.id"/>" class="form-control text-center">
+                <button class="btn btn-lg btn-success btn-block" type="submit"><spring:message code="user.id"/></button>
             </form:form>
         </td>
 
         <td>
             <form:form method = "POST" action = "/users/permissions/name" cssClass="form-signin">
-                <input type="text" name="id" placeholder="Type an permission Name" class="form-control text-center">
-                <button class="btn btn-lg btn-success btn-block" type="submit">Get permissions By Name</button>
+                <input type="text" name="id" placeholder="<spring:message code="type.permission.name"/>" class="form-control text-center">
+                <button class="btn btn-lg btn-success btn-block" type="submit"><spring:message code="permission.name"/></button>
             </form:form>
         </td>
 
@@ -125,35 +126,37 @@
 <c:if test="${userType.equals('agent')}">
 
     <form:form method = "GET" action = "/tours/create" cssClass="form-signin">
-        <button class="btn btn-lg btn-success btn-block" type="submit">Create tour</button>
+        <button class="btn btn-lg btn-success btn-block" type="submit"><spring:message code="tours.create"/></button>
     </form:form>
 
     <form:form method = "GET" action = "/tours/agentTours" cssClass="form-signin">
         <input type="hidden" value="${user.id}">
-        <button class="btn btn-lg btn-info btn-block" type="submit">My tours</button>
+        <button class="btn btn-lg btn-info btn-block" type="submit"><spring:message code="tours.mytours"/></button>
     </form:form>
 
     <form:form method = "GET" action = "/orders/agentOrders" cssClass="form-signin">
-        <button class="btn btn-lg btn-success btn-block" type="submit">Show orders</button>
+        <button class="btn btn-lg btn-success btn-block" type="submit"><spring:message code="tours.showorders"/></button>
     </form:form>
 
 </c:if>
+
 
 <c:if test="${userType.equals('client')}">
     <form:form method="GET" action="/orders/all" cssClass="form-signin">
         <input type="hidden" value="${user.id}">
-        <button class="btn btn-lg btn-info btn-block" type="submit">My orders</button>
+        <button class="btn btn-lg btn-info btn-block" type="submit"><spring:message code="client.myorders"/></button>
     </form:form>
     <form:form method="GET" action="/tours/clientTours" cssClass="form-signin">
         <input type="hidden" value="${user.id}">
-        <button class="btn btn-lg btn-info btn-block" type="submit">Show tours</button>
+        <button class="btn btn-lg btn-info btn-block" type="submit"><spring:message code="client.showtours"/></button>
     </form:form>
 </c:if>
 
 
 
+
 <form:form method = "GET" action = "/logout" cssClass="form-signin" cssStyle="border-bottom-width: medium">
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Log Out</button>
+    <button class="btn btn-lg btn-primary btn-block" type="submit"><spring:message code="logout"/></button>
 </form:form>
 <br>
 <br>

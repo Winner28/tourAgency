@@ -1,3 +1,5 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -5,7 +7,6 @@
 <html lang="en">
 <head>
     <title>Update Tour Page</title>
-
     <link href="${contextPath}/resources/core/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/core/css/common.css" rel="stylesheet">
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -16,28 +17,28 @@
 </head>
 <body>
 <%@include file="../topbar.jsp" %>
-<h1 class="text-center">Update Page</h1>
+<h1 class="text-center"><spring:message code="page.update"/></h1>
 <br>
 <form:form method = "POST" action = "/tours/update" modelAttribute="tour" cssClass="form-signin">
     <input type="hidden" name="id" value="${tour.id}"/>
 
     <div class="form-group">
-        <label for="tourName">Tour Name: </label>
+        <label for="tourName"><spring:message code="tourname"/>: </label>
         <form:input path = "tourName" cssClass="form-control"/>
     </div>
 
     <div class="form-group">
-        <label for="duration">Duration: </label>
+        <label for="duration"><spring:message code="tour.duration"/>: </label>
         <form:input path = "duration" cssClass="form-control"/>
     </div>
 
     <div class="form-group">
-        <label for="price">Price: </label>
+        <label for="price"><spring:message code="tour.price"/>: </label>
         <form:input path = "price" cssClass="form-control"/>
     </div>
 
     <div class="form-group">
-        <label for="tourTypesId">Tour type: </label>
+        <label for="tourTypesId"><spring:message code="tour.type"/>: </label>
         <form:select path = "tourTypesId" cssClass="form-control">
             <form:option value="${tour.tourTypesId}" label="--- Select ---"/>
             <form:option value="1">sightseeing</form:option>
@@ -48,7 +49,7 @@
     </div>
 
     <div class="form-group">
-        <label for="agentId">Agent number:</label>
+        <label for="agentId"><spring:message code="tour.agent"/>:</label>
         <form:input path = "agentId" cssClass="form-control"/>
     </div>
 
@@ -65,11 +66,11 @@
 
     </div>
 
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Update Tour</button>
+    <button class="btn btn-lg btn-primary btn-block" type="submit"><spring:message code="tours.update.tour"/></button>
 </form:form>
 
 <form:form method = "GET" action = "/" cssClass="form-signin">
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Get back to Home Page</button>
+    <button class="btn btn-lg btn-primary btn-block" type="submit"><spring:message code="button.back"/></button>
 </form:form>
 <spring:url value="/resources/core/css/hello.js" var="coreJs" />
 <spring:url value="/resources/core/css/bootstrap.min.js" var="bootstrapJs" />

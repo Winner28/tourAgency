@@ -47,7 +47,7 @@ public class RegistrationController {
                 .setEmail(request.getParameter(EMAIL))
                 .setPasswordHash(request.getParameter(PASSWORD));
         if (!userValidation(user)) {
-            model.addAttribute("errorMessage", "Can`t register, enter all necessary information please");
+            model.addAttribute("errorMessage", "Enter all necessary information please");
             return "authorization/registration";
         }
         if (!registrationService.registerUser(user)){

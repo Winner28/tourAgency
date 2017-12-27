@@ -1,3 +1,5 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -18,17 +20,17 @@
 <%@include file="../topbar.jsp" %>
 
 <h1 class="text-center">${message}</h1>
-<h2 class="text-center">User information</h2>
+<h2 class="text-center"></h2>
 <br>
 <div class="container">
-    <h3 class="text-center"> id: ${user.id}</h3>
-    <h3 class="text-center"> First Name: ${user.firstName}</h3>
-    <h3 class="text-center"> Last Name: ${user.lastName}</h3>
-    <h3 class="text-center"> Email: ${user.email}</h3>
+    <h3 class="text-center"> ID: ${user.id}</h3>
+    <h3 class="text-center"> <spring:message code="firstName"/>: ${user.firstName}</h3>
+    <h3 class="text-center"> <spring:message code="lastName"/>: ${user.lastName}</h3>
+    <h3 class="text-center"> <spring:message code="email"/>: ${user.email}</h3>
 </div>
 
 <form:form method = "GET" action = "/" cssClass="form-signin">
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Get back to Home Page</button>
+    <button class="btn btn-lg btn-primary btn-block" type="submit"><spring:message code="button.back"/></button>
 </form:form>
 <spring:url value="/resources/core/css/hello.js" var="coreJs" />
 <spring:url value="/resources/core/css/bootstrap.min.js" var="bootstrapJs" />

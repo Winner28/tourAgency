@@ -1,3 +1,4 @@
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -17,14 +18,16 @@
 <h1 class="text-center"><b>Tours List</b></h1> <br>
 
 
+
+
 <table class="table table-hover">
     <thead>
     <tr>
-        <td class="text-center">Name</td>
-        <td class="text-center">Tour Type</td>
-        <td class="text-center">Price</td>
-        <td class="text-center">Duration</td>
-        <td class="text-center">Hot</td>
+        <td class="text-center"><spring:message code="tour.name"/></td>
+        <td class="text-center"><spring:message code="tour.type"/></td>
+        <td class="text-center"><spring:message code="tour.price"/></td>
+        <td class="text-center"><spring:message code="tour.duration"/></td>
+        <td class="text-center"><spring:message code="tour.hot"/></td>
     </tr>
     </thead>
     <tbody>
@@ -45,7 +48,7 @@
             <td class="text-center">
                 <form:form method = "POST" action = "/orders/create"  cssClass="form-signin" cssStyle="border-bottom-width: medium">
                     <input type="hidden" name="tourId" value="${tour.id}">
-                    <button class="btn btn-lg btn-primary btn-block" type="submit">Purchase</button>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit"><spring:message code="purchase"/></button>
                 </form:form></td>
             </td>
         </tr>
@@ -53,7 +56,7 @@
     </tbody>
 </table>
 <form:form method="GET" action="/" cssClass="form-signin">
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Get back to Home Page</button>
+    <button class="btn btn-lg btn-primary btn-block" type="submit"><spring:message code="button.back"/></button>
 </form:form>
 <%@include file="../footer.jsp" %>
 

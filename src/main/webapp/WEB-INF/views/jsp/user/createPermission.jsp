@@ -1,3 +1,5 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <%@taglib uri = "http://www.springframework.org/tags/form" prefix = "form"%>
 <html>
 <head>
@@ -14,20 +16,20 @@
 <body>
 <%@include file="../topbar.jsp" %>
 
-<h1 class="text-center">Create User Permission</h1>
+<h1 class="text-center"><spring:message code="permission.create"/></h1>
 <form:form method = "POST" action = "/users/permissions/create" modelAttribute="permission" cssClass="form-signin">
     <div class="form-group">
 
-        <label for="userId">User Id</label>
+        <label for="userId"><spring:message code="update.permission.user"/></label>
         <form:input path = "userId" cssClass="form-control"/>
     </div>
     <div class="form-group">
 
-        <label for="permissionNameId">Permission Id</label>
+        <label for="permissionNameId"><spring:message code="update.permission.id"/></label>
         <form:input path = "permissionNameId" cssClass="form-control"/>
     </div>
 
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Create Permission</button>
+    <button class="btn btn-lg btn-primary btn-block" type="submit"><spring:message code="permission.create"/></button>
 </form:form>
 <%@include file="../footer.jsp" %>
 

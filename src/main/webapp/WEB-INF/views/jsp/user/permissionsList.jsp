@@ -16,14 +16,14 @@
 <body>
 <%@include file="../topbar.jsp" %>
 
-<h1 class="text-center"><b>Permissions List</b></h1> <br>
+<h1 class="text-center"><b><spring:message code="permissions.list"/></b></h1> <br>
 <br>
 <table class="table table-hover">
     <thead>
     <tr>
-        <td class="text-center">User Name</td>
-        <td class="text-center">User Email</td>
-        <td class="text-center">Permission Name</td>
+        <td class="text-center"><spring:message code="user.info.name"/></td>
+        <td class="text-center"><spring:message code="user.info.email"/></td>
+        <td class="text-center"><spring:message code="permissions.name"/></td>
     </tr>
     </thead>
     <tbody>
@@ -37,7 +37,7 @@
     </tbody>
 </table>
 <form:form method = "GET" action = "/" cssClass="form-signin">
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Get back to Home Page</button>
+    <button class="btn btn-lg btn-primary btn-block" type="submit"><spring:message code="button.back"/></button>
 </form:form>
 <br>
 <br>

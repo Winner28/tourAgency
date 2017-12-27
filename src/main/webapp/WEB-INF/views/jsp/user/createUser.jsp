@@ -1,3 +1,5 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -19,41 +21,42 @@
 <body>
 <%@include file="../topbar.jsp" %>
 
-<h1 class="text-center">Create User</h1>
+<h1 class="text-center"><spring:message code="user.create"/></h1>
 <form:form method = "POST" action = "/users/create" modelAttribute="user" cssClass="form-signin">
     <div class="form-group">
 
-        <label for="firstName">First Name</label>
+        <label for="firstName"><spring:message code="firstName"/></label>
         <form:input path = "firstName" cssClass="form-control"/>
     </div>
     <div class="form-group">
 
-        <label for="lastName">Last Name:</label>
+        <label for="lastName"><spring:message code="lastName"/>:</label>
         <form:input path = "lastName" cssClass="form-control"/>
     </div>
     <div class="form-group">
 
-        <label for="email">Email:</label>
+        <label for="email"><spring:message code="email"/>:</label>
         <form:input path = "email" cssClass="form-control"/>
     </div>
     <div class="form-group">
 
-        <label for="passwordHash">Password:</label>
+        <label for="passwordHash"><spring:message code="password"/>:</label>
         <form:password path = "passwordHash" cssClass="form-control"/>
     </div>
 
     <div class="container">
         <p>Choose user role:</p>
         <div class="radio">
-            <label><input type="radio" name="permission" value="2">Tour Agent</label>
+            <label><input type="radio" name="permission" value="2"><spring:message code="agent"/></label>
         </div>
         <div class="radio">
-            <label><input type="radio" name="permission" value="3">User</label>
+            <label><input type="radio" name="permission" value="3"><spring:message code="user"/></label>
         </div>
 
     </div>
 
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Create User</button>
+
+    <button class="btn btn-lg btn-primary btn-block" type="submit"><spring:message code="user.create"/></button>
 </form:form>
 <%@include file="../footer.jsp" %>
 

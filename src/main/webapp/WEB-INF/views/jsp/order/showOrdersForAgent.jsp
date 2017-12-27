@@ -14,23 +14,24 @@
 </head>
 <body>
 <%@include file="../topbar.jsp" %>
-<h1 class="text-center"><b>List of Orders: </b></h1> <br>
+<h1 class="text-center"><b><spring:message code="orders.list"/> </b></h1> <br>
 
 <ul>
     <c:if test="${empty orderList}">
         <h2 class="text-info">
-            There are no orders!
+            <spring:message code="orders.no"/>
         </h2>
     </c:if>
+
 
     <table class="table table-hover">
         <thead>
         <tr>
-            <td>Order ID</td>
-            <td>Date</td>
-            <td>Active</td>
-            <td>Tour name</td>
-            <td>User email</td>
+            <td><spring:message code="order.id "/></td>
+            <td><spring:message code="order.date"/></td>
+            <td><spring:message code="order.active"/></td>
+            <td><spring:message code="order.tour.name"/></td>
+            <td><spring:message code="order.user.email"/></td>
         </tr>
         </thead>
 
@@ -47,6 +48,10 @@
         </tbody>
     </table>
 </ul>
+<form:form method = "GET" action = "/" cssClass="form-signin">
+    <button class="btn btn-lg btn-primary btn-block" type="submit"><spring:message code="button.back"/></button>
+</form:form>
+<br>
 <%@include file="../footer.jsp" %>
 
 </body>

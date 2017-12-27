@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -34,7 +35,9 @@
             <ul class="nav navbar-nav">
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/login"><span class="glyphicon glyphicon-user"></span>Log in</a></li>
+                <li><a href="?lang=en"><span class="glyphicon glyphicon-user"></span>English</a></li>
+                <li><a href="?lang=ru"><span class="glyphicon glyphicon-user"></span>Русский</a></li>
+                <li><a href="/login"><span class="glyphicon glyphicon-user"></span><spring:message code="login"/></a></li>
             </ul>
         </div>
     </div>
@@ -48,20 +51,20 @@
 </nav>
 
 
-<h1>${errorMessage}</h1>
+<h1 class="text-center"><b>${errorMessage}</b></h1>
 <div class="container">
 
     <form:form method="POST" action="${contextPath}/register" class="form-signin" >
-        <h2 class="text-center">Registration</h2>
+        <h2 class="text-center"><spring:message code="registration"/></h2>
 
         <div class="form-group ${error != null ? 'has-error' : ''}">
-            <input name="firstName" type="text" class="form-control" placeholder="First Name"
+            <input name="firstName" type="text" class="form-control" placeholder="<spring:message code="firstName"/>"
                    autofocus="true"/>
-            <input name="lastName" type="text" class="form-control" placeholder="Last Name"/>
-            <input name="email" type="text" class="form-control" placeholder="Email"/>
-            <input name="passwordHash" type="password" class="form-control" placeholder="Password"/>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
-            <h4 class="text-center"><a href="${contextPath}/login">Already have account? Log In</a></h4>
+            <input name="lastName" type="text" class="form-control" placeholder="<spring:message code="lastName"/>"/>
+            <input name="email" type="text" class="form-control" placeholder="<spring:message code="email"/>"/>
+            <input name="passwordHash" type="password" class="form-control" placeholder="<spring:message code="password"/>"/>
+            <button class="btn btn-lg btn-primary btn-block" type="submit"><spring:message code="registration"/></button>
+            <h4 class="text-center"><a href="${contextPath}/login"><spring:message code="account.have"/></a></h4>
         </div>
 
     </form:form>

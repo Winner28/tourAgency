@@ -6,6 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
@@ -23,18 +25,18 @@
 <%@include file="../topbar.jsp" %>
 <div class="wrapper">
     <div class="content">
-<h1 class="text-center"><b>Users List</b></h1> <br>
+<h1 class="text-center"><b><spring:message code="users.list"/></b></h1> <br>
 
 
 <table class="table table-hover">
     <thead>
             <tr>
                 <td class="text-center">id</td>
-                <td class="text-center">First Name</td>
-                <td class="text-center">Last Name</td>
-                <td class="text-center">Email</td>
-                <td class="text-center">Update</td>
-                <td class="text-center">Delete</td>
+                <td class="text-center"><spring:message code="firstName"/></td>
+                <td class="text-center"><spring:message code="lastName"/></td>
+                <td class="text-center"><spring:message code="email"/></td>
+                <td class="text-center"><spring:message code="update"/></td>
+                <td class="text-center"><spring:message code="delete"/></td>
             </tr>
     </thead>
     <tbody>
@@ -47,13 +49,13 @@
                     <td class="text-center">
                         <form:form method = "GET" action = "/users/update">
                             <input type="hidden" name="id" value="${user.id}">
-                            <button class="btn btn-lg btn-success btn-block btn-md text-center" type="submit">Update User</button>
+                            <button class="btn btn-lg btn-success btn-block btn-md text-center" type="submit"><spring:message code="update"/></button>
                         </form:form>
                     </td>
                     <td class="text-center">
                         <form:form method = "POST" action = "/users/delete">
                             <input type="hidden" name="id" value="${user.id}">
-                            <button class="btn btn-lg btn-success btn-block btn-md text-center" type="submit">Delete User</button>
+                            <button class="btn btn-lg btn-success btn-block btn-md text-center" type="submit"><spring:message code="delete"/></button>
                         </form:form>
                     </td>
                 </tr>
@@ -61,7 +63,7 @@
     </tbody>
         </table>
 <form:form method = "GET" action = "/" cssClass="form-signin">
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Get back to Home Page</button>
+    <button class="btn btn-lg btn-primary btn-block" type="submit"><spring:message code="button.back"/></button>
 </form:form>
     </div>
 </div>

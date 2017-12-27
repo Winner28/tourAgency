@@ -1,3 +1,5 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -16,23 +18,24 @@
 <body>
 <%@include file="../topbar.jsp" %>
 
-<h1 class="text-center">Update Permission Information</h1>
+<h1 class="text-center"><spring:message code="update.permission.label"/></h1>
 <br>
 
 <form:form method = "POST" action = "/users/permissions/update" modelAttribute="permission" cssClass="form-signin">
 
     <div class="form-group">
 
-        <label for="userId">User Id</label>
+        <label for="userId"><spring:message code="update.permission.user"/></label>
         <form:input path = "userId" cssClass="form-control"/>
     </div>
     <div class="form-group">
 
-        <label for="permissionNameId">Permission Id</label>
+
+        <label for="permissionNameId"><spring:message code="update.permission.id"/></label>
         <form:input path = "permissionNameId" cssClass="form-control"/>
     </div>
 
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Update Permission</button>
+    <button class="btn btn-lg btn-primary btn-block" type="submit"><spring:message code="update.permission"/></button>
 </form:form>
 
 <spring:url value="/resources/core/css/hello.js" var="coreJs" />

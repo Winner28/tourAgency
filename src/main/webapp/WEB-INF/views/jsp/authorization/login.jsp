@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -46,7 +47,10 @@
             <ul class="nav navbar-nav">
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="${pageContext.request.contextPath}/register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                    <li><a href="?lang=en"><span class="glyphicon glyphicon-user"></span>English</a></li>
+                    <li><a href="?lang=ru"><span class="glyphicon glyphicon-user"></span>Русский</a></li>
+                <li><a href="${pageContext.request.contextPath}/register"><span class="glyphicon glyphicon-user"></span><spring:message code="registration"/></a></li>
+
             </ul>
         </div>
     </div>
@@ -64,21 +68,21 @@
     <br>
     <br>
     <br>
-    <h1 class="text-center form-signin-heading">Tour Agency NeverLand</h1>
+    <h1 class="text-center form-signin-heading"><spring:message code="agency.name"/></h1>
     <br>
     <br>
     <br>
     <form method="POST" action="${contextPath}/login" class="form-signin">
-        <h2 class="form-heading text-center">Log in</h2>
+        <h2 class="form-heading text-center"><spring:message code="login"/></h2>
 
         <div class="form-group ${error != null ? 'has-error' : ''}">
             <span>${message}</span>
-            <input name="email" type="text" class="form-control" placeholder="Email"
+            <input name="email" type="text" class="form-control" placeholder="<spring:message code="email"/>"
                    autofocus="true"/>
-            <input name="password" type="password" class="form-control" placeholder="Password"/>
+            <input name="password" type="password" class="form-control" placeholder="<spring:message code="password"/>"/>
             <span>${error}</span>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Log In</button>
-            <h4 class="text-center"><a href="${contextPath}/register">Create an account</a></h4>
+            <button class="btn btn-lg btn-primary btn-block" type="submit"><spring:message code="login"/></button>
+            <h4 class="text-center"><a href="${contextPath}/register"><spring:message code="registration"/></a></h4>
         </div>
 
     </form>

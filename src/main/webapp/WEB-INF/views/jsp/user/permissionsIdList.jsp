@@ -15,15 +15,14 @@
 </head>
 <body>
 <%@include file="../topbar.jsp" %>
-
-<h1 class="text-center">List of <b>${userType}</b></h1> <br>
+<h1 class="text-center"><spring:message code="list.of"/><b>  ${userType}</b></h1> <br>
 <br>
 <table class="table table-hover">
     <thead>
     <tr>
-        <td class="text-center">First Name</td>
-        <td class="text-center">Last Name</td>
-        <td class="text-center">Email</td>
+        <td class="text-center"><spring:message code="firstName"/></td>
+        <td class="text-center"><spring:message code="lastName"/></td>
+        <td class="text-center"><spring:message code="email"/></td>
 
     </tr>
     </thead>
@@ -38,7 +37,7 @@
     </tbody>
 </table>
 <form:form method = "GET" action = "/" cssClass="form-signin">
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Get back to Home Page</button>
+    <button class="btn btn-lg btn-primary btn-block" type="submit"><spring:message code="button.back"/></button>
 </form:form>
 <br>
 <br>
