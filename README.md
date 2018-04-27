@@ -1,5 +1,5 @@
-# Tour agency project
-## We are using: Spring MVC, Native JDBC, JSP etc...
+# EPAM Tour agency project
+## We used: Spring MVC, JDBC(native), JSP etc...
 
 ### TODO:
 #### cover app with tests
