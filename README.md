@@ -1,2 +1,5 @@
-# EPAM-First-Lab-Project
-First Lab Project - Tour Agency (c) 2017
+# Tour agency project
+## We are using: Spring MVC, Native JDBC, JSP etc...
+
+### TODO:
+#### cover app with tests
